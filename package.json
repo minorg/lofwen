@@ -48,7 +48,8 @@
     "check:fix:unsafe": "biome check --fix --unsafe",
     "ios": "expo start --ios",
     "start": "expo start",
-    "test": "jest --watchAll",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
     "web": "expo start --web"
   },
   "version": "1.0.0"
