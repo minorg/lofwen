@@ -1,19 +1,4 @@
 {
-  "name": "lofwen",
-  "main": "expo-router/entry",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "test": "jest --watchAll",
-    "lint": "expo lint"
-  },
-  "jest": {
-    "preset": "jest-expo"
-  },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@react-navigation/bottom-tabs": "^7.2.0",
@@ -42,6 +27,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@biomejs/biome": "^1.9.4",
     "@types/jest": "^29.5.12",
     "@types/react": "~18.3.12",
     "@types/react-test-renderer": "^18.3.0",
@@ -50,5 +36,20 @@
     "react-test-renderer": "18.3.1",
     "typescript": "^5.3.3"
   },
-  "private": true
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "main": "expo-router/entry",
+  "name": "lofwen",
+  "private": true,
+  "scripts": {
+    "android": "expo start --android",
+    "check": "biome check",
+    "check:fix:unsafe": "biome check --fix --unsafe",
+    "ios": "expo start --ios",
+    "start": "expo start",
+    "test": "jest --watchAll",
+    "web": "expo start --web"
+  },
+  "version": "1.0.0"
 }
