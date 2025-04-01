@@ -29,7 +29,7 @@ export {
 
 export default function RootLayout() {
   const hasMounted = React.useRef(false);
-  const { isDarkColorScheme } = useColorScheme();
+  const { colorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   useIsomorphicLayoutEffect(() => {
@@ -48,10 +48,9 @@ export default function RootLayout() {
   if (!isColorSchemeLoaded) {
     return null;
   }
-
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+      <StatusBar style={colorScheme} />
       <Stack />
     </ThemeProvider>
   );
