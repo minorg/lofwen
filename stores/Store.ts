@@ -1,3 +1,3 @@
-import type { State } from "~/models";
+import type { History } from "~/models";
 
-export interface Store extends State {}
+export interface Store extends History {}
