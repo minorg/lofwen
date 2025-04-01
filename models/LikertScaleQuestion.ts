@@ -6,6 +6,7 @@ export type LikertScaleQuestion = z.infer<typeof LikertScaleQuestion.schema>;
 
 export namespace LikertScaleQuestion {
   export const schema = BaseQuestion.schema.extend({
+    item: z.string(),
     responseCategories: z.array(OrdinalCategory.schema),
     type: z.literal("LikertScaleQuestion"),
   });
