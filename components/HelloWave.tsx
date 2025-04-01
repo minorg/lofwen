@@ -8,11 +8,12 @@ import Animated, {
   withSequence,
 } from "react-native-reanimated";
 
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedText } from "~/components/ThemedText";
 
 export function HelloWave() {
   const rotationAnimation = useSharedValue(0);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     rotationAnimation.value = withRepeat(
       withSequence(
