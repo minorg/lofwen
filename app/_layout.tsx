@@ -10,6 +10,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Platform } from "react-native";
+import { Provider as TinyBaseProvider } from "tinybase/ui-react";
 import { navTheme } from "~/constants/navTheme";
 import { useColorScheme } from "~/hooks/useColorScheme";
 
@@ -48,10 +49,13 @@ export default function RootLayout() {
   if (!isColorSchemeLoaded) {
     return null;
   }
+
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+      <TinyBaseProvider store={}>
       <StatusBar style={colorScheme} />
       <Stack />
+      </TinyBaseProvider>
     </ThemeProvider>
   );
 }
