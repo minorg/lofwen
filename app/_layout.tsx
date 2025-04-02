@@ -13,6 +13,7 @@ import { Platform } from "react-native";
 import { Provider as TinyBaseProvider } from "tinybase/ui-react";
 import { navTheme } from "~/constants/navTheme";
 import { useColorScheme } from "~/hooks/useColorScheme";
+import { TinyBaseStore } from "~/stores/TinyBaseStore";
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -52,9 +53,9 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <TinyBaseProvider store={}>
-      <StatusBar style={colorScheme} />
-      <Stack />
+      <TinyBaseProvider store={TinyBaseStore.create().underlyingStore as any}>
+        <StatusBar style={colorScheme} />
+        <Stack />
       </TinyBaseProvider>
     </ThemeProvider>
   );

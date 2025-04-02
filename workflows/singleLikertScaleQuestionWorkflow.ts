@@ -1,8 +1,12 @@
 import type { Workflow } from "~/workflows";
 import { workflows } from "~/workflows/workflows";
 
-const singleLikertScaleQuestionWorkflow: Workflow = async ({ history }) => {
+const singleLikertScaleQuestionWorkflow: Workflow = async ({
+  event,
+  history,
+}) => {
   return {
+    identifier: "single-likert-scale-question",
     question: {
       item: `Is this the best app ever? (iteration ${history.actions.length + 1})`,
       responseCategories: [
@@ -17,6 +21,7 @@ const singleLikertScaleQuestionWorkflow: Workflow = async ({ history }) => {
       })),
       type: "LikertScaleQuestion",
     },
+    triggerEvent: event,
     type: "QuestionAction",
   };
 };
