@@ -1,7 +1,8 @@
-import type {
-  NoValuesSchema,
-  TablesSchema,
-  Store as _TinyBaseStore,
+import {
+  type NoValuesSchema,
+  type TablesSchema,
+  type Store as _TinyBaseStore,
+  createStore,
 } from "tinybase/with-schemas";
 import { Action } from "~/models";
 import type { Store } from "~/stores/Store";
@@ -13,6 +14,12 @@ export class TinyBaseStore implements Store {
     >,
   ) {}
 
+  static create(): TinyBaseStore {
+    return new TinyBaseStore(
+      createStore().setTablesSchema(TinyBaseStore.tablesSchema),
+    );
+  }
+
   addAction(action: Action): void {
     this.delegate.setRow("action", action.identifier, {
       json: JSON.stringify(action),
@@ -21,7 +28,7 @@ export class TinyBaseStore implements Store {
 
   get actions(): readonly Action[] {
     return Object.values(this.delegate.getTable("action")).flatMap((row) => {
-      const parsed = Action.schema.safeParse(row["json"]);
+      const parsed = Action.schema.safeParse(JSON.parse(row["json"]));
       return parsed.success ? [parsed.data] : [];
     });
   }
