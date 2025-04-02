@@ -1,5 +1,5 @@
-import { workflowSingleton } from "~/workflowSingleton";
 import type { Workflow } from "~/workflows";
+import { workflows } from "~/workflows/workflows";
 
 const singleLikertScaleQuestionWorkflow: Workflow = async ({ history }) => {
   return {
@@ -21,4 +21,4 @@ const singleLikertScaleQuestionWorkflow: Workflow = async ({ history }) => {
   };
 };
 
-workflowSingleton.value = singleLikertScaleQuestionWorkflow;
+workflows["singleLikertScaleQuestion"] = singleLikertScaleQuestionWorkflow;
