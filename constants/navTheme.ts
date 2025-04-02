@@ -1,4 +1,4 @@
-export const NAV_THEME = {
+export const navTheme = {
   light: {
     background: "hsl(0 0% 100%)", // background
     border: "hsl(240 5.9% 90%)", // border
@@ -14,27 +14,5 @@ export const NAV_THEME = {
     notification: "hsl(0 72% 51%)", // destructive
     primary: "hsl(0 0% 98%)", // primary
     text: "hsl(0 0% 98%)", // foreground
-  },
-};
-
-const tintColorLight = "#0a7ea4";
-const tintColorDark = "#fff";
-
-export const Colors = {
-  light: {
-    text: "#11181C",
-    background: "#fff",
-    tint: tintColorLight,
-    icon: "#687076",
-    tabIconDefault: "#687076",
-    tabIconSelected: tintColorLight,
-  },
-  dark: {
-    text: "#ECEDEE",
-    background: "#151718",
-    tint: tintColorDark,
-    icon: "#9BA1A6",
-    tabIconDefault: "#9BA1A6",
-    tabIconSelected: tintColorDark,
   },
 };
