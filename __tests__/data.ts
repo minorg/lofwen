@@ -1,8 +1,8 @@
-import type { Action, Event, Question } from "~/models";
+import { type Action, type Event, type Question, Timestamp } from "~/models";
 
 export const initialEvent: Event = {
   identifier: "initial-event",
-  timestamp: new Date().getTime(),
+  timestamp: Timestamp.now(),
   type: "InitialEvent",
 };
 
@@ -24,7 +24,7 @@ export const likertScaleQuestion: Question = {
 export const questionAction: Action = {
   identifier: "question-action",
   question: likertScaleQuestion,
-  timestamp: new Date().getTime(),
+  timestamp: Timestamp.now(),
   triggerEventIdentifier: initialEvent.identifier,
   type: "QuestionAction",
 };

@@ -1,7 +1,7 @@
 import type { Action, Event, History } from "~/models";
 
 /**
- * A workflow is a (usually pure)function that accepts an event and returns the next action to take.
+ * A workflow is a (usually pure) function that accepts an event and returns the next action to take.
  *
  * For example, the event might be an answer to a question, and the next action might be another question.
  *
@@ -10,4 +10,4 @@ import type { Action, Event, History } from "~/models";
 export type Workflow = (parameters: {
   event: Event;
   history: History;
-}) => Promise<Omit<Action, "timestamp">>;
+}) => Action;

@@ -1,10 +1,8 @@
+import { Timestamp } from "~/models";
 import type { Workflow } from "~/workflows";
 import { workflows } from "~/workflows/workflows";
 
-const singleLikertScaleQuestionWorkflow: Workflow = async ({
-  event,
-  history,
-}) => {
+const singleLikertScaleQuestionWorkflow: Workflow = ({ event, history }) => {
   return {
     identifier: "single-likert-scale-question",
     question: {
@@ -21,7 +19,8 @@ const singleLikertScaleQuestionWorkflow: Workflow = async ({
       })),
       type: "LikertScaleQuestion",
     },
-    triggerEvent: event,
+    timestamp: Timestamp.now(),
+    triggerEventIdentifier: event.identifier,
     type: "QuestionAction",
   };
 };
