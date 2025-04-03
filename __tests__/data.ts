@@ -25,6 +25,6 @@ export const questionAction: Action = {
   identifier: "question-action",
   question: likertScaleQuestion,
   timestamp: new Date().getTime(),
-  triggerEvent: initialEvent,
+  triggerEventIdentifier: initialEvent.identifier,
   type: "QuestionAction",
 };
