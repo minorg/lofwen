@@ -1,26 +1,44 @@
 import { Redirect } from "expo-router";
-import { useMemo } from "react";
+import { useEffect } from "react";
+import { invariant } from "ts-invariant";
 import { Hrefs } from "~/Hrefs";
-import { useHistory } from "~/hooks/useHistory";
+import { useStore } from "~/hooks/useStore";
 import { useWorkflow } from "~/hooks/useWorkflow";
-import { Identifier, Timestamp } from "~/models";
+import { type Event, Identifier, Timestamp } from "~/models";
 
 export default function RootScreen() {
-  const history = useHistory();
+  const store = useStore();
   const workflow = useWorkflow();
 
-  const initialAction = useMemo(
-    () =>
-      workflow({
-        event: {
-          identifier: Identifier.random(),
-          timestamp: Timestamp.now(),
-          type: "InitialEvent",
-        },
-        history,
-      }),
-    [history, workflow],
-  );
+  useEffect(() => {
+    if (store.actions.length > 0) {
+      return;
+    }
+    invariant(store.events.length === 0);
 
-  return <Redirect href={Hrefs.action(initialAction) as any} />;
+    const initialEvent: Event = {
+      identifier: Identifier.random(),
+      timestamp: Timestamp.now(),
+      type: "InitialEvent",
+    };
+    store.addEvent(initialEvent);
+
+    const initialAction = workflow({
+      event: {
+        identifier: Identifier.random(),
+        timestamp: Timestamp.now(),
+        type: "InitialEvent",
+      },
+      history: store,
+    });
+    store.addAction(initialAction);
+  }, [store, workflow]);
+
+  const actions = store.actions;
+
+  if (actions.length === 0) {
+    return null;
+  }
+
+  return <Redirect href={Hrefs.action(actions[actions.length - 1]!) as any} />;
 }

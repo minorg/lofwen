@@ -52,12 +52,19 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <TinyBaseProvider store={TinyBaseStore.create().underlyingStore as any}>
-        <StatusBar style={colorScheme} />
-        <Stack />
-      </TinyBaseProvider>
-    </ThemeProvider>
+    <>
+      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+        <TinyBaseProvider store={TinyBaseStore.create().underlyingStore as any}>
+          <StatusBar style={colorScheme} />
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen
+              name="action/[actionIdentifier]"
+              options={{ title: "Action" }}
+            />
+          </Stack>
+        </TinyBaseProvider>
+      </ThemeProvider>
+    </>
   );
 }
 
