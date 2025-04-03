@@ -2,6 +2,7 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@react-navigation/native": "^7.0.14",
+    "@rn-primitives/radio-group": "^1.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "envalid": "^8.0.0",
@@ -10,6 +11,7 @@
     "expo-router": "~4.0.19",
     "expo-splash-screen": "~0.29.22",
     "expo-status-bar": "~2.0.1",
+    "expo-web-browser": "~14.0.2",
     "nativewind": "^4.1.23",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -24,8 +26,7 @@
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
     "tinybase": "^5.4.8",
-    "zod": "^3.24.2",
-    "expo-web-browser": "~14.0.2"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -40,7 +41,11 @@
     "typescript": "^5.3.3"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/__tests__/data.ts"
+    ]
   },
   "main": "expo-router/entry",
   "name": "lofwen",
