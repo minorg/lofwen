@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Store } from "~/Store";
-import { LogEntry } from "~/models";
+import { parseLogRow } from "~/hooks/parseLogRow";
 
 export function useLog() {
   const { useTable } = Store.Hooks;
@@ -8,15 +8,8 @@ export function useLog() {
   return useMemo(
     () =>
       Object.entries(table).flatMap(([rowId, row]) => {
-        const rowJsonParsed = JSON.parse(row["json"] as string);
-        const logEntryJson = {
-          identifier: rowId,
-          logEntryType: row["type"],
-          timestamp: row["timestamp"],
-          ...rowJsonParsed,
-        };
-        const logEntryParsed = LogEntry.schema.safeParse(logEntryJson);
-        return logEntryParsed.success ? [logEntryParsed.data] : [];
+        const logEntry = parseLogRow(rowId, row);
+        return logEntry !== null ? logEntry : null;
       }),
     [table],
   );
