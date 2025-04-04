@@ -3,7 +3,7 @@ import { Store } from "~/Store";
 import type { LogEntry } from "~/models";
 
 export function useAddLogEntry() {
-  const { useSetRowCallback } = Store.Hooks;
+  const { useSetRowCallback } = Store.UiReact;
   return useSetRowCallback(
     "log",
     (logEntry: LogEntry) => logEntry.identifier,

@@ -10,8 +10,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Platform } from "react-native";
-import { Provider as TinyBaseProvider } from "tinybase/ui-react";
-import { TinyBaseStore } from "~/Store";
+import { Store } from "~/Store";
 import { navTheme } from "~/constants/navTheme";
 import { useColorScheme } from "~/hooks/useColorScheme";
 
@@ -54,7 +53,7 @@ export default function RootLayout() {
   return (
     <>
       <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-        <TinyBaseProvider store={TinyBaseStore.create().underlyingStore as any}>
+        <Store.UiReact.Provider store={Store.create()}>
           <StatusBar style={colorScheme} />
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen
@@ -62,7 +61,7 @@ export default function RootLayout() {
               options={{ title: "Action" }}
             />
           </Stack>
-        </TinyBaseProvider>
+        </Store.UiReact.Provider>
       </ThemeProvider>
     </>
   );

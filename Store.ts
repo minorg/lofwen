@@ -1,4 +1,4 @@
-import * as UiReact from "tinybase/ui-react/with-schemas";
+import * as UiReactWithSchemas from "tinybase/ui-react/with-schemas";
 import {
   type NoValuesSchema,
   type TablesSchema,
@@ -13,7 +13,7 @@ export namespace Store {
     return createStore().setTablesSchema(Store.tablesSchema);
   }
 
-  export const Hooks = UiReact as UiReact.WithSchemas<
+  export const UiReact = UiReactWithSchemas as UiReactWithSchemas.WithSchemas<
     [typeof Store.tablesSchema, NoValuesSchema]
   >;
 

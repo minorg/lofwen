@@ -1,16 +1,9 @@
 import { useMemo } from "react";
 import { Store } from "~/Store";
-import { parseLogRow } from "~/hooks/parseLogRow";
+import { Log } from "~/models";
 
-export function useLog() {
-  const { useTable } = Store.Hooks;
+export function useLog(): Log {
+  const { useTable } = Store.UiReact;
   const table = useTable("log");
-  return useMemo(
-    () =>
-      Object.entries(table).flatMap(([rowId, row]) => {
-        const logEntry = parseLogRow(rowId, row);
-        return logEntry !== null ? logEntry : null;
-      }),
-    [table],
-  );
+  return useMemo(() => new Log(table), [table]);
 }
