@@ -17,6 +17,14 @@ export class Log implements Iterable<LogEntry> {
     return entry?.logEntryType === "Action" ? entry : null;
   }
 
+  *actions(): Iterable<Action> {
+    for (const entry of this) {
+      if (entry.logEntryType === "Action") {
+        yield entry;
+      }
+    }
+  }
+
   answerEventByQuestionActionIdentifier(
     questionActionIdentifier: Identifier,
   ): AnswerEvent | null {

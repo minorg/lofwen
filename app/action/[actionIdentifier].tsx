@@ -22,10 +22,18 @@ export default function ActionScreen() {
 
   const onEvent = useCallback(
     (event: Event) => {
+      logger.debug("adding log entry:", JSON.stringify(event));
       addLogEntry(event);
+
+      logger.debug("invoking workflow");
       const nextAction = workflow({ event, log });
+
       addLogEntry(nextAction);
-      router.push(Hrefs.action(nextAction));
+      logger.debug("adding log entry:", JSON.stringify(nextAction));
+
+      const nextActionHref = Hrefs.action(nextAction);
+      logger.debug("redirecting to", JSON.stringify(nextActionHref));
+      router.push(nextActionHref);
     },
     [addLogEntry, log, router, workflow],
   );

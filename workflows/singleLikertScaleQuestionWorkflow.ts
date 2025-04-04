@@ -3,12 +3,13 @@ import type { Workflow } from "~/workflows";
 import { workflows } from "~/workflows/workflows";
 
 const singleLikertScaleQuestionWorkflow: Workflow = ({ event, log }) => {
+  const iteration = [...log.actions()].length;
   return {
     actionType: "QuestionAction",
-    identifier: "single-likert-scale-question",
+    identifier: `single-likert-scale-question-${iteration}`,
     logEntryType: "Action",
     question: {
-      item: `Is this the best app ever? (iteration ${log.length + 1})`,
+      item: `Is this the best app ever? (iteration ${iteration})`,
       responseCategories: [
         "Strongly disagree",
         "Disagree",
