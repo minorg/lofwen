@@ -8,6 +8,6 @@ export type InitialEvent = z.infer<typeof InitialEvent.schema>;
 
 export namespace InitialEvent {
   export const schema = BaseEvent.schema.extend({
-    type: z.literal("InitialEvent"),
+    eventType: z.literal("InitialEvent"),
   });
 }

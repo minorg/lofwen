@@ -6,6 +6,8 @@ export * from "./Identifier";
 export * from "./InitialEvent";
 export * from "./LikertScaleAnswer";
 export * from "./LikertScaleQuestion";
+export * from "./Log";
+export * from "./LogEntry";
 export * from "./OrdinalCategory";
 export * from "./Question";
 export * from "./QuestionAction";

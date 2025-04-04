@@ -8,7 +8,7 @@ export type AnswerEvent = z.infer<typeof AnswerEvent.schema>;
 export namespace AnswerEvent {
   export const schema = BaseEvent.schema.extend({
     answer: Answer.schema,
+    eventType: z.literal("AnswerEvent"),
     questionActionIdentifier: Identifier.schema,
-    type: z.literal("AnswerEvent"),
   });
 }
