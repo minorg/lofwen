@@ -1,7 +1,11 @@
+import type { Href } from "expo-router";
 import type { Identifier } from "~/models";
 
 export namespace Hrefs {
-  export function action(action: { identifier: Identifier }): string {
-    return `/action/${action.identifier}`;
+  export function action(action: { identifier: Identifier }): Href {
+    return {
+      pathname: "/action/[actionIdentifier]",
+      params: { actionIdentifier: action.identifier },
+    };
   }
 }

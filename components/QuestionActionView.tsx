@@ -1,19 +1,22 @@
 import { useCallback, useMemo } from "react";
 import { QuestionView } from "~/components/QuestionView";
-import { useAddLogEntry } from "~/hooks/useAddLogEntry";
 import { useLog } from "~/hooks/useLog";
 import { logger } from "~/logger";
 import {
   type Answer,
+  type Event,
   Identifier,
   type QuestionAction,
   Timestamp,
 } from "~/models";
 
 export function QuestionActionView({
+  onEvent,
   questionAction,
-}: { questionAction: QuestionAction }) {
-  const addLogEntry = useAddLogEntry();
+}: {
+  onEvent: (event: Event) => void;
+  questionAction: QuestionAction;
+}) {
   const log = useLog();
   const existingAnswer = useMemo(() => {
     const existingAnswer =
@@ -26,7 +29,7 @@ export function QuestionActionView({
   const onAnswer = useCallback(
     (answer: Answer) => {
       logger.debug("on answer:", JSON.stringify(answer));
-      addLogEntry({
+      onEvent({
         answer,
         eventType: "AnswerEvent",
         identifier: Identifier.random(),
@@ -35,7 +38,7 @@ export function QuestionActionView({
         timestamp: Timestamp.now(),
       });
     },
-    [addLogEntry, questionAction],
+    [onEvent, questionAction],
   );
 
   return (

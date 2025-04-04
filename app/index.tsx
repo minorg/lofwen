@@ -43,5 +43,5 @@ export default function RootScreen() {
 
   logger.debug(`redirecting to last action: ${lastAction.identifier}`);
 
-  return <Redirect href={Hrefs.action(lastAction) as any} />;
+  return <Redirect href={Hrefs.action(lastAction)} />;
 }
