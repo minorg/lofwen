@@ -1,8 +1,9 @@
 import { useLocalSearchParams, useNavigation } from "expo-router";
-import { useEffect } from "react";
+import { type ReactElement, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text } from "~/components/ui/text";
+import { QuestionActionView } from "~/components/QuestionActionView";
 import { useLog } from "~/hooks/useLog";
+import { logger } from "~/logger";
 
 export default function ActionScreen() {
   const { actionIdentifier } = useLocalSearchParams<{
@@ -17,12 +18,15 @@ export default function ActionScreen() {
     }
   }, [action, navigation]);
   if (!action) {
+    logger.warn("no such action:", actionIdentifier);
     return null;
   }
 
-  return (
-    <SafeAreaView>
-      <Text>{action.identifier}</Text>
-    </SafeAreaView>
-  );
+  let actionView: ReactElement;
+  switch (action.actionType) {
+    case "QuestionAction":
+      actionView = <QuestionActionView questionAction={action} />;
+  }
+
+  return <SafeAreaView>{actionView}</SafeAreaView>;
 }

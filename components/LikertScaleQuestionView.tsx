@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { RadioGroupItemWithLabel } from "~/components/ui/RadioGroupItemWithLabel";
 import { RadioGroup } from "~/components/ui/radio-group";
 import { Text } from "~/components/ui/text";
-import { type LikertScaleAnswer, type LikertScaleQuestion } from "~/models";
+import type { LikertScaleAnswer, LikertScaleQuestion } from "~/models";
 
 export function LikertScaleQuestionView({
   answer,
@@ -17,11 +17,11 @@ export function LikertScaleQuestionView({
   const onSelectResponseCategoryLabel = useCallback(
     (responseCategoryLabel: string) =>
       onAnswer({
+        answerType: "LikertScaleAnswer",
         responseCategory: question.responseCategories.find(
           (responseCategory) =>
             responseCategory.label === responseCategoryLabel,
         )!,
-        type: "LikertScaleAnswer",
       }),
     [onAnswer, question],
   );

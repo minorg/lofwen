@@ -1,6 +1,7 @@
 import type { Row, Table } from "tinybase/with-schemas";
 import type { Store } from "~/Store";
 import type { Action } from "~/models/Action";
+import type { AnswerEvent } from "~/models/AnswerEvent";
 import type { Identifier } from "~/models/Identifier";
 import { LogEntry } from "~/models/LogEntry";
 
@@ -14,6 +15,21 @@ export class Log implements Iterable<LogEntry> {
   actionByIdentifier(identifier: Identifier): Action | null {
     const entry = this.entryByIdentifier(identifier);
     return entry?.logEntryType === "Action" ? entry : null;
+  }
+
+  answerEventByQuestionActionIdentifier(
+    questionActionIdentifier: Identifier,
+  ): AnswerEvent | null {
+    for (const entry of this.reverse()) {
+      if (
+        entry.logEntryType === "Event" &&
+        entry.eventType === "AnswerEvent" &&
+        entry.questionActionIdentifier === questionActionIdentifier
+      ) {
+        return entry;
+      }
+    }
+    return null;
   }
 
   entryByIdentifier(identifier: Identifier): LogEntry | null {
