@@ -7,6 +7,7 @@ const singleLikertScaleQuestionWorkflow: Workflow = ({ event, log }) => {
   return {
     actionType: "QuestionAction",
     identifier: `single-likert-scale-question-${iteration}`,
+    label: "Single Likert scale question",
     logEntryType: "Action",
     question: {
       item: `Is this the best app ever? (iteration ${iteration})`,

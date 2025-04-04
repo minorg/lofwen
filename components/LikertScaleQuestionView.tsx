@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { View } from "react-native";
-import { RadioGroupItemWithLabel } from "~/components/ui/RadioGroupItemWithLabel";
-import { RadioGroup } from "~/components/ui/radio-group";
+import { Label } from "~/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Text } from "~/components/ui/text";
 import type { LikertScaleAnswer, LikertScaleQuestion } from "~/models";
 
@@ -27,21 +27,27 @@ export function LikertScaleQuestionView({
   );
 
   return (
-    <View className="flex-1 justify-center items-center p-6">
-      <Text>{question.item}</Text>
+    <View className="flex flex-col gap-2 mx-auto">
+      <Text className="text-2xl">{question.item}</Text>
       <RadioGroup
-        value={answer?.responseCategory.label ?? ""}
         onValueChange={onSelectResponseCategoryLabel}
-        className="gap-3"
+        value={answer?.responseCategory.label ?? ""}
       >
         {question.responseCategories.map((responseCategory) => (
-          <RadioGroupItemWithLabel
-            key={responseCategory.label}
-            onLabelPress={() =>
-              onSelectResponseCategoryLabel(responseCategory.label)
-            }
-            value={responseCategory.label}
-          />
+          <View className={"flex-row gap-2"} key={responseCategory.label}>
+            <RadioGroupItem
+              aria-labelledby={`label-for-${responseCategory.label}`}
+              value={responseCategory.label}
+            />
+            <Label
+              nativeID={`label-for-${responseCategory.label}`}
+              onPress={() =>
+                onSelectResponseCategoryLabel(responseCategory.label)
+              }
+            >
+              <Text className="text-xl">{responseCategory.label}</Text>
+            </Label>
+          </View>
         ))}
       </RadioGroup>
     </View>

@@ -1,4 +1,9 @@
-import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
+import {
+  Redirect,
+  useLocalSearchParams,
+  useNavigation,
+  useRouter,
+} from "expo-router";
 import { type ReactElement, useCallback, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Hrefs } from "~/Hrefs";
@@ -40,13 +45,16 @@ export default function ActionScreen() {
 
   useEffect(() => {
     if (action) {
-      navigation.setOptions({ title: action.identifier });
+      navigation.setOptions({
+        headerShown: !!action.label,
+        title: action.label,
+      });
     }
   }, [action, navigation]);
 
   if (!action) {
     logger.warn("no such action:", actionIdentifier);
-    return null;
+    return <Redirect href={Hrefs.root()} />;
   }
 
   let actionView: ReactElement;

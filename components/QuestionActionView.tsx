@@ -22,7 +22,9 @@ export function QuestionActionView({
     const existingAnswer =
       log.answerEventByQuestionActionIdentifier(questionAction.identifier)
         ?.answer ?? null;
-    logger.debug("existing answer:", JSON.stringify(existingAnswer));
+    if (existingAnswer !== null) {
+      logger.debug("existing answer:", JSON.stringify(existingAnswer));
+    }
     return existingAnswer;
   }, [log, questionAction]);
 

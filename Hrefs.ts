@@ -8,4 +8,10 @@ export namespace Hrefs {
       params: { actionIdentifier: action.identifier },
     };
   }
+
+  export function root(): Href {
+    return {
+      pathname: "/",
+    };
+  }
 }
