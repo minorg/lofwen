@@ -2,7 +2,6 @@ export * from "./Action";
 export * from "./Answer";
 export * from "./AnswerEvent";
 export * from "./Event";
-export * from "./History";
 export * from "./Identifier";
 export * from "./InitialEvent";
 export * from "./LikertScaleAnswer";

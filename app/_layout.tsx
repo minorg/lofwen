@@ -11,9 +11,9 @@ import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Platform } from "react-native";
 import { Provider as TinyBaseProvider } from "tinybase/ui-react";
+import { TinyBaseStore } from "~/Store";
 import { navTheme } from "~/constants/navTheme";
 import { useColorScheme } from "~/hooks/useColorScheme";
-import { TinyBaseStore } from "~/stores/TinyBaseStore";
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
