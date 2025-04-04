@@ -6,7 +6,7 @@ export type QuestionAction = z.infer<typeof QuestionAction.schema>;
 
 export namespace QuestionAction {
   export const schema = BaseAction.schema.extend({
+    actionType: z.literal("QuestionAction"),
     question: Question.schema,
-    type: z.literal("QuestionAction"),
   });
 }

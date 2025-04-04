@@ -10,6 +10,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Platform } from "react-native";
+import { Store } from "~/Store";
 import { navTheme } from "~/constants/navTheme";
 import { useColorScheme } from "~/hooks/useColorScheme";
 
@@ -17,6 +18,7 @@ const LIGHT_THEME: Theme = {
   ...DefaultTheme,
   colors: navTheme.light,
 };
+
 const DARK_THEME: Theme = {
   ...DarkTheme,
   colors: navTheme.dark,
@@ -48,11 +50,34 @@ export default function RootLayout() {
   if (!isColorSchemeLoaded) {
     return null;
   }
+
   return (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={colorScheme} />
-      <Stack />
-    </ThemeProvider>
+    <>
+      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+        <Store.UiReact.Provider store={Store.create()}>
+          <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+          <Stack
+            screenOptions={{
+              ...(process.env.EXPO_OS !== "ios"
+                ? {}
+                : {
+                    headerLargeTitle: true,
+                    headerTransparent: true,
+                    headerBlurEffect: "systemChromeMaterial",
+                    headerLargeTitleShadowVisible: false,
+                    headerShadowVisible: true,
+                    headerLargeStyle: {
+                      // NEW: Make the large title transparent to match the background.
+                      backgroundColor: "transparent",
+                    },
+                  }),
+            }}
+          >
+            <Stack.Screen name="action/[actionIdentifier]" />
+          </Stack>
+        </Store.UiReact.Provider>
+      </ThemeProvider>
+    </>
   );
 }
 

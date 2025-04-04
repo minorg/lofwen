@@ -5,7 +5,7 @@ import { InitialEvent } from "~/models/InitialEvent";
 export type Event = z.infer<typeof Event.schema>;
 
 export namespace Event {
-  export const schema = z.discriminatedUnion("type", [
+  export const schema = z.discriminatedUnion("eventType", [
     AnswerEvent.schema,
     InitialEvent.schema,
   ]);

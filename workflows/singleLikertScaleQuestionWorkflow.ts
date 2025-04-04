@@ -1,10 +1,16 @@
+import { Timestamp } from "~/models";
 import type { Workflow } from "~/workflows";
 import { workflows } from "~/workflows/workflows";
 
-const singleLikertScaleQuestionWorkflow: Workflow = async ({ history }) => {
+const singleLikertScaleQuestionWorkflow: Workflow = ({ event, log }) => {
+  const iteration = [...log.actions()].length;
   return {
+    actionType: "QuestionAction",
+    identifier: `single-likert-scale-question-${iteration}`,
+    label: "Single Likert scale question",
+    logEntryType: "Action",
     question: {
-      item: `Is this the best app ever? (iteration ${history.actions.length + 1})`,
+      item: `Is this the best app ever? (iteration ${iteration})`,
       responseCategories: [
         "Strongly disagree",
         "Disagree",
@@ -15,9 +21,10 @@ const singleLikertScaleQuestionWorkflow: Workflow = async ({ history }) => {
         label,
         value: index,
       })),
-      type: "LikertScaleQuestion",
+      questionType: "LikertScaleQuestion",
     },
-    type: "QuestionAction",
+    timestamp: Timestamp.now(),
+    triggerEventIdentifier: event.identifier,
   };
 };
 
