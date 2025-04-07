@@ -1,5 +1,6 @@
 import {} from "tinybase/ui-react";
 import { Store } from "~/Store";
+import { logger } from "~/logger";
 import type { LogEntry } from "~/models";
 
 export function useAddLogEntry() {
@@ -21,5 +22,8 @@ export function useAddLogEntry() {
         type,
       };
     },
+    undefined,
+    undefined,
+    (_, row) => logger.debug("added log entry", JSON.stringify(row)),
   );
 }

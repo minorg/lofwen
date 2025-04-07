@@ -1,5 +1,6 @@
 import type { Row, Table } from "tinybase/with-schemas";
 import type { Store } from "~/Store";
+import { logger } from "~/logger";
 import type { AcknowledgmentAction } from "~/models/AcknowledgmentAction";
 import type { Action } from "~/models/Action";
 import type { Identifier } from "~/models/Identifier";
@@ -112,13 +113,18 @@ export class Log implements Iterable<LogEntry> {
 
     const jsonCellParsed = JSON.parse(row["json"] as string);
     const logEntryJsonObject = {
-      identifier: rowId,
-      logEntryType: row["type"],
-      timestamp: row["timestamp"],
+      "@id": rowId,
+      "@timestamp": row["timestamp"],
       ...jsonCellParsed,
     };
     const logEntryParseResult = LogEntry.schema.safeParse(logEntryJsonObject);
     if (!logEntryParseResult.success) {
+      logger.warn(
+        "unable to parse log row",
+        rowId,
+        ":",
+        logEntryParseResult.error,
+      );
       return null;
     }
     const logEntry = logEntryParseResult.data;

@@ -26,14 +26,12 @@ export default function RootScreen() {
       "@timestamp": Timestamp.now(),
       "@type": "InitialEvent",
     };
-    logger.debug("adding initial event");
     addLogEntry(initialEvent);
 
     const initialAction = workflow({
       event: initialEvent,
       log,
     });
-    logger.debug("adding initial action");
     addLogEntry(initialAction);
   }, [addLogEntry, lastAction, log, workflow]);
 
