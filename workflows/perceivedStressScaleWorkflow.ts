@@ -1,4 +1,5 @@
 import invariant from "ts-invariant";
+import { logger } from "~/logger";
 import { type Identifier, type QuestionAction, Timestamp } from "~/models";
 import type { Workflow } from "~/workflows";
 import { workflows } from "~/workflows/workflows";
@@ -73,18 +74,21 @@ const perceivedStressScaleWorkflow: Workflow = ({ event }) => {
   switch (event.eventType) {
     case "AnswerEvent": {
       const questionActionIdentifierMatch =
-        event.questionActionIdentifier.match("pss-(d+/)");
-      invariant(questionActionIdentifierMatch);
-      const questionIndexZeroBased = Number.parseInt(
-        questionActionIdentifierMatch[0],
-      );
+        event.questionActionIdentifier.match(/pss-(\d+)/);
+      invariant(questionActionIdentifierMatch, event.questionActionIdentifier);
+      const questionIndexZeroBased =
+        Number.parseInt(questionActionIdentifierMatch[1]) - 1;
       invariant(
         questionIndexZeroBased >= 0 &&
           questionIndexZeroBased < questionItems.length,
       );
+      logger.debug(
+        "answered question index (0-based):",
+        questionIndexZeroBased,
+      );
       if (questionIndexZeroBased + 1 < questionItems.length) {
         return questionAction({
-          questionIndexZeroBased,
+          questionIndexZeroBased: questionIndexZeroBased + 1,
           triggerEventIdentifier: event.identifier,
         });
       }
