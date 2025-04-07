@@ -1,29 +1,49 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { View } from "react-native";
 import { Label } from "~/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Text } from "~/components/ui/text";
-import type { LikertScaleAnswer, LikertScaleQuestion } from "~/models";
+import { useLog } from "~/hooks/useLog";
+import { logger } from "~/logger";
+import {
+  type Event,
+  Identifier,
+  type LikertScaleQuestionAction,
+  Timestamp,
+} from "~/models";
 
-export function LikertScaleQuestionView({
-  answer,
-  onAnswer,
-  question,
+export function LikertScaleQuestionActionView({
+  action: question,
+  onEvent,
 }: {
-  answer: LikertScaleAnswer | null;
-  onAnswer: (answer: LikertScaleAnswer) => void;
-  question: LikertScaleQuestion;
+  action: LikertScaleQuestionAction;
+  onEvent: (event: Event) => void;
 }) {
+  const log = useLog();
+  const answer = useMemo(() => {
+    const answer =
+      log.answerEventByQuestionActionIdentifier(question.identifier)?.answer ??
+      null;
+    if (answer !== null) {
+      logger.debug("existing answer:", JSON.stringify(answer));
+    }
+    return answer;
+  }, [log, question]);
+
   const onSelectResponseCategoryLabel = useCallback(
     (responseCategoryLabel: string) =>
-      onAnswer({
-        answerType: "LikertScaleAnswer",
+      onEvent({
+        identifier: Identifier.random(),
+        eventType: "LikertScaleAnswerEvent",
+        logEntryType: "Event",
+        predecessor: question.identifier,
         responseCategory: question.responseCategories.find(
           (responseCategory) =>
             responseCategory.label === responseCategoryLabel,
         )!,
+        timestamp: Timestamp.now(),
       }),
-    [onAnswer, question],
+    [onEvent, question],
   );
 
   return (

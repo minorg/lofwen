@@ -1,13 +1,24 @@
-import { type Action, type Event, type Question, Timestamp } from "~/models";
+import {
+  type Action,
+  type Event,
+  type LikertScaleQuestionAction,
+  Timestamp,
+} from "~/models";
 
 export const initialEvent: Event = {
+  eventType: "InitialEvent",
   identifier: "initial-event",
+  logEntryType: "Event",
+  predecessor: "initial-event",
   timestamp: Timestamp.now(),
-  type: "InitialEvent",
 };
 
-export const likertScaleQuestion: Question = {
+export const likertScaleQuestionAction: LikertScaleQuestionAction = {
+  actionType: "LikertScaleQuestionAction",
   item: "Is this the best app ever?",
+  identifier: "likert-scale-question",
+  logEntryType: "Action",
+  predecessor: initialEvent.identifier,
   responseCategories: [
     "Strongly disagree",
     "Disagree",
@@ -18,13 +29,7 @@ export const likertScaleQuestion: Question = {
     label,
     value: index,
   })),
-  type: "LikertScaleQuestion",
+  timestamp: Timestamp.now(),
 };
 
-export const questionAction: Action = {
-  identifier: "question-action",
-  question: likertScaleQuestion,
-  timestamp: Timestamp.now(),
-  triggerEventIdentifier: initialEvent.identifier,
-  type: "QuestionAction",
-};
+export const questionAction: Action = likertScaleQuestionAction;

@@ -1,6 +1,10 @@
 import invariant from "ts-invariant";
 import { logger } from "~/logger";
-import { type Identifier, type QuestionAction, Timestamp } from "~/models";
+import {
+  type Identifier,
+  type LikertScaleQuestionAction,
+  Timestamp,
+} from "~/models";
 import type { Workflow } from "~/workflows";
 import { workflows } from "~/workflows/workflows";
 
@@ -26,12 +30,12 @@ const responseCategoryLabels = [
 ];
 
 function questionAction({
+  predecessor,
   questionIndexZeroBased,
-  triggerEventIdentifier,
 }: {
+  predecessor: Identifier;
   questionIndexZeroBased: number;
-  triggerEventIdentifier: Identifier;
-}): QuestionAction {
+}): LikertScaleQuestionAction {
   let responseCategoryValues: readonly number[];
   switch (questionIndexZeroBased + 1) {
     case 4:
@@ -47,21 +51,18 @@ function questionAction({
   }
 
   return {
-    actionType: "QuestionAction",
+    actionType: "LikertScaleQuestionAction",
     identifier: `pss-${questionIndexZeroBased + 1}`,
+    item: questionItems[questionIndexZeroBased],
     logEntryType: "Action",
-    question: {
-      item: questionItems[questionIndexZeroBased],
-      questionType: "LikertScaleQuestion",
-      responseCategories: responseCategoryLabels.map(
-        (responseCategoryLabel, responseCategoryI) => ({
-          label: responseCategoryLabel,
-          value: responseCategoryValues[responseCategoryI],
-        }),
-      ),
-    },
+    predecessor,
+    responseCategories: responseCategoryLabels.map(
+      (responseCategoryLabel, responseCategoryI) => ({
+        label: responseCategoryLabel,
+        value: responseCategoryValues[responseCategoryI],
+      }),
+    ),
     timestamp: Timestamp.now(),
-    triggerEventIdentifier,
   };
 }
 
@@ -72,10 +73,10 @@ function questionAction({
  */
 const perceivedStressScaleWorkflow: Workflow = ({ event }) => {
   switch (event.eventType) {
-    case "AnswerEvent": {
+    case "LikertScaleAnswerEvent": {
       const questionActionIdentifierMatch =
-        event.questionActionIdentifier.match(/pss-(\d+)/);
-      invariant(questionActionIdentifierMatch, event.questionActionIdentifier);
+        event.predecessor.match(/pss-(\d+)/);
+      invariant(questionActionIdentifierMatch, event.predecessor);
       const questionIndexZeroBased =
         Number.parseInt(questionActionIdentifierMatch[1]) - 1;
       invariant(
@@ -89,7 +90,7 @@ const perceivedStressScaleWorkflow: Workflow = ({ event }) => {
       if (questionIndexZeroBased + 1 < questionItems.length) {
         return questionAction({
           questionIndexZeroBased: questionIndexZeroBased + 1,
-          triggerEventIdentifier: event.identifier,
+          predecessor: event.identifier,
         });
       }
       throw new Error("not implemented");
@@ -97,7 +98,7 @@ const perceivedStressScaleWorkflow: Workflow = ({ event }) => {
     case "InitialEvent":
       return questionAction({
         questionIndexZeroBased: 0,
-        triggerEventIdentifier: event.identifier,
+        predecessor: event.identifier,
       });
   }
 };
