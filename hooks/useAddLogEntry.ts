@@ -17,6 +17,7 @@ export function useAddLogEntry() {
       } = logEntry;
 
       return {
+        id,
         json: JSON.stringify(otherProperties),
         timestamp,
         type,
