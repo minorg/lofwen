@@ -31,6 +31,8 @@ export default function ActionScreen() {
       addLogEntry(event);
 
       logger.debug("invoking workflow");
+      // log from the hook doesn't include the just-added event yet
+      // Instead of looping back around to look for the event, temporarily concatenate it to the log for the benefit of the workflow.
       const nextAction = workflow({ event, log: log.concat(event) });
 
       addLogEntry(nextAction);
