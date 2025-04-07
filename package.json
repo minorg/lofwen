@@ -63,6 +63,8 @@
     "check:fix:unsafe": "biome check --fix --unsafe",
     "ios": "expo start --ios",
     "start": "expo start",
+    "tsc": "tsc --noEmit",
+    "tsc:watch": "tsc --noEmit -w",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "web": "expo start --web"
