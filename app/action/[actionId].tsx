@@ -31,7 +31,7 @@ export default function ActionScreen() {
       addLogEntry(event);
 
       logger.debug("invoking workflow");
-      const nextAction = workflow({ event, log });
+      const nextAction = workflow({ event, log: log.concat(event) });
 
       addLogEntry(nextAction);
 

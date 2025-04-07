@@ -110,19 +110,11 @@ const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
           const questionIdentifier = questionActionIdentifier({
             questionIndexZeroBased,
           });
-          let answer = log.find(
+          const answer = log.find(
             (entry) =>
               entry["@type"] === "LikertScaleAnswerEvent" &&
               entry["@predecessor"] === questionIdentifier,
           ) as LikertScaleAnswerEvent | null;
-          if (answer === null) {
-            if (
-              event["@type"] === "LikertScaleAnswerEvent" &&
-              event["@predecessor"] === questionIdentifier
-            ) {
-              answer = event;
-            }
-          }
           invariant(
             answer,
             `no answer for question ${questionActionIdentifier({ questionIndexZeroBased })}`,
