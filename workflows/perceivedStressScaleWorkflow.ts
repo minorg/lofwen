@@ -52,18 +52,17 @@ function questionAction({
   }
 
   return {
-    actionType: "LikertScaleQuestionAction",
-    identifier: questionActionIdentifier({ questionIndexZeroBased }),
+    "@id": questionActionIdentifier({ questionIndexZeroBased }),
+    "@predecessor": predecessor,
+    "@timestamp": Timestamp.now(),
+    "@type": "LikertScaleQuestionAction",
     item: questionItems[questionIndexZeroBased],
-    logEntryType: "Action",
-    predecessor,
     responseCategories: responseCategoryLabels.map(
       (responseCategoryLabel, responseCategoryI) => ({
         label: responseCategoryLabel,
         value: responseCategoryValues[responseCategoryI],
       }),
     ),
-    timestamp: Timestamp.now(),
   };
 }
 
@@ -81,11 +80,11 @@ function questionActionIdentifier({
  * https://www.das.nh.gov/wellness/docs/percieved%20stress%20scale.pdf
  */
 const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
-  switch (event.eventType) {
+  switch (event["@type"]) {
     case "LikertScaleAnswerEvent": {
       const questionActionIdentifierMatch =
-        event.predecessor.match(/pss-(\d+)/);
-      invariant(questionActionIdentifierMatch, event.predecessor);
+        event["@predecessor"].match(/pss-(\d+)/);
+      invariant(questionActionIdentifierMatch, event["@predecessor"]);
       const questionIndexZeroBased =
         Number.parseInt(questionActionIdentifierMatch[1]) - 1;
       invariant(
@@ -100,7 +99,7 @@ const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
         // Questions remaining
         return questionAction({
           questionIndexZeroBased: questionIndexZeroBased + 1,
-          predecessor: event.identifier,
+          predecessor: event["@id"],
         });
       }
 
@@ -108,14 +107,18 @@ const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
 
       const totalScore = questionItems.reduce(
         (totalScore, _, questionIndexZeroBased) => {
-          const answer = log.answerEventByQuestionActionIdentifier(
-            questionActionIdentifier({ questionIndexZeroBased }),
-          );
+          const questionIdentifier = questionActionIdentifier({
+            questionIndexZeroBased,
+          });
+          const answer = log.find(
+            (entry) =>
+              entry["@type"] === "LikertScaleAnswerEvent" &&
+              entry["@predecessor"] === questionIdentifier,
+          ) as LikertScaleAnswerEvent | null;
           invariant(
             answer,
             `no answer for question ${questionActionIdentifier({ questionIndexZeroBased })}`,
           );
-          invariant(answer.eventType === "LikertScaleAnswerEvent");
           return (
             totalScore +
             (answer as LikertScaleAnswerEvent).responseCategory.value
@@ -137,18 +140,17 @@ const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
       }
 
       return {
-        actionType: "AcknowledgmentAction",
-        identifier: "pss-acknowledgment",
+        "@id": "pss-acknowledgment",
+        "@predecessor": event["@id"],
+        "@timestamp": Timestamp.now(),
+        "@type": "AcknowledgmentAction",
         message: `Your perceived stress: ${perceivedStress} (total score: ${totalScore})`,
-        logEntryType: "Action",
-        predecessor: event.identifier,
-        timestamp: Timestamp.now(),
       } satisfies AcknowledgmentAction;
     }
     case "InitialEvent":
       return questionAction({
+        predecessor: event["@id"],
         questionIndexZeroBased: 0,
-        predecessor: event.identifier,
       });
   }
 };

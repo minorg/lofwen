@@ -8,6 +8,7 @@ import { logger } from "~/logger";
 import {
   type Event,
   Identifier,
+  type LikertScaleAnswerEvent,
   type LikertScaleQuestionAction,
   Timestamp,
 } from "~/models";
@@ -21,9 +22,11 @@ export function LikertScaleQuestionActionView({
 }) {
   const log = useLog();
   const answer = useMemo(() => {
-    const answer =
-      log.answerEventByQuestionActionIdentifier(question.identifier)?.answer ??
-      null;
+    const answer = log.find(
+      (entry) =>
+        entry["@type"] === "LikertScaleAnswerEvent" &&
+        entry["@predecessor"] === question["@id"],
+    ) as LikertScaleAnswerEvent | null;
     if (answer !== null) {
       logger.debug("existing answer:", JSON.stringify(answer));
     }
@@ -33,15 +36,14 @@ export function LikertScaleQuestionActionView({
   const onSelectResponseCategoryLabel = useCallback(
     (responseCategoryLabel: string) =>
       onEvent({
-        identifier: Identifier.random(),
-        eventType: "LikertScaleAnswerEvent",
-        logEntryType: "Event",
-        predecessor: question.identifier,
+        "@id": Identifier.random(),
+        "@type": "LikertScaleAnswerEvent",
+        "@predecessor": question["@id"],
+        "@timestamp": Timestamp.now(),
         responseCategory: question.responseCategories.find(
           (responseCategory) =>
             responseCategory.label === responseCategoryLabel,
         )!,
-        timestamp: Timestamp.now(),
       }),
     [onEvent, question],
   );

@@ -5,7 +5,7 @@ export type AcknowledgmentAction = z.infer<typeof AcknowledgmentAction.schema>;
 
 export namespace AcknowledgmentAction {
   export const schema = BaseAction.schema.extend({
-    actionType: z.literal("AcknowledgmentAction"),
+    "@type": z.literal("AcknowledgmentAction"),
     message: z.string(),
   });
 }

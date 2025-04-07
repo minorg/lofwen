@@ -16,12 +16,12 @@ import { logger } from "~/logger";
 import type { Event } from "~/models";
 
 export default function ActionScreen() {
-  const { actionIdentifier } = useLocalSearchParams<{
-    actionIdentifier: string;
+  const { actionId } = useLocalSearchParams<{
+    actionId: string;
   }>();
   const addLogEntry = useAddLogEntry();
   const log = useLog();
-  const action = log.actionByIdentifier(actionIdentifier);
+  const action = log.actionById(actionId);
   const navigation = useNavigation();
   const router = useRouter();
   const workflow = useWorkflow();
@@ -54,12 +54,12 @@ export default function ActionScreen() {
   }, [action, navigation]);
 
   if (!action) {
-    logger.warn("no such action:", actionIdentifier);
+    logger.warn("no such action:", actionId);
     return <Redirect href={Hrefs.root()} />;
   }
 
   let actionView: ReactElement;
-  switch (action.actionType) {
+  switch (action["@type"]) {
     case "AcknowledgmentAction":
       actionView = (
         <AcknowledgmentActionView action={action} onEvent={onEvent} />

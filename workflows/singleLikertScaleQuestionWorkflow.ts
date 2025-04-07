@@ -8,12 +8,12 @@ const singleLikertScaleQuestionWorkflow: Workflow = ({
 }): LikertScaleQuestionAction => {
   const iteration = [...log.actions()].length;
   return {
-    actionType: "LikertScaleQuestionAction",
-    identifier: `single-likert-scale-question-${iteration}`,
+    "@id": `single-likert-scale-question-${iteration}`,
+    "@predecessor": event["@id"],
+    "@timestamp": Timestamp.now(),
+    "@type": "LikertScaleQuestionAction",
     item: `Is this the best app ever? (iteration ${iteration})`,
     label: "Single Likert scale question",
-    logEntryType: "Action",
-    predecessor: event.identifier,
     responseCategories: [
       "Strongly disagree",
       "Disagree",
@@ -24,7 +24,6 @@ const singleLikertScaleQuestionWorkflow: Workflow = ({
       label,
       value: index,
     })),
-    timestamp: Timestamp.now(),
   };
 };
 

@@ -7,28 +7,26 @@ import {
 } from "~/models";
 
 export const initialEvent: Event = {
-  eventType: "InitialEvent",
-  identifier: "initial-event",
-  logEntryType: "Event",
-  predecessor: "initial-event",
-  timestamp: Timestamp.now(),
+  "@id": "initial-event",
+  "@predecessor": "initial-event",
+  "@type": "InitialEvent",
+  "@timestamp": Timestamp.now(),
 };
 
 export const acknowledgmentAction: AcknowledgmentAction = {
-  actionType: "AcknowledgmentAction",
-  identifier: "acknowledgment",
+  "@id": "acknowledgment",
+  "@predecessor": initialEvent["@id"],
+  "@timestamp": Timestamp.now(),
+  "@type": "AcknowledgmentAction",
   message: "Test message",
-  logEntryType: "Action",
-  predecessor: initialEvent.identifier,
-  timestamp: Timestamp.now(),
 };
 
 export const likertScaleQuestionAction: LikertScaleQuestionAction = {
-  actionType: "LikertScaleQuestionAction",
+  "@id": "likert-scale-question",
+  "@predecessor": initialEvent["@id"],
+  "@timestamp": Timestamp.now(),
+  "@type": "LikertScaleQuestionAction",
   item: "Is this the best app ever?",
-  identifier: "likert-scale-question",
-  logEntryType: "Action",
-  predecessor: initialEvent.identifier,
   responseCategories: [
     "Strongly disagree",
     "Disagree",
@@ -39,7 +37,6 @@ export const likertScaleQuestionAction: LikertScaleQuestionAction = {
     label,
     value: index,
   })),
-  timestamp: Timestamp.now(),
 };
 
 export const questionAction: Action = likertScaleQuestionAction;

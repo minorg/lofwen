@@ -20,7 +20,6 @@ export namespace Store {
   export const tablesSchema: TablesSchema = {
     log: {
       json: { type: "string" },
-      identifier: { type: "string" },
       timestamp: { type: "number" },
       type: { type: "string" },
     },

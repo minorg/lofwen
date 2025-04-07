@@ -8,7 +8,7 @@ export type LikertScaleAnswerEvent = z.infer<
 
 export namespace LikertScaleAnswerEvent {
   export const schema = BaseEvent.schema.extend({
-    eventType: z.literal("LikertScaleAnswerEvent"),
     responseCategory: OrdinalCategory.schema,
+    "@type": z.literal("LikertScaleAnswerEvent"),
   });
 }

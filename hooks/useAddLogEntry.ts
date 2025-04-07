@@ -6,17 +6,16 @@ export function useAddLogEntry() {
   const { useSetRowCallback } = Store.UiReact;
   return useSetRowCallback(
     "log",
-    (logEntry: LogEntry) => logEntry.identifier,
+    (logEntry: LogEntry) => logEntry["@id"],
     (logEntry: LogEntry) => {
       const {
-        identifier,
-        logEntryType: type,
-        timestamp,
+        "@id": id,
+        "@timestamp": timestamp,
+        "@type": type,
         ...otherProperties
       } = logEntry;
 
       return {
-        identifier,
         json: JSON.stringify(otherProperties),
         timestamp,
         type,

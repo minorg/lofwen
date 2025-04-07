@@ -6,8 +6,8 @@ export type BaseLogEntry = z.infer<typeof BaseLogEntry.schema>;
 
 export namespace BaseLogEntry {
   export const schema = z.object({
-    identifier: Identifier.schema,
-    predecessor: Identifier.schema.describe("predecessor log entry"),
-    timestamp: Timestamp.schema,
+    "@id": Identifier.schema,
+    "@predecessor": Identifier.schema.describe("predecessor log entry"),
+    "@timestamp": Timestamp.schema,
   });
 }

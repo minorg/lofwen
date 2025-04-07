@@ -8,8 +8,8 @@ export type LikertScaleQuestionAction = z.infer<
 
 export namespace LikertScaleQuestionAction {
   export const schema = BaseAction.schema.extend({
-    actionType: z.literal("LikertScaleQuestionAction"),
     item: z.string(),
     responseCategories: z.array(OrdinalCategory.schema),
+    "@type": z.literal("LikertScaleQuestionAction"),
   });
 }

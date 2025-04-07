@@ -19,11 +19,12 @@ export default function RootScreen() {
       return;
     }
 
+    const initialEventId = Identifier.random();
     const initialEvent: Event = {
-      eventType: "InitialEvent",
-      identifier: Identifier.random(),
-      logEntryType: "Event",
-      timestamp: Timestamp.now(),
+      "@id": initialEventId,
+      "@predecessor": initialEventId,
+      "@timestamp": Timestamp.now(),
+      "@type": "InitialEvent",
     };
     logger.debug("adding initial event");
     addLogEntry(initialEvent);
@@ -41,7 +42,7 @@ export default function RootScreen() {
     return null;
   }
 
-  logger.debug(`redirecting to last action: ${lastAction.identifier}`);
+  logger.debug(`redirecting to last action: ${lastAction["@id"]}`);
 
   return <Redirect href={Hrefs.action(lastAction)} />;
 }
