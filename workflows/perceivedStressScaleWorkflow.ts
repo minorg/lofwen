@@ -1,12 +1,13 @@
 import invariant from "ts-invariant";
 import { logger } from "~/logger";
 import {
+  type AcknowledgmentAction,
   type Identifier,
+  type LikertScaleAnswerEvent,
   type LikertScaleQuestionAction,
   Timestamp,
 } from "~/models";
-import type { Workflow } from "~/workflows";
-import { workflows } from "~/workflows/workflows";
+import { type Workflow, workflows } from "~/workflows";
 
 const questionItems = [
   "In the last month, how often have you been upset because of something that happened unexpectedly?",
@@ -52,7 +53,7 @@ function questionAction({
 
   return {
     actionType: "LikertScaleQuestionAction",
-    identifier: `pss-${questionIndexZeroBased + 1}`,
+    identifier: questionActionIdentifier({ questionIndexZeroBased }),
     item: questionItems[questionIndexZeroBased],
     logEntryType: "Action",
     predecessor,
@@ -66,12 +67,20 @@ function questionAction({
   };
 }
 
+function questionActionIdentifier({
+  questionIndexZeroBased,
+}: {
+  questionIndexZeroBased: number;
+}): Identifier {
+  return `pss-${questionIndexZeroBased + 1}`;
+}
+
 /**
  * Perceived Stress Scale (PSS), public domain.
  *
  * https://www.das.nh.gov/wellness/docs/percieved%20stress%20scale.pdf
  */
-const perceivedStressScaleWorkflow: Workflow = ({ event }) => {
+const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
   switch (event.eventType) {
     case "LikertScaleAnswerEvent": {
       const questionActionIdentifierMatch =
@@ -88,12 +97,53 @@ const perceivedStressScaleWorkflow: Workflow = ({ event }) => {
         questionIndexZeroBased,
       );
       if (questionIndexZeroBased + 1 < questionItems.length) {
+        // Questions remaining
         return questionAction({
           questionIndexZeroBased: questionIndexZeroBased + 1,
           predecessor: event.identifier,
         });
       }
-      throw new Error("not implemented");
+
+      // Last question answered
+
+      const totalScore = questionItems.reduce(
+        (totalScore, _, questionIndexZeroBased) => {
+          const answer = log.answerEventByQuestionActionIdentifier(
+            questionActionIdentifier({ questionIndexZeroBased }),
+          );
+          invariant(
+            answer,
+            `no answer for question ${questionActionIdentifier({ questionIndexZeroBased })}`,
+          );
+          invariant(answer.eventType === "LikertScaleAnswerEvent");
+          return (
+            totalScore +
+            (answer as LikertScaleAnswerEvent).responseCategory.value
+          );
+        },
+        0,
+      );
+
+      let perceivedStress: string;
+      if (totalScore >= 0 && totalScore <= 13) {
+        perceivedStress = "low stress";
+      } else if (totalScore >= 14 && totalScore <= 26) {
+        perceivedStress = "moderate stress";
+      } else if (totalScore >= 17 && totalScore <= 40) {
+        perceivedStress = "high stress";
+      } else {
+        invariant(totalScore <= 40, totalScore);
+        throw new Error();
+      }
+
+      return {
+        actionType: "AcknowledgmentAction",
+        identifier: "pss-acknowledgment",
+        message: `Your perceived stress: ${perceivedStress} (total score: ${totalScore})`,
+        logEntryType: "Action",
+        predecessor: event.identifier,
+        timestamp: Timestamp.now(),
+      } satisfies AcknowledgmentAction;
     }
     case "InitialEvent":
       return questionAction({
@@ -102,5 +152,4 @@ const perceivedStressScaleWorkflow: Workflow = ({ event }) => {
       });
   }
 };
-
 workflows["perceivedStressScale"] = perceivedStressScaleWorkflow;
