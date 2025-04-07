@@ -114,6 +114,7 @@ export class Log implements Iterable<LogEntry> {
     const jsonCellParsed = JSON.parse(row["json"] as string);
     const logEntryJsonObject = {
       "@id": rowId,
+      "@type": row["type"],
       "@timestamp": row["timestamp"],
       ...jsonCellParsed,
     };
@@ -122,8 +123,12 @@ export class Log implements Iterable<LogEntry> {
       logger.warn(
         "unable to parse log row",
         rowId,
-        ":",
+        "\n",
         logEntryParseResult.error,
+        "\n",
+        JSON.stringify(row),
+        "\n",
+        JSON.stringify(logEntryJsonObject),
       );
       return null;
     }
