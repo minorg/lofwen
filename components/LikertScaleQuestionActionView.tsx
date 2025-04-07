@@ -28,7 +28,14 @@ export function LikertScaleQuestionActionView({
         entry["@predecessor"] === question["@id"],
     ) as LikertScaleAnswerEvent | null;
     if (answer !== null) {
-      logger.debug("existing answer:", JSON.stringify(answer));
+      logger.debug(
+        "existing answer to question",
+        question["@id"],
+        ":",
+        JSON.stringify(answer),
+      );
+    } else {
+      logger.debug("no existing answer to question", question["@id"]);
     }
     return answer;
   }, [log, question]);
