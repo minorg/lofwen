@@ -47,7 +47,7 @@ export function LikertScaleQuestionActionView({
   );
 
   return (
-    <View className="flex flex-col flex-1 gap-2 justify-center mx-auto native:px-4">
+    <View className="flex flex-col flex-1 gap-2 native:justify-center native:px-4">
       <Text className="text-2xl">{question.item}</Text>
       <RadioGroup
         onValueChange={onSelectResponseCategoryLabel}
