@@ -1,4 +1,5 @@
 import {
+  type AcknowledgmentAction,
   type Action,
   type Event,
   type LikertScaleQuestionAction,
@@ -10,6 +11,15 @@ export const initialEvent: Event = {
   identifier: "initial-event",
   logEntryType: "Event",
   predecessor: "initial-event",
+  timestamp: Timestamp.now(),
+};
+
+export const acknowledgmentAction: AcknowledgmentAction = {
+  actionType: "AcknowledgmentAction",
+  identifier: "acknowledgment",
+  message: "Test message",
+  logEntryType: "Action",
+  predecessor: initialEvent.identifier,
   timestamp: Timestamp.now(),
 };
 
