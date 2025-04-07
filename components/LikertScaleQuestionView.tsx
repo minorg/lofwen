@@ -27,14 +27,17 @@ export function LikertScaleQuestionView({
   );
 
   return (
-    <View className="flex flex-col gap-2 mx-auto">
+    <View className="flex flex-col flex-1 gap-2 justify-center mx-auto native:px-4">
       <Text className="text-2xl">{question.item}</Text>
       <RadioGroup
         onValueChange={onSelectResponseCategoryLabel}
         value={answer?.responseCategory.label ?? ""}
       >
         {question.responseCategories.map((responseCategory) => (
-          <View className={"flex-row gap-2"} key={responseCategory.label}>
+          <View
+            className={"flex-row items-center gap-2"}
+            key={responseCategory.label}
+          >
             <RadioGroupItem
               aria-labelledby={`label-for-${responseCategory.label}`}
               value={responseCategory.label}

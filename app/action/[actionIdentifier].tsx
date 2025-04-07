@@ -65,5 +65,9 @@ export default function ActionScreen() {
       );
   }
 
-  return <SafeAreaView>{actionView}</SafeAreaView>;
+  return (
+    <SafeAreaView className="flex-1" id="safe-area-view">
+      {actionView}
+    </SafeAreaView>
+  );
 }
