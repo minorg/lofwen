@@ -27,11 +27,9 @@ The `.env.template` file documents the environment variables.
     npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+In the output, you'll find options to open the app in
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You should probably start with Expo Go.
+1. [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo. This option is useful for quickly seeing how the app will look on a mobile device.
+1. [a web browser](http://localhost:8081). This option is useful for live-debugging the app.
+1. [an Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+1. [an iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
