@@ -1,6 +1,6 @@
 import * as envalid from "envalid";
+import "~/workflows";
 import { workflows } from "~/workflows/workflows";
-import "~/workflows/singleLikertScaleQuestionWorkflow";
 
 function loadConfiguration() {
   const env = envalid.cleanEnv(process.env, {
