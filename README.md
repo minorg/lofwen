@@ -1,4 +1,4 @@
-# lofwen: LOcal-First Workflow ENgine
+# LOFWEN: LOcal-First Workflow ENgine
 
 ## One-time setup
 
@@ -24,7 +24,7 @@ The `.env.template` file documents the environment variables.
 ## Run the app locally
 
    ```bash
-    npx expo start
+   npm start
    ```
 
 In the output, you'll find options to open the app in
