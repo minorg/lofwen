@@ -1,12 +1,12 @@
 import { z } from "zod";
-import { AnswerEvent } from "~/models/AnswerEvent";
 import { InitialEvent } from "~/models/InitialEvent";
+import { LikertScaleAnswerEvent } from "~/models/LikertScaleAnswerEvent";
 
 export type Event = z.infer<typeof Event.schema>;
 
 export namespace Event {
-  export const schema = z.discriminatedUnion("eventType", [
-    AnswerEvent.schema,
+  export const schema = z.discriminatedUnion("@type", [
     InitialEvent.schema,
+    LikertScaleAnswerEvent.schema,
   ]);
 }

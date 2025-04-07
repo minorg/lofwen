@@ -2,19 +2,19 @@
 
 exports[`renders correctly 1`] = `
 <View
-  className="flex-1 justify-center items-center p-6"
+  className="flex flex-col flex-1 gap-2 native:justify-center native:px-4"
 >
   <Text
-    className="text-base text-foreground web:select-text"
+    className="text-foreground web:select-text text-2xl"
   >
     Is this the best app ever?
   </Text>
   <View
-    className="web:grid gap-3"
+    className="web:grid gap-2"
     role="radiogroup"
   >
     <View
-      className="flex-row gap-2 items-center"
+      className="flex-row items-center gap-2"
     >
       <View
         accessibilityState={
@@ -86,12 +86,16 @@ exports[`renders correctly 1`] = `
           className="text-sm text-foreground native:text-base font-medium leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70"
           nativeID="label-for-Strongly disagree"
         >
-          Strongly disagree
+          <Text
+            className="text-foreground web:select-text text-xl"
+          >
+            Strongly disagree
+          </Text>
         </Text>
       </View>
     </View>
     <View
-      className="flex-row gap-2 items-center"
+      className="flex-row items-center gap-2"
     >
       <View
         accessibilityState={
@@ -163,12 +167,16 @@ exports[`renders correctly 1`] = `
           className="text-sm text-foreground native:text-base font-medium leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70"
           nativeID="label-for-Disagree"
         >
-          Disagree
+          <Text
+            className="text-foreground web:select-text text-xl"
+          >
+            Disagree
+          </Text>
         </Text>
       </View>
     </View>
     <View
-      className="flex-row gap-2 items-center"
+      className="flex-row items-center gap-2"
     >
       <View
         accessibilityState={
@@ -240,12 +248,16 @@ exports[`renders correctly 1`] = `
           className="text-sm text-foreground native:text-base font-medium leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70"
           nativeID="label-for-Neutral"
         >
-          Neutral
+          <Text
+            className="text-foreground web:select-text text-xl"
+          >
+            Neutral
+          </Text>
         </Text>
       </View>
     </View>
     <View
-      className="flex-row gap-2 items-center"
+      className="flex-row items-center gap-2"
     >
       <View
         accessibilityState={
@@ -317,12 +329,16 @@ exports[`renders correctly 1`] = `
           className="text-sm text-foreground native:text-base font-medium leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70"
           nativeID="label-for-Agree"
         >
-          Agree
+          <Text
+            className="text-foreground web:select-text text-xl"
+          >
+            Agree
+          </Text>
         </Text>
       </View>
     </View>
     <View
-      className="flex-row gap-2 items-center"
+      className="flex-row items-center gap-2"
     >
       <View
         accessibilityState={
@@ -394,7 +410,11 @@ exports[`renders correctly 1`] = `
           className="text-sm text-foreground native:text-base font-medium leading-none web:peer-disabled:cursor-not-allowed web:peer-disabled:opacity-70"
           nativeID="label-for-Strongly agree"
         >
-          Strongly agree
+          <Text
+            className="text-foreground web:select-text text-xl"
+          >
+            Strongly agree
+          </Text>
         </Text>
       </View>
     </View>

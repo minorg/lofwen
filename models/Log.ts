@@ -1,52 +1,61 @@
-import type { Row, Table } from "tinybase/with-schemas";
-import type { Store } from "~/Store";
+import type { AcknowledgmentAction } from "~/models/AcknowledgmentAction";
 import type { Action } from "~/models/Action";
-import type { AnswerEvent } from "~/models/AnswerEvent";
 import type { Identifier } from "~/models/Identifier";
-import { LogEntry } from "~/models/LogEntry";
+import type { LikertScaleQuestionAction } from "~/models/LikertScaleQuestionAction";
+import type { LogEntry } from "~/models/LogEntry";
 
-export class Log implements Iterable<LogEntry> {
-  private readonly parsedRowCache: Record<Identifier, LogEntry | null> = {};
+function logEntryToAction(logEntry: LogEntry): Action | null {
+  switch (logEntry["@type"]) {
+    case "AcknowledgmentAction":
+      return logEntry as AcknowledgmentAction;
+    case "LikertScaleQuestionAction":
+      return logEntry as LikertScaleQuestionAction;
+    case "InitialEvent":
+    case "LikertScaleAnswerEvent":
+      return null;
+  }
+}
 
-  constructor(
-    private readonly table: Table<typeof Store.tablesSchema, "log">,
-  ) {}
+/**
+ * Abstract base class for Log implementations.
+ */
+export abstract class Log implements Iterable<LogEntry> {
+  protected constructor() {}
 
-  actionByIdentifier(identifier: Identifier): Action | null {
-    const entry = this.entryByIdentifier(identifier);
-    return entry?.logEntryType === "Action" ? entry : null;
+  actionById(id: Identifier): Action | null {
+    const entry = this.entryById(id);
+    return entry ? logEntryToAction(entry) : null;
   }
 
   *actions(): Iterable<Action> {
     for (const entry of this) {
-      if (entry.logEntryType === "Action") {
-        yield entry;
+      const action = logEntryToAction(entry);
+      if (action !== null) {
+        yield action;
       }
     }
   }
 
-  answerEventByQuestionActionIdentifier(
-    questionActionIdentifier: Identifier,
-  ): AnswerEvent | null {
-    for (const entry of this.reverse()) {
-      if (
-        entry.logEntryType === "Event" &&
-        entry.eventType === "AnswerEvent" &&
-        entry.questionActionIdentifier === questionActionIdentifier
-      ) {
+  concat(...entries: readonly LogEntry[]) {
+    const { ConcatenatedLog } = require("~/models/ConcatenatedLog");
+    const { EphemeralLog } = require("~/models/EphemeralLog");
+    return new ConcatenatedLog(this, new EphemeralLog(entries));
+  }
+
+  abstract entries(): Iterable<LogEntry>;
+
+  entryById(id: Identifier): LogEntry | null {
+    for (const entry of this) {
+      if (entry["@id"] === id) {
         return entry;
       }
     }
     return null;
   }
 
-  entryByIdentifier(identifier: Identifier): LogEntry | null {
-    const parsedEntry = this.parsedRowCache[identifier];
-    if (typeof parsedEntry !== "undefined") {
-      return parsedEntry!;
-    }
-    for (const entry of this.reverse()) {
-      if (entry.identifier === identifier) {
+  find(predicate: (entry: LogEntry) => boolean): LogEntry | null {
+    for (const entry of this) {
+      if (predicate(entry)) {
         return entry;
       }
     }
@@ -54,62 +63,20 @@ export class Log implements Iterable<LogEntry> {
   }
 
   *[Symbol.iterator](): Iterator<LogEntry> {
-    for (const rowEntry of Object.entries(this.table)) {
-      const logEntry = this.parseRow(rowEntry[0], rowEntry[1]);
-      if (logEntry !== null) {
-        yield logEntry;
-      }
-    }
+    yield* this.entries();
   }
 
   get lastAction(): Action | null {
     for (const entry of this.reverse()) {
-      if (entry.logEntryType === "Action") {
-        return entry;
+      const action = logEntryToAction(entry);
+      if (action !== null) {
+        return action;
       }
     }
     return null;
   }
 
-  get length(): number {
-    return Object.values(this.table).length;
-  }
+  abstract readonly length: number;
 
-  *reverse(): Iterable<LogEntry> {
-    const rowEntries = Object.entries(this.table);
-    for (let rowI = rowEntries.length - 1; rowI >= 0; rowI--) {
-      const rowEntry = rowEntries[rowI]!;
-      const logEntry = this.parseRow(rowEntry[0], rowEntry[1]);
-      if (logEntry !== null) {
-        yield logEntry;
-      }
-    }
-  }
-
-  private parseRow(
-    rowId: Identifier,
-    row: Row<typeof Store.tablesSchema, "log", false>,
-  ): LogEntry | null {
-    {
-      const logEntry = this.parsedRowCache[rowId];
-      if (typeof logEntry !== "undefined") {
-        return logEntry;
-      }
-    }
-
-    const jsonCellParsed = JSON.parse(row["json"] as string);
-    const logEntryJsonObject = {
-      identifier: rowId,
-      logEntryType: row["type"],
-      timestamp: row["timestamp"],
-      ...jsonCellParsed,
-    };
-    const logEntryParseResult = LogEntry.schema.safeParse(logEntryJsonObject);
-    if (!logEntryParseResult.success) {
-      return null;
-    }
-    const logEntry = logEntryParseResult.data;
-    this.parsedRowCache[rowId] = logEntry;
-    return logEntry;
-  }
+  abstract reverse(): Iterable<LogEntry>;
 }
