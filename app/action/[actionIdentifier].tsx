@@ -7,6 +7,7 @@ import {
 import { type ReactElement, useCallback, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Hrefs } from "~/Hrefs";
+import { AcknowledgmentActionView } from "~/components/AcknowledgmentActionView";
 import { LikertScaleQuestionActionView } from "~/components/LikertScaleQuestionActionView";
 import { useAddLogEntry } from "~/hooks/useAddLogEntry";
 import { useLog } from "~/hooks/useLog";
@@ -59,10 +60,16 @@ export default function ActionScreen() {
 
   let actionView: ReactElement;
   switch (action.actionType) {
+    case "AcknowledgmentAction":
+      actionView = (
+        <AcknowledgmentActionView action={action} onEvent={onEvent} />
+      );
+      break;
     case "LikertScaleQuestionAction":
       actionView = (
         <LikertScaleQuestionActionView action={action} onEvent={onEvent} />
       );
+      break;
   }
 
   return (
