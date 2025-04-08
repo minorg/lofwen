@@ -4,6 +4,7 @@ import * as SecureStore from "expo-secure-store";
 import { useEffect } from "react";
 import { Platform } from "react-native";
 import { Hrefs } from "~/Hrefs";
+import { configuration } from "~/configuration";
 import { secureStoreKeys } from "~/constants/secureStoreKeys";
 import { logger } from "~/logger";
 
@@ -12,7 +13,9 @@ export default function SignOutScreen() {
     loaded: clerkLoaded,
     signOut: clerkSignOut,
     user: clerkUser,
-  } = useClerk();
+  } = configuration.clerk
+    ? useClerk()
+    : { loaded: false, signOut: () => {}, user: null };
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {

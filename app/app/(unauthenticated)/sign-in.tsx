@@ -1,17 +1,22 @@
-import { isClerkAPIResponseError, useSSO } from "@clerk/clerk-expo";
+import {
+  type StartSSOFlowReturnType,
+  isClerkAPIResponseError,
+  useSSO,
+} from "@clerk/clerk-expo";
 import type { ClerkAPIError, OAuthStrategy } from "@clerk/types";
 import * as AuthSession from "expo-auth-session";
 import { randomUUID } from "expo-crypto";
 import { Redirect, useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import * as WebBrowser from "expo-web-browser";
-import React from "react";
+import React, { useEffect } from "react";
 import { Platform, View } from "react-native";
 import { Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Hrefs } from "~/Hrefs";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
+import { configuration } from "~/configuration";
 import { secureStoreKeys } from "~/constants/secureStoreKeys";
 import { useUser } from "~/hooks/useUser";
 import { useWarmUpBrowser } from "~/hooks/useWarmUpBrowser";
@@ -20,23 +25,41 @@ import { logger } from "~/logger";
 // Handle any pending authentication sessions
 WebBrowser.maybeCompleteAuthSession();
 
+async function signInLocalUser(): Promise<void> {
+  const localUserId = `local-user-${randomUUID()}`;
+  logger.debug("setting local user in secure store to", localUserId);
+  if (Platform.OS === "web") {
+    localStorage.setItem(secureStoreKeys.localUserId, localUserId);
+  } else {
+    await SecureStore.setItemAsync(secureStoreKeys.localUserId, localUserId);
+  }
+}
+
 export default function SignInScreen() {
   // Preload the browser for Android devices to reduce authentication load time
-  useWarmUpBrowser();
+  if (configuration.clerk) {
+    useWarmUpBrowser();
+  }
 
-  const { startSSOFlow } = useSSO();
+  const { startSSOFlow } = configuration.clerk
+    ? useSSO()
+    : {
+        startSSOFlow: () => {
+          return {
+            createdSessionId: null,
+            setActive: undefined,
+          } satisfies Pick<
+            StartSSOFlowReturnType,
+            "createdSessionId" | "setActive"
+          >;
+        },
+      };
   const router = useRouter();
   const [errors, setErrors] = React.useState<ClerkAPIError[]>([]);
   const user = useUser();
 
   const onLocalButtonPress = React.useCallback(async () => {
-    const localUserId = `local-user-${randomUUID()}`;
-    logger.debug("setting local user in secure store to", localUserId);
-    if (Platform.OS === "web") {
-      localStorage.setItem(secureStoreKeys.localUserId, localUserId);
-    } else {
-      await SecureStore.setItemAsync(secureStoreKeys.localUserId, localUserId);
-    }
+    await signInLocalUser();
     logger.debug("redirecting to authenticated page");
     router.replace("/(authenticated)");
   }, [router]);
@@ -96,6 +119,13 @@ export default function SignInScreen() {
     return <Redirect href={Hrefs.root} />;
   }
 
+  if (!configuration.clerk) {
+    useEffect(() => {
+      signInLocalUser().then(() => router.replace(Hrefs.root));
+    });
+    return null;
+  }
+
   return (
     <SafeAreaView className="flex-1">
       <View className="flex flex-col flex-1 gap-4 items-center justify-center">
@@ -116,15 +146,17 @@ export default function SignInScreen() {
             <Text className="text-center">Use locally</Text>
           </Button>
 
-          <Button onPress={onGoogleButtonPress} variant="outline">
-            <View className="flex flex-row items-center justify-center">
-              <Image
-                source={require("../../assets/images/google-icon.png")}
-                style={{ height: 20, width: 20, marginRight: 12 }}
-              />
-              <Text>Continue with Google</Text>
-            </View>
-          </Button>
+          {configuration.clerk ? (
+            <Button onPress={onGoogleButtonPress} variant="outline">
+              <View className="flex flex-row items-center justify-center">
+                <Image
+                  source={require("../../assets/images/google-icon.png")}
+                  style={{ height: 20, width: 20, marginRight: 12 }}
+                />
+                <Text>Continue with Google</Text>
+              </View>
+            </Button>
+          ) : null}
         </View>
       </View>
     </SafeAreaView>
