@@ -1,7 +1,11 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "ignore": ["app/components/ui/*", "app/components.json"],
+    "ignore": [
+      "app/components/ui/*",
+      "app/components.json",
+      "server/.dockerignore"
+    ],
     "ignoreUnknown": true
   },
   "formatter": {
