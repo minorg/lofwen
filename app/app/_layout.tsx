@@ -13,6 +13,9 @@ import { Platform } from "react-native";
 import { Store } from "~/Store";
 import { navTheme } from "~/constants/navTheme";
 import { useColorScheme } from "~/hooks/useColorScheme";
+import { ClerkProvider } from "@clerk/clerk-expo";
+import { tokenCache } from '@clerk/clerk-expo/token-cache'
+
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -52,14 +55,14 @@ export default function RootLayout() {
   }
 
   return (
-    <>
+    <ClerkProvider tokenCache={tokenCache}>
       <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
         <Store.UiReact.Provider store={Store.create()}>
           <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
           <Stack screenOptions={{ headerShown: false }} />
         </Store.UiReact.Provider>
       </ThemeProvider>
-    </>
+      </ClerkProvider>
   );
 }
 
