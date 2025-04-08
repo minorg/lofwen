@@ -1,7 +1,0 @@
-.env
-.expo/
-.metro-health-check*
-*.tsbuildinfo
-dist/
-expo-env.d.ts
-npm-debug.*

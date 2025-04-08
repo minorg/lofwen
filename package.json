@@ -11,7 +11,5 @@
     "check:fix:unsafe": "biome check --fix --unsafe"
   },
   "version": "1.0.0",
-  "workspaces": [
-    "app"
-  ]
+  "workspaces": ["app"]
 }
