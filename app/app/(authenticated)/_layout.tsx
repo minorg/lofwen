@@ -1,6 +1,7 @@
 import "~/global.css";
 import {} from "@react-navigation/native";
 import { Redirect, Stack } from "expo-router";
+import { WebSocket } from "partysocket";
 import { type PropsWithChildren, useMemo, useState } from "react";
 import { createWsSynchronizer } from "tinybase/synchronizers/synchronizer-ws-client/with-schemas";
 import { Hrefs } from "~/Hrefs";
@@ -28,10 +29,6 @@ function Synchronization({
 
     const synchronizer = await createWsSynchronizer(
       store,
-      // new ReconnectingWebSocket(webSocketUrl, [], {
-      //   maxReconnectionDelay: 1000,
-      //   connectionTimeout: 1000,
-      // }),
       new WebSocket(webSocketUrl),
     );
 
