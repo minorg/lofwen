@@ -11,6 +11,7 @@
     "clsx": "^2.1.1",
     "envalid": "^8.0.0",
     "expo": "~52.0.42",
+    "expo-auth-session": "~6.0.3",
     "expo-crypto": "~14.0.2",
     "expo-router": "~4.0.19",
     "expo-secure-store": "~14.0.1",
@@ -28,13 +29,13 @@
     "react-native-screens": "~4.4.0",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
+    "reconnecting-websocket": "^4.4.0",
     "tailwind-merge": "^3.1.0",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
     "tinybase": "^5.4.8",
     "ts-invariant": "^0.10.3",
-    "zod": "^3.24.2",
-    "expo-auth-session": "~6.0.3"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -57,6 +58,7 @@
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg|@rn-primitives/.*)"
     ]
   },
+  "license": "Apache-2.0",
   "main": "expo-router/entry",
   "name": "@lofwen/app",
   "private": true,
@@ -66,10 +68,10 @@
     "check:fix:unsafe": "biome check --fix --unsafe",
     "ios": "expo start --ios",
     "start": "expo start",
-    "tsc": "tsc --noEmit",
-    "tsc:watch": "tsc --noEmit -w",
     "test": "jest",
     "test:watch": "jest --watchAll",
+    "tsc": "tsc --noEmit",
+    "tsc:watch": "tsc --noEmit -w",
     "web": "expo start --web"
   },
   "version": "1.0.0"

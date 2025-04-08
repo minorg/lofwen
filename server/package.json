@@ -1,0 +1,18 @@
+{
+  "bin": {
+    "server": "server.js"
+  },
+  "dependencies": {
+    "react": "18.3.1",
+    "tinybase": "^5.4.8",
+    "ws": "^8.18.1"
+  },
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "name": "@lofwen/server",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "type": "module",
+  "version": "1.0.0"
+}

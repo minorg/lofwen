@@ -7,33 +7,22 @@ import type { ClerkAPIError, OAuthStrategy } from "@clerk/types";
 import * as AuthSession from "expo-auth-session";
 import { randomUUID } from "expo-crypto";
 import { Redirect, useRouter } from "expo-router";
-import * as SecureStore from "expo-secure-store";
 import * as WebBrowser from "expo-web-browser";
 import React, { useEffect } from "react";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import { Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Hrefs } from "~/Hrefs";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { configuration } from "~/configuration";
-import { secureStoreKeys } from "~/constants/secureStoreKeys";
 import { useUser } from "~/hooks/useUser";
 import { useWarmUpBrowser } from "~/hooks/useWarmUpBrowser";
 import { logger } from "~/logger";
+import { localUserStore } from "~/stores/localUserStore";
 
 // Handle any pending authentication sessions
 WebBrowser.maybeCompleteAuthSession();
-
-async function signInLocalUser(): Promise<void> {
-  const localUserId = `local-user-${randomUUID()}`;
-  logger.debug("setting local user in secure store to", localUserId);
-  if (Platform.OS === "web") {
-    localStorage.setItem(secureStoreKeys.localUserId, localUserId);
-  } else {
-    await SecureStore.setItemAsync(secureStoreKeys.localUserId, localUserId);
-  }
-}
 
 export default function SignInScreen() {
   // Preload the browser for Android devices to reduce authentication load time
@@ -58,8 +47,11 @@ export default function SignInScreen() {
   const [errors, setErrors] = React.useState<ClerkAPIError[]>([]);
   const user = useUser();
 
-  const onLocalButtonPress = React.useCallback(async () => {
-    await signInLocalUser();
+  const onLocalButtonPress = React.useCallback(() => {
+    localUserStore.setLocalUserSync({
+      "@id": `local-user-${randomUUID()}`,
+      "@type": "AuthenticatedUser",
+    });
     logger.debug("redirecting to authenticated page");
     router.replace("/(authenticated)");
   }, [router]);
@@ -121,7 +113,11 @@ export default function SignInScreen() {
 
   if (!configuration.clerk) {
     useEffect(() => {
-      signInLocalUser().then(() => router.replace(Hrefs.root));
+      localUserStore.setLocalUserSync({
+        "@id": `local-user-${randomUUID()}`,
+        "@type": "AuthenticatedUser",
+      });
+      router.replace(Hrefs.root);
     });
     return null;
   }

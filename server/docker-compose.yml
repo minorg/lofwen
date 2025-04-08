@@ -1,0 +1,10 @@
+services:
+  server:
+    build: .
+    container_name: lofwen-server
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - server-data:/data
+volumes:
+  server-data:
