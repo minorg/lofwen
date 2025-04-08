@@ -1,0 +1,12 @@
+{
+  "bin": {
+    "server": "server.js"
+  },
+  "dependencies": {
+    "tinybase": "^5.4.8"
+  },
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "name": "@lofwen/server",
+  "version": "1.0.0"
+}
