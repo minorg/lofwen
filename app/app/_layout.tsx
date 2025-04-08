@@ -8,7 +8,7 @@ import {
   type Theme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { Stack } from "expo-router";
+import { Slot } from "expo-router";
 import * as React from "react";
 import { Platform } from "react-native";
 import { configuration } from "~/configuration";
@@ -54,9 +54,7 @@ export default function RootLayout() {
 
   let element = (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <Stack>
-        <Stack.Screen name="(authenticated)" />
-      </Stack>
+      <Slot />
     </ThemeProvider>
   );
 
