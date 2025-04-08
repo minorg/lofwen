@@ -17,8 +17,8 @@ jobs:
           cache: "npm"
           node-version: 22
       - name: Install dependencies
-        run: npm install --ci
+        run: cd app && npm install --ci
       - name: Lint
-        run: npm run check
+        run: cd app && npm run check
       - name: Type-check
-        run: npm run tsc
+        run: cd app && npm run tsc

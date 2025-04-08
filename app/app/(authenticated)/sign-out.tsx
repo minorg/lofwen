@@ -1,12 +1,10 @@
 import { useClerk } from "@clerk/clerk-expo";
 import { Redirect } from "expo-router";
-import * as SecureStore from "expo-secure-store";
 import { useEffect } from "react";
-import { Platform } from "react-native";
 import { Hrefs } from "~/Hrefs";
 import { configuration } from "~/configuration";
-import { secureStoreKeys } from "~/constants/secureStoreKeys";
 import { logger } from "~/logger";
+import { localUserStore } from "~/stores/localUserStore";
 
 export default function SignOutScreen() {
   const {
@@ -31,11 +29,7 @@ export default function SignOutScreen() {
       }
 
       logger.debug("removing local user from secure store");
-      if (Platform.OS === "web") {
-        localStorage.removeItem(secureStoreKeys.localUserId);
-      } else {
-        await SecureStore.deleteItemAsync(secureStoreKeys.localUserId);
-      }
+      await localUserStore.clearLocalUserAsync();
     })();
   }, []);
 

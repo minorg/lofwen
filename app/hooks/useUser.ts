@@ -1,10 +1,8 @@
 import { useUser as useClerkUser } from "@clerk/clerk-expo";
-import * as SecureStore from "expo-secure-store";
-import { Platform } from "react-native";
 import { configuration } from "~/configuration";
-import { secureStoreKeys } from "~/constants/secureStoreKeys";
 import { logger } from "~/logger";
 import type { User } from "~/models";
+import { localUserStore } from "~/stores/localUserStore";
 
 export function useUser(): User {
   const { isLoaded: clerkIsLoaded, user: clerkUser } = configuration.clerk
@@ -26,19 +24,10 @@ export function useUser(): User {
     );
   }
 
-  const localUserId =
-    Platform.OS === "web"
-      ? localStorage.getItem(secureStoreKeys.localUserId)
-      : SecureStore.getItem(secureStoreKeys.localUserId);
-  if (localUserId !== null) {
-    logger.debug(
-      "useUser: returning local user from secure store:",
-      localUserId,
-    );
-    return {
-      "@id": localUserId,
-      "@type": "AuthenticatedUser",
-    };
+  const localUser = localUserStore.getLocalUserSync();
+  if (localUser !== null) {
+    logger.debug("useUser: returning user from local store:", localUser);
+    return localUser;
   }
 
   logger.debug("useUser: returning unauthenticated user");
