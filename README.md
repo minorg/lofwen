@@ -12,18 +12,19 @@
    npm install
    ```
 
-### Set up your .env file
+### Set up your .env files
 
    ```bash
+   cd app
    cp .env.template .env
    ```
 
 The `.env.template` file documents the environment variables.
 
-
 ## Run the app locally
 
    ```bash
+   cd app
    npm start
    ```
 
