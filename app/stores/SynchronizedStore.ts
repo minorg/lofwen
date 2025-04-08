@@ -1,18 +1,20 @@
 import * as UiReactWithSchemas from "tinybase/ui-react/with-schemas";
 import {
+  type MergeableStore,
   type NoValuesSchema,
   type TablesSchema,
-  type Store as _Store,
-  createStore,
+  createMergeableStore,
 } from "tinybase/with-schemas";
 
-export type SynchronizedStore = _Store<
+export type SynchronizedStore = MergeableStore<
   [typeof SynchronizedStore.tablesSchema, NoValuesSchema]
 >;
 
 export namespace SynchronizedStore {
   export function create(): SynchronizedStore {
-    return createStore().setTablesSchema(SynchronizedStore.tablesSchema);
+    return createMergeableStore().setTablesSchema(
+      SynchronizedStore.tablesSchema,
+    );
   }
 
   export const UiReact = UiReactWithSchemas as UiReactWithSchemas.WithSchemas<
