@@ -9,6 +9,7 @@
 ### Install dependencies
 
    ```bash
+   cd app
    npm install
    ```
 

@@ -55,7 +55,7 @@ export default function ActionScreen() {
 
   if (!action) {
     logger.warn("no such action:", actionId);
-    return <Redirect href={Hrefs.root()} />;
+    return <Redirect href={Hrefs.root} />;
   }
 
   let actionView: ReactElement;
