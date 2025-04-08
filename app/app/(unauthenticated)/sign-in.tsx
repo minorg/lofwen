@@ -1,5 +1,5 @@
 import { isClerkAPIResponseError, useSSO } from "@clerk/clerk-expo";
-import type { ClerkAPIError } from "@clerk/types";
+import type { ClerkAPIError, OAuthStrategy } from "@clerk/types";
 import * as AuthSession from "expo-auth-session";
 import { Redirect, useRouter } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
@@ -27,45 +27,53 @@ export default function SignInScreen() {
   const user = useUser();
 
   // Handle the submission of the sign-in form
-  const onGoogleButtonPress = React.useCallback(async () => {
-    // if (process.env.EXPO_OS === "ios") {
-    //   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    // }
-    try {
-      // Start the authentication process by calling `startSSOFlow()`
-      logger.debug("starting Google SSO flow");
-      const { createdSessionId, setActive } = await startSSOFlow({
-        strategy: "oauth_google",
-        // concatenate (auth) since clerk's dashboard requires it
-        // trying to use the scheme alone doesn't work, also for production
-        // add the scheme in the "Allowlist for mobile SSO redirect" section under configure > sso connections
-        redirectUrl: AuthSession.makeRedirectUri({
-          path: "(unauthenticated)",
-        }),
-      });
+  const onSsoButtonPress = React.useCallback(
+    async (strategy: OAuthStrategy) => {
+      // if (process.env.EXPO_OS === "ios") {
+      //   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      // }
+      try {
+        // Start the authentication process by calling `startSSOFlow()`
+        logger.debug("starting", strategy, "SSO flow");
+        const { createdSessionId, setActive } = await startSSOFlow({
+          strategy,
+          // concatenate (auth) since clerk's dashboard requires it
+          // trying to use the scheme alone doesn't work, also for production
+          // add the scheme in the "Allowlist for mobile SSO redirect" section under configure > sso connections
+          redirectUrl: AuthSession.makeRedirectUri({
+            path: "(unauthenticated)",
+          }),
+        });
 
-      // logger.debug("auth session result:", JSON.stringify(authSessionResult));
+        // logger.debug("auth session result:", JSON.stringify(authSessionResult));
 
-      // If sign in was successful, set the active session
-      if (createdSessionId) {
-        logger.debug("created session id:", createdSessionId);
-        setActive!({ session: createdSessionId });
-        logger.debug("redirecting to authenticated page");
-        router.replace("/(authenticated)");
-      } else {
-        logger.warn("missing requirements such as MFA; not implemented");
-        // If there is no `createdSessionId`,
-        // there are missing requirements, such as MFA
-        // Use the `signIn` or `signUp` returned from `startSSOFlow`
-        // to handle next steps
+        // If sign in was successful, set the active session
+        if (createdSessionId) {
+          logger.debug("created session id:", createdSessionId);
+          setActive!({ session: createdSessionId });
+          logger.debug("redirecting to authenticated page");
+          router.replace("/(authenticated)");
+        } else {
+          logger.warn("missing requirements such as MFA; not implemented");
+          // If there is no `createdSessionId`,
+          // there are missing requirements, such as MFA
+          // Use the `signIn` or `signUp` returned from `startSSOFlow`
+          // to handle next steps
+        }
+      } catch (err) {
+        // See https://clerk.com/docs/custom-flows/error-handling
+        // for more info on error handling
+        if (isClerkAPIResponseError(err)) setErrors(err.errors);
+        logger.error(JSON.stringify(err, null, 2));
       }
-    } catch (err) {
-      // See https://clerk.com/docs/custom-flows/error-handling
-      // for more info on error handling
-      if (isClerkAPIResponseError(err)) setErrors(err.errors);
-      logger.error(JSON.stringify(err, null, 2));
-    }
-  }, [router, startSSOFlow]);
+    },
+    [router, startSSOFlow],
+  );
+
+  const onGoogleButtonPress = React.useCallback(
+    () => onSsoButtonPress("oauth_google"),
+    [onSsoButtonPress],
+  );
 
   if (user["@type"] === "AuthenticatedUser") {
     logger.debug(
@@ -75,13 +83,15 @@ export default function SignInScreen() {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="flex-1">
       <View className="flex flex-col flex-1 gap-2 items-center justify-center">
         {errors.map((error) => (
           <Text className="color-destructive" key={error.longMessage}>
             {error.longMessage}
           </Text>
         ))}
+
+        <Text className="text-xl">Welcome.</Text>
 
         <Button onPress={onGoogleButtonPress} variant="outline">
           <View className="flex flex-row items-center justify-center">
