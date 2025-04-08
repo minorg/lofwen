@@ -1,0 +1,17 @@
+{
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@tsconfig/strictest": "^2.0.5",
+    "typescript": "^5.3.3"
+  },
+  "name": "lofwen",
+  "private": true,
+  "scripts": {
+    "check": "biome check",
+    "check:fix:unsafe": "biome check --fix --unsafe"
+  },
+  "version": "1.0.0",
+  "workspaces": [
+    "app"
+  ]
+}
