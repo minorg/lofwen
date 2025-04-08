@@ -6,15 +6,17 @@ import {
   createStore,
 } from "tinybase/with-schemas";
 
-export type Store = _Store<[typeof Store.tablesSchema, NoValuesSchema]>;
+export type SynchronizedStore = _Store<
+  [typeof SynchronizedStore.tablesSchema, NoValuesSchema]
+>;
 
-export namespace Store {
-  export function create(): Store {
-    return createStore().setTablesSchema(Store.tablesSchema);
+export namespace SynchronizedStore {
+  export function create(): SynchronizedStore {
+    return createStore().setTablesSchema(SynchronizedStore.tablesSchema);
   }
 
   export const UiReact = UiReactWithSchemas as UiReactWithSchemas.WithSchemas<
-    [typeof Store.tablesSchema, NoValuesSchema]
+    [typeof SynchronizedStore.tablesSchema, NoValuesSchema]
   >;
 
   export const tablesSchema: TablesSchema = {

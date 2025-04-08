@@ -1,9 +1,9 @@
 import type { Row, Table } from "tinybase/with-schemas";
-import type { Store } from "~/Store";
 import { logger } from "~/logger";
 import type { Identifier } from "~/models/Identifier";
 import { Log } from "~/models/Log";
 import { LogEntry } from "~/models/LogEntry";
+import type { SynchronizedStore } from "~/stores/SynchronizedStore";
 
 /**
  * Log implementation backed by a TinyBase store.
@@ -11,7 +11,9 @@ import { LogEntry } from "~/models/LogEntry";
 export class StoredLog extends Log {
   private readonly parsedRowCache: Record<Identifier, LogEntry | null> = {};
 
-  constructor(private readonly table: Table<typeof Store.tablesSchema, "log">) {
+  constructor(
+    private readonly table: Table<typeof SynchronizedStore.tablesSchema, "log">,
+  ) {
     super();
   }
 
@@ -54,7 +56,7 @@ export class StoredLog extends Log {
 
   private parseRow(
     rowId: Identifier,
-    row: Row<typeof Store.tablesSchema, "log", false>,
+    row: Row<typeof SynchronizedStore.tablesSchema, "log", false>,
   ): LogEntry | null {
     {
       const logEntry = this.parsedRowCache[rowId];

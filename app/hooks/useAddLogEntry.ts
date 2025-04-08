@@ -1,10 +1,10 @@
 import {} from "tinybase/ui-react";
-import { Store } from "~/Store";
 import { logger } from "~/logger";
 import type { LogEntry } from "~/models";
+import { SynchronizedStore } from "~/stores/SynchronizedStore";
 
 export function useAddLogEntry() {
-  const { useSetRowCallback } = Store.UiReact;
+  const { useSetRowCallback } = SynchronizedStore.UiReact;
   return useSetRowCallback(
     "log",
     (logEntry: LogEntry) => logEntry["@id"],

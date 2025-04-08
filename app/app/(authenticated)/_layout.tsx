@@ -2,8 +2,8 @@ import "~/global.css";
 import {} from "@react-navigation/native";
 import { Redirect, Stack } from "expo-router";
 import { Hrefs } from "~/Hrefs";
-import { Store } from "~/Store";
 import { useUser } from "~/hooks/useUser";
+import { SynchronizedStore } from "~/stores/SynchronizedStore";
 
 export default function AuthenticatedLayout() {
   const user = useUser();
@@ -13,8 +13,8 @@ export default function AuthenticatedLayout() {
   }
 
   return (
-    <Store.UiReact.Provider store={Store.create()}>
+    <SynchronizedStore.UiReact.Provider store={SynchronizedStore.create()}>
       <Stack screenOptions={{ headerShown: false }} />
-    </Store.UiReact.Provider>
+    </SynchronizedStore.UiReact.Provider>
   );
 }
