@@ -15,8 +15,5 @@
   "version": "1.0.0",
   "workspaces": [
     "app"
-  ],
-  "dependencies": {
-    "@clerk/clerk-expo": "^2.9.9"
-  }
+  ]
 }
