@@ -1,7 +1,5 @@
 import "~/global.css";
 
-import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
-import { tokenCache } from "@clerk/clerk-expo/token-cache";
 import {
   DarkTheme,
   DefaultTheme,
@@ -9,11 +7,15 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Platform } from "react-native";
-import { configuration } from "~/configuration";
+import { Store } from "~/Store";
 import { navTheme } from "~/constants/navTheme";
 import { useColorScheme } from "~/hooks/useColorScheme";
+import { ClerkProvider } from "@clerk/clerk-expo";
+import { tokenCache } from '@clerk/clerk-expo/token-cache'
+
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -52,26 +54,16 @@ export default function RootLayout() {
     return null;
   }
 
-  let element = (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <Stack>
-        <Stack.Screen name="(authenticated)" />
-      </Stack>
-    </ThemeProvider>
-  );
-
-  if (configuration.clerk) {
-    element = (
-      <ClerkProvider
-        publishableKey={configuration.clerk.publishableKey}
-        tokenCache={tokenCache}
-      >
-        <ClerkLoaded>{element}</ClerkLoaded>
+  return (
+    <ClerkProvider tokenCache={tokenCache}>
+      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+        <Store.UiReact.Provider store={Store.create()}>
+          <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+          <Stack screenOptions={{ headerShown: false }} />
+        </Store.UiReact.Provider>
+      </ThemeProvider>
       </ClerkProvider>
-    );
-  }
-
-  return element;
+  );
 }
 
 const useIsomorphicLayoutEffect =
