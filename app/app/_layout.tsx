@@ -9,6 +9,7 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { Slot } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Platform } from "react-native";
 import { configuration } from "~/configuration";
@@ -54,6 +55,7 @@ export default function RootLayout() {
 
   let element = (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+      <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <Slot />
     </ThemeProvider>
   );

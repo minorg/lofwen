@@ -1,16 +1,19 @@
 import "~/global.css";
 import {} from "@react-navigation/native";
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
+import { Redirect, Stack } from "expo-router";
+import { Hrefs } from "~/Hrefs";
 import { Store } from "~/Store";
-import { useColorScheme } from "~/hooks/useColorScheme";
+import { useUser } from "~/hooks/useUser";
 
 export default function AuthenticatedLayout() {
-  const { isDarkColorScheme } = useColorScheme();
+  const user = useUser();
+
+  if (user["@type"] === "UnauthenticatedUser") {
+    return <Redirect href={Hrefs.signIn} />;
+  }
 
   return (
     <Store.UiReact.Provider store={Store.create()}>
-      <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <Stack screenOptions={{ headerShown: false }} />
     </Store.UiReact.Provider>
   );
