@@ -9,5 +9,6 @@ export * from "./LikertScaleQuestionAction";
 export * from "./Log";
 export * from "./LogEntry";
 export * from "./OrdinalCategory";
+export * from "./RenderableAction";
 export * from "./Timestamp";
 export * from "./User";
