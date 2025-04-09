@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { BaseAction } from "~/models/BaseAction";
+import { BaseRenderableAction } from "~/models/BaseRenderableAction";
 
 export type AcknowledgmentAction = z.infer<typeof AcknowledgmentAction.schema>;
 
 export namespace AcknowledgmentAction {
-  export const schema = BaseAction.schema.extend({
+  export const schema = BaseRenderableAction.schema.extend({
     "@type": z.literal("AcknowledgmentAction"),
     message: z.string(),
   });

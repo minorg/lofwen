@@ -57,7 +57,7 @@ function questionAction({
     "@timestamp": Timestamp.now(),
     "@type": "LikertScaleQuestionAction",
     item: questionItems[questionIndexZeroBased],
-    label: "Perceived Stress Scale",
+    title: "Perceived Stress Scale",
     responseCategories: responseCategoryLabels.map(
       (responseCategoryLabel, responseCategoryI) => ({
         label: responseCategoryLabel,
@@ -146,6 +146,7 @@ const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
         "@timestamp": Timestamp.now(),
         "@type": "AcknowledgmentAction",
         message: `Your perceived stress: ${perceivedStress} (total score: ${totalScore})`,
+        title: "Perceived Stress Scale",
       } satisfies AcknowledgmentAction;
     }
     case "InitialEvent":

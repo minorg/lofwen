@@ -37,7 +37,7 @@ export default function ActionScreen() {
   useEffect(() => {
     if (action) {
       navigation.setOptions({
-        headerTitle: action.label,
+        headerTitle: action.title,
       });
     }
   }, [action, navigation]);

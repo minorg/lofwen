@@ -19,6 +19,7 @@ export const acknowledgmentAction: AcknowledgmentAction = {
   "@timestamp": Timestamp.now(),
   "@type": "AcknowledgmentAction",
   message: "Test message",
+  title: "Acknowledgment",
 };
 
 export const likertScaleQuestionAction: LikertScaleQuestionAction = {
@@ -37,6 +38,7 @@ export const likertScaleQuestionAction: LikertScaleQuestionAction = {
     label,
     value: index,
   })),
+  title: "Likert scale question",
 };
 
 export const questionAction: Action = likertScaleQuestionAction;

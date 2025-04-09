@@ -13,7 +13,6 @@ const singleLikertScaleQuestionWorkflow: Workflow = ({
     "@timestamp": Timestamp.now(),
     "@type": "LikertScaleQuestionAction",
     item: `Is this the best app ever? (iteration ${iteration})`,
-    label: "Single Likert scale question",
     responseCategories: [
       "Strongly disagree",
       "Disagree",
@@ -24,6 +23,7 @@ const singleLikertScaleQuestionWorkflow: Workflow = ({
       label,
       value: index,
     })),
+    title: "Single Likert scale question",
   };
 };
 
