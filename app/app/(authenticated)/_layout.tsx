@@ -1,7 +1,15 @@
 import "~/global.css";
 import {} from "@react-navigation/native";
 import { Redirect, Stack } from "expo-router";
-import { WebSocket } from "partysocket";
+// // https://github.com/partykit/partykit/issues/516
+// if (__DEV__) {
+//   const Shim = require("event-target-shim");
+//   globalThis.Event = Shim.Event;
+//   globalThis.EventTarget = Shim.EventTarget;
+// } else {
+//   require("event-target-polyfill");
+// }
+// import { WebSocket } from "partysocket";
 import { type PropsWithChildren, useMemo, useState } from "react";
 import { createWsSynchronizer } from "tinybase/synchronizers/synchronizer-ws-client/with-schemas";
 import { Hrefs } from "~/Hrefs";

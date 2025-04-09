@@ -23,12 +23,12 @@ function loadConfiguration() {
             publishableKey: env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY,
           }
         : null,
-    synchronization: {
-      serverUrl:
-        env.EXPO_PUBLIC_LOFWEN_SYNCHRONIZATION_SERVER_URL.length > 0
-          ? env.EXPO_PUBLIC_LOFWEN_SYNCHRONIZATION_SERVER_URL
-          : null,
-    },
+    synchronization:
+      env.EXPO_PUBLIC_LOFWEN_SYNCHRONIZATION_SERVER_URL.length > 0
+        ? {
+            serverUrl: env.EXPO_PUBLIC_LOFWEN_SYNCHRONIZATION_SERVER_URL,
+          }
+        : null,
     workflow: workflows[env.EXPO_PUBLIC_LOFWEN_WORKFLOW]!,
   };
 }
