@@ -57,6 +57,7 @@ function questionAction({
     "@timestamp": Timestamp.now(),
     "@type": "LikertScaleQuestionAction",
     item: questionItems[questionIndexZeroBased],
+    label: "Perceived Stress Scale",
     responseCategories: responseCategoryLabels.map(
       (responseCategoryLabel, responseCategoryI) => ({
         label: responseCategoryLabel,

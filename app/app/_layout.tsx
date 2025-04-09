@@ -12,9 +12,11 @@ import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Platform } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { configuration } from "~/configuration";
 import { navTheme } from "~/constants/navTheme";
 import { useColorScheme } from "~/hooks/useColorScheme";
+import { setAndroidNavigationBar } from "~/lib/setAndroidNavigationBar";
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -33,7 +35,7 @@ export {
 
 export default function RootLayout() {
   const hasMounted = React.useRef(false);
-  const { isDarkColorScheme } = useColorScheme();
+  const { colorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   useIsomorphicLayoutEffect(() => {
@@ -41,10 +43,12 @@ export default function RootLayout() {
       return;
     }
 
-    if (Platform.OS === "web") {
-      // Adds the background color to the html element to prevent white background on overscroll.
-      document.documentElement.classList.add("bg-background");
-    }
+    // if (Platform.OS === "web") {
+    //   // Adds the background color to the html element to prevent white background on overscroll.
+    //   document.documentElement.classList.add("bg-background");
+    // }
+
+    setAndroidNavigationBar(colorScheme);
     setIsColorSchemeLoaded(true);
     hasMounted.current = true;
   }, []);
@@ -56,7 +60,9 @@ export default function RootLayout() {
   let element = (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-      <Slot />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <Slot />
+      </GestureHandlerRootView>
     </ThemeProvider>
   );
 
