@@ -54,9 +54,8 @@ export class StoredLog extends Log {
 
     const jsonCellParsed = JSON.parse(row["json"] as string);
     const logEntryJsonObject = {
-      "@id": rowId,
       "@type": row["type"],
-      "@timestamp": row["timestamp"],
+      timestamp: row["timestamp"],
       ...jsonCellParsed,
     };
     const logEntryParseResult = LogEntry.schema.safeParse(logEntryJsonObject);
