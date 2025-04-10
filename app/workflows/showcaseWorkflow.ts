@@ -1,8 +1,7 @@
 import { type LikertScaleQuestionAction, Timestamp } from "~/models";
 import type { Workflow } from "~/workflows";
-import { workflows } from "~/workflows/workflows";
 
-const singleLikertScaleQuestionWorkflow: Workflow = ({
+export const showcaseWorkflow: Workflow = ({
   event,
   log,
 }): LikertScaleQuestionAction => {
@@ -26,5 +25,3 @@ const singleLikertScaleQuestionWorkflow: Workflow = ({
     title: "Single Likert scale question",
   };
 };
-
-workflows["singleLikertScaleQuestion"] = singleLikertScaleQuestionWorkflow;

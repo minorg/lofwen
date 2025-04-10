@@ -7,7 +7,7 @@ import {
   type LikertScaleQuestionAction,
   Timestamp,
 } from "~/models";
-import { type Workflow, workflows } from "~/workflows";
+import type { Workflow } from "~/workflows";
 
 const questionItems = [
   "In the last month, how often have you been upset because of something that happened unexpectedly?",
@@ -80,7 +80,7 @@ function questionActionIdentifier({
  *
  * https://www.das.nh.gov/wellness/docs/percieved%20stress%20scale.pdf
  */
-const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
+export const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
   switch (event["@type"]) {
     case "LikertScaleAnswerEvent": {
       const questionActionIdentifierMatch =
@@ -156,4 +156,3 @@ const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
       });
   }
 };
-workflows["perceivedStressScale"] = perceivedStressScaleWorkflow;
