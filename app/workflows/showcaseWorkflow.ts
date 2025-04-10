@@ -23,7 +23,7 @@ const actions: readonly ReturnType<Workflow>[] = [
     "@id": "text-question",
     "@type": "TextQuestionAction",
     prompt: "Tell us what you think of the app.",
-    title: "Likert scale question",
+    title: "Text question",
   },
   {
     "@id": "acknowledgment",
@@ -33,16 +33,18 @@ const actions: readonly ReturnType<Workflow>[] = [
   },
 ];
 
-export const showcaseWorkflow: Workflow = ({ log }): Action => {
-  const lastAction = log.lastAction;
-  if (lastAction === null) {
-    return actions[0];
+export const showcaseWorkflow: Workflow = ({ event }): Action => {
+  switch (event["@type"]) {
+    case "InitialEvent":
+      return actions[0];
+    case "LikertScaleAnswerEvent":
+    case "TextAnswerEvent": {
+      const questionIndex = actions.findIndex(
+        (action) => action["@id"] === event.questionActionId,
+      );
+      const nextAction = actions[questionIndex + 1];
+      invariant(nextAction);
+      return nextAction;
+    }
   }
-
-  const lastActionIndex = actions.findIndex(
-    (action) => action["@id"] === lastAction["@id"],
-  );
-  const nextAction = actions[lastActionIndex + 1];
-  invariant(nextAction);
-  return nextAction;
 };
