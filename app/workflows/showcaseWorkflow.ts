@@ -1,17 +1,11 @@
-import { type LikertScaleQuestionAction, Timestamp } from "~/models";
+import { type Action, Timestamp } from "~/models";
 import type { Workflow } from "~/workflows";
 
-export const showcaseWorkflow: Workflow = ({
-  event,
-  log,
-}): LikertScaleQuestionAction => {
-  const iteration = [...log.actions()].length;
-  return {
-    "@id": `single-likert-scale-question-${iteration}`,
-    "@predecessor": event["@id"],
-    "@timestamp": Timestamp.now(),
+const actions: readonly ReturnType<Workflow>[] = [
+  {
+    "@id": "likert-scale-question",
     "@type": "LikertScaleQuestionAction",
-    item: `Is this the best app ever? (iteration ${iteration})`,
+    item: "Is this the best app ever?",
     responseCategories: [
       "Strongly disagree",
       "Disagree",
@@ -23,5 +17,26 @@ export const showcaseWorkflow: Workflow = ({
       value: index,
     })),
     title: "Single Likert scale question",
+  },
+];
+
+export const showcaseWorkflow: Workflow = ({ event, log }): Action => {
+  const lastAction = log.lastAction;
+  if (lastAction === null) {
+    return {
+      ...actions[0],
+      "@predecessor": event["@id"],
+      "@timestamp": Timestamp.now(),
+    };
+  }
+
+  const lastActionIndex = actions.findIndex(
+    (action) => action["@id"] === lastAction["@id"],
+  );
+  const nextAction = actions[lastActionIndex + 1];
+  return {
+    ...nextAction,
+    "@predecessor": event["@id"],
+    "@timestamp": Timestamp.now(),
   };
 };
