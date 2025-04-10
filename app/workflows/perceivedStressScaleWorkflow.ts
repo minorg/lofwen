@@ -7,6 +7,14 @@ import type {
 } from "~/models";
 import type { Workflow } from "~/workflows";
 
+const responseCategoryLabels = [
+  "never",
+  "almost never",
+  "sometimes",
+  "fairly often",
+  "very often",
+];
+
 const questions: readonly LikertScaleQuestionAction[] = [
   "In the last month, how often have you been upset because of something that happened unexpectedly?",
   "In the last month, how often have you felt that you were unable to control the important things in your life?",
@@ -46,14 +54,6 @@ const questions: readonly LikertScaleQuestionAction[] = [
     ),
   };
 });
-
-const responseCategoryLabels = [
-  "never",
-  "almost never",
-  "sometimes",
-  "fairly often",
-  "very often",
-];
 
 /**
  * Perceived Stress Scale (PSS), public domain.
