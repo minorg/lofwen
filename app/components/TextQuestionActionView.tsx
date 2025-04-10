@@ -38,7 +38,12 @@ export function TextQuestionActionView({
   return (
     <View className="flex flex-col flex-1 gap-2 native:justify-center native:px-4">
       <Text className="text-2xl">{question.prompt}</Text>
-      <Input multiline onChangeText={setText} rows={4} value={text} />
+      <Input
+        className="h-[8rem]"
+        multiline
+        onChangeText={setText}
+        value={text}
+      />
       <Button
         disabled={text.length === 0}
         onPress={onSubmitButtonPress}
