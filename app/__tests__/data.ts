@@ -1,22 +1,16 @@
-import {
-  type AcknowledgmentAction,
-  type Action,
-  type Event,
-  type LikertScaleQuestionAction,
-  Timestamp,
+import type {
+  AcknowledgmentAction,
+  Action,
+  Event,
+  LikertScaleQuestionAction,
 } from "~/models";
 
 export const initialEvent: Event = {
-  "@id": "initial-event",
-  "@predecessor": "initial-event",
   "@type": "InitialEvent",
-  "@timestamp": Timestamp.now(),
 };
 
 export const acknowledgmentAction: AcknowledgmentAction = {
   "@id": "acknowledgment",
-  "@predecessor": initialEvent["@id"],
-  "@timestamp": Timestamp.now(),
   "@type": "AcknowledgmentAction",
   message: "Test message",
   title: "Acknowledgment",
@@ -24,8 +18,6 @@ export const acknowledgmentAction: AcknowledgmentAction = {
 
 export const likertScaleQuestionAction: LikertScaleQuestionAction = {
   "@id": "likert-scale-question",
-  "@predecessor": initialEvent["@id"],
-  "@timestamp": Timestamp.now(),
   "@type": "LikertScaleQuestionAction",
   item: "Is this the best app ever?",
   responseCategories: [

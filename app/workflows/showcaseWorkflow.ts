@@ -1,4 +1,5 @@
-import { type Action, Timestamp } from "~/models";
+import invariant from "ts-invariant";
+import type { Action } from "~/models";
 import type { Workflow } from "~/workflows";
 
 const actions: readonly ReturnType<Workflow>[] = [
@@ -20,23 +21,16 @@ const actions: readonly ReturnType<Workflow>[] = [
   },
 ];
 
-export const showcaseWorkflow: Workflow = ({ event, log }): Action => {
-  const lastAction = log.lastAction;
+export const showcaseWorkflow: Workflow = ({ log }): Action => {
+  const lastAction = log.lastActionEntry?.action ?? null;
   if (lastAction === null) {
-    return {
-      ...actions[0],
-      "@predecessor": event["@id"],
-      "@timestamp": Timestamp.now(),
-    };
+    return actions[0];
   }
 
   const lastActionIndex = actions.findIndex(
     (action) => action["@id"] === lastAction["@id"],
   );
   const nextAction = actions[lastActionIndex + 1];
-  return {
-    ...nextAction,
-    "@predecessor": event["@id"],
-    "@timestamp": Timestamp.now(),
-  };
+  invariant(nextAction);
+  return nextAction;
 };

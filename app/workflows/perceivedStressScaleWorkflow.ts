@@ -1,15 +1,13 @@
 import invariant from "ts-invariant";
 import { logger } from "~/logger";
-import {
-  type AcknowledgmentAction,
-  type Identifier,
-  type LikertScaleAnswerEvent,
-  type LikertScaleQuestionAction,
-  Timestamp,
+import type {
+  AcknowledgmentAction,
+  LikertScaleAnswerEvent,
+  LikertScaleQuestionAction,
 } from "~/models";
 import type { Workflow } from "~/workflows";
 
-const questionItems = [
+const questions: readonly LikertScaleQuestionAction[] = [
   "In the last month, how often have you been upset because of something that happened unexpectedly?",
   "In the last month, how often have you felt that you were unable to control the important things in your life?",
   "In the last month, how often have you felt nervous and stressed?",
@@ -20,23 +18,7 @@ const questionItems = [
   "In the last month, how often have you felt that you were on top of things?",
   "In the last month, how often have you been angered because of things that happened that were outside of your control?",
   "In the last month, how often have you felt difficulties were piling up so high that you could not overcome them?",
-];
-
-const responseCategoryLabels = [
-  "never",
-  "almost never",
-  "sometimes",
-  "fairly often",
-  "very often",
-];
-
-function questionAction({
-  predecessor,
-  questionIndexZeroBased,
-}: {
-  predecessor: Identifier;
-  questionIndexZeroBased: number;
-}): LikertScaleQuestionAction {
+].map((item, questionIndexZeroBased) => {
   let responseCategoryValues: readonly number[];
   switch (questionIndexZeroBased + 1) {
     case 4:
@@ -52,11 +34,9 @@ function questionAction({
   }
 
   return {
-    "@id": questionActionIdentifier({ questionIndexZeroBased }),
-    "@predecessor": predecessor,
-    "@timestamp": Timestamp.now(),
+    "@id": `pss-${questionIndexZeroBased + 1}`,
     "@type": "LikertScaleQuestionAction",
-    item: questionItems[questionIndexZeroBased],
+    item,
     title: "Perceived Stress Scale",
     responseCategories: responseCategoryLabels.map(
       (responseCategoryLabel, responseCategoryI) => ({
@@ -65,15 +45,15 @@ function questionAction({
       }),
     ),
   };
-}
+});
 
-function questionActionIdentifier({
-  questionIndexZeroBased,
-}: {
-  questionIndexZeroBased: number;
-}): Identifier {
-  return `pss-${questionIndexZeroBased + 1}`;
-}
+const responseCategoryLabels = [
+  "never",
+  "almost never",
+  "sometimes",
+  "fairly often",
+  "very often",
+];
 
 /**
  * Perceived Stress Scale (PSS), public domain.
@@ -83,50 +63,34 @@ function questionActionIdentifier({
 export const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
   switch (event["@type"]) {
     case "LikertScaleAnswerEvent": {
-      const questionActionIdentifierMatch =
-        event["@predecessor"].match(/pss-(\d+)/);
-      invariant(questionActionIdentifierMatch, event["@predecessor"]);
-      const questionIndexZeroBased =
-        Number.parseInt(questionActionIdentifierMatch[1]) - 1;
+      const questionIndexZeroBased = questions.findIndex(
+        (questionAction) => questionAction["@id"] === event.questionActionId,
+      );
       invariant(
         questionIndexZeroBased >= 0 &&
-          questionIndexZeroBased < questionItems.length,
+          questionIndexZeroBased < questions.length,
       );
       logger.debug(
         "answered question index (0-based):",
         questionIndexZeroBased,
       );
-      if (questionIndexZeroBased + 1 < questionItems.length) {
+      if (questionIndexZeroBased + 1 < questions.length) {
         // Questions remaining
-        return questionAction({
-          questionIndexZeroBased: questionIndexZeroBased + 1,
-          predecessor: event["@id"],
-        });
+        return questions[questionIndexZeroBased + 1];
       }
 
       // Last question answered
 
-      const totalScore = questionItems.reduce(
-        (totalScore, _, questionIndexZeroBased) => {
-          const questionIdentifier = questionActionIdentifier({
-            questionIndexZeroBased,
-          });
-          const answer = log.find(
-            (entry) =>
-              entry["@type"] === "LikertScaleAnswerEvent" &&
-              entry["@predecessor"] === questionIdentifier,
-          ) as LikertScaleAnswerEvent | null;
-          invariant(
-            answer,
-            `no answer for question ${questionActionIdentifier({ questionIndexZeroBased })}`,
-          );
-          return (
-            totalScore +
-            (answer as LikertScaleAnswerEvent).responseCategory.value
-          );
-        },
-        0,
-      );
+      const totalScore = questions.reduce((totalScore, question) => {
+        const answer = log.find(
+          (entry) =>
+            entry["@type"] === "EventLogEntry" &&
+            entry.event["@type"] === "LikertScaleAnswerEvent" &&
+            entry.event.questionActionId === question["@id"],
+        ) as LikertScaleAnswerEvent | null;
+        invariant(answer, `no answer for question ${question["@id"]}`);
+        return totalScore + answer.responseCategory.value;
+      }, 0);
 
       let perceivedStress: string;
       if (totalScore >= 0 && totalScore <= 13) {
@@ -142,17 +106,12 @@ export const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
 
       return {
         "@id": "pss-acknowledgment",
-        "@predecessor": event["@id"],
-        "@timestamp": Timestamp.now(),
         "@type": "AcknowledgmentAction",
         message: `Your perceived stress: ${perceivedStress} (total score: ${totalScore})`,
         title: "Perceived Stress Scale",
       } satisfies AcknowledgmentAction;
     }
     case "InitialEvent":
-      return questionAction({
-        predecessor: event["@id"],
-        questionIndexZeroBased: 0,
-      });
+      return questions[0];
   }
 };

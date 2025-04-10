@@ -5,12 +5,10 @@ import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Text } from "~/components/ui/text";
 import { useLog } from "~/hooks/useLog";
 import { logger } from "~/logger";
-import {
-  type Event,
-  Identifier,
-  type LikertScaleAnswerEvent,
-  type LikertScaleQuestionAction,
-  Timestamp,
+import type {
+  Event,
+  LikertScaleAnswerEvent,
+  LikertScaleQuestionAction,
 } from "~/models";
 
 export function LikertScaleQuestionActionView({
@@ -24,8 +22,9 @@ export function LikertScaleQuestionActionView({
   const answer = useMemo(() => {
     const answer = log.find(
       (entry) =>
-        entry["@type"] === "LikertScaleAnswerEvent" &&
-        entry["@predecessor"] === question["@id"],
+        entry["@type"] === "EventLogEntry" &&
+        entry.event["@type"] === "LikertScaleAnswerEvent" &&
+        entry.event.questionActionId === question["@id"],
     ) as LikertScaleAnswerEvent | null;
     if (answer !== null) {
       logger.debug(
@@ -43,10 +42,8 @@ export function LikertScaleQuestionActionView({
   const onSelectResponseCategoryLabel = useCallback(
     (responseCategoryLabel: string) =>
       onEvent({
-        "@id": Identifier.random(),
         "@type": "LikertScaleAnswerEvent",
-        "@predecessor": question["@id"],
-        "@timestamp": Timestamp.now(),
+        questionActionId: question["@id"],
         responseCategory: question.responseCategories.find(
           (responseCategory) =>
             responseCategory.label === responseCategoryLabel,

@@ -1,20 +1,6 @@
-import type { AcknowledgmentAction } from "~/models/AcknowledgmentAction";
-import type { Action } from "~/models/Action";
+import type { ActionLogEntry } from "~/models/ActionLogEntry";
 import type { Identifier } from "~/models/Identifier";
-import type { LikertScaleQuestionAction } from "~/models/LikertScaleQuestionAction";
 import type { LogEntry } from "~/models/LogEntry";
-
-function logEntryToAction(logEntry: LogEntry): Action | null {
-  switch (logEntry["@type"]) {
-    case "AcknowledgmentAction":
-      return logEntry as AcknowledgmentAction;
-    case "LikertScaleQuestionAction":
-      return logEntry as LikertScaleQuestionAction;
-    case "InitialEvent":
-    case "LikertScaleAnswerEvent":
-      return null;
-  }
-}
 
 /**
  * Abstract base class for Log implementations.
@@ -22,16 +8,19 @@ function logEntryToAction(logEntry: LogEntry): Action | null {
 export abstract class Log implements Iterable<LogEntry> {
   protected constructor() {}
 
-  actionById(id: Identifier): Action | null {
-    const entry = this.entryById(id);
-    return entry ? logEntryToAction(entry) : null;
+  actionEntryByActionId(id: Identifier): ActionLogEntry | null {
+    for (const actionEntry of this.actionEntries()) {
+      if (actionEntry.action["@id"] === id) {
+        return actionEntry;
+      }
+    }
+    return null;
   }
 
-  *actions(): Iterable<Action> {
+  *actionEntries(): Iterable<ActionLogEntry> {
     for (const entry of this) {
-      const action = logEntryToAction(entry);
-      if (action !== null) {
-        yield action;
+      if (entry["@type"] === "ActionLogEntry") {
+        yield entry;
       }
     }
   }
@@ -43,15 +32,6 @@ export abstract class Log implements Iterable<LogEntry> {
   }
 
   abstract entries(): Iterable<LogEntry>;
-
-  entryById(id: Identifier): LogEntry | null {
-    for (const entry of this) {
-      if (entry["@id"] === id) {
-        return entry;
-      }
-    }
-    return null;
-  }
 
   find(predicate: (entry: LogEntry) => boolean): LogEntry | null {
     for (const entry of this) {
@@ -66,11 +46,10 @@ export abstract class Log implements Iterable<LogEntry> {
     yield* this.entries();
   }
 
-  get lastAction(): Action | null {
+  get lastActionEntry(): ActionLogEntry | null {
     for (const entry of this.reverse()) {
-      const action = logEntryToAction(entry);
-      if (action !== null) {
-        return action;
+      if (entry["@type"] === "ActionLogEntry") {
+        return entry;
       }
     }
     return null;

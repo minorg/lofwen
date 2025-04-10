@@ -1,8 +1,10 @@
-import type { z } from "zod";
-import { BaseLogEntry } from "~/models/BaseLogEntry";
+import { z } from "zod";
+import { Identifier } from "~/models/Identifier";
 
 export type BaseAction = z.infer<typeof BaseAction.schema>;
 
 export namespace BaseAction {
-  export const schema = BaseLogEntry.schema.extend({});
+  export const schema = z.object({
+    "@id": Identifier.schema,
+  });
 }

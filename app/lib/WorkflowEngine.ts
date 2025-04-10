@@ -1,6 +1,12 @@
 import type { useAddLogEntry } from "~/hooks/useAddLogEntry";
 import { logger } from "~/logger";
-import type { Event, Log, RenderableAction } from "~/models";
+import {
+  type Event,
+  type EventLogEntry,
+  type Log,
+  type RenderableAction,
+  Timestamp,
+} from "~/models";
 import type { Workflow } from "~/workflows";
 
 export class WorkflowEngine {
@@ -27,13 +33,25 @@ export class WorkflowEngine {
    */
   onEvent(event: Event): RenderableAction {
     for (;;) {
-      this.addLogEntry(event);
+      const eventLogEntry: EventLogEntry = {
+        "@type": "EventLogEntry",
+        event,
+        timestamp: Timestamp.now(),
+      };
+      this.addLogEntry(eventLogEntry);
 
       logger.debug("invoking workflow");
       // log from the hook doesn't include the just-added event yet
       // Instead of looping back around to look for the event, temporarily concatenate it to the log for the benefit of the workflow.
-      const nextAction = this.workflow({ event, log: this.log.concat(event) });
-      this.addLogEntry(nextAction);
+      const nextAction = this.workflow({
+        event,
+        log: this.log.concat(eventLogEntry),
+      });
+      this.addLogEntry({
+        "@type": "ActionLogEntry",
+        action: nextAction,
+        timestamp: Timestamp.now(),
+      });
 
       switch (nextAction["@type"]) {
         case "AcknowledgmentAction":

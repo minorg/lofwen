@@ -26,19 +26,6 @@ export class StoredLog extends Log {
     }
   }
 
-  override entryById(id: Identifier): LogEntry | null {
-    const parsedEntry = this.parsedRowCache[id];
-    if (typeof parsedEntry !== "undefined") {
-      return parsedEntry!;
-    }
-    for (const entry of this.reverse()) {
-      if (entry["@id"] === id) {
-        return entry;
-      }
-    }
-    return null;
-  }
-
   override get length(): number {
     return Object.values(this.table).length;
   }

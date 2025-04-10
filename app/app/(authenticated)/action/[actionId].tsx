@@ -19,7 +19,7 @@ export default function ActionScreen() {
     actionId: string;
   }>();
   const log = useLog();
-  const action = log.actionById(actionId);
+  const action = log.actionEntryByActionId(actionId)?.action ?? null;
   const navigation = useNavigation();
   const router = useRouter();
   const workflowEngine = useWorkflowEngine();
