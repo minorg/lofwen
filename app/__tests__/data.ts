@@ -19,7 +19,7 @@ export const acknowledgmentAction: AcknowledgmentAction = {
 export const likertScaleQuestionAction: LikertScaleQuestionAction = {
   "@id": "likert-scale-question",
   "@type": "LikertScaleQuestionAction",
-  item: "Is this the best app ever?",
+  prompt: "Is this the best app ever?",
   responseCategories: [
     "Strongly disagree",
     "Disagree",

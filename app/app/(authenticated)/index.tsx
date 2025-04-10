@@ -10,7 +10,7 @@ import { type Event, Timestamp } from "~/models";
 export default function RootScreen() {
   const addLogEntry = useAddLogEntry();
   const log = useLog();
-  const lastAction = log.lastActionEntry?.action ?? null;
+  const lastAction = log.lastAction;
   const workflow = useWorkflow();
 
   useEffect(() => {

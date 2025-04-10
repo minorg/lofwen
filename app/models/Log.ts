@@ -1,6 +1,8 @@
-import type { ActionLogEntry } from "~/models/ActionLogEntry";
+import type { Action } from "~/models/Action";
 import type { Identifier } from "~/models/Identifier";
+import type { LikertScaleAnswerEvent } from "~/models/LikertScaleAnswerEvent";
 import type { LogEntry } from "~/models/LogEntry";
+import type { TextAnswerEvent } from "~/models/TextAnswerEvent";
 
 /**
  * Abstract base class for Log implementations.
@@ -8,21 +10,52 @@ import type { LogEntry } from "~/models/LogEntry";
 export abstract class Log implements Iterable<LogEntry> {
   protected constructor() {}
 
-  actionEntryByActionId(id: Identifier): ActionLogEntry | null {
-    for (const actionEntry of this.actionEntries()) {
-      if (actionEntry.action["@id"] === id) {
-        return actionEntry;
+  actionById(id: Identifier): Action | null {
+    for (const entry of this.entries()) {
+      if (entry["@type"] === "ActionLogEntry" && entry.action["@id"] === id) {
+        return entry.action;
       }
     }
     return null;
   }
 
-  *actionEntries(): Iterable<ActionLogEntry> {
-    for (const entry of this) {
-      if (entry["@type"] === "ActionLogEntry") {
-        yield entry;
+  answerEvent(questionAction: {
+    "@id": Identifier;
+    "@type": "LikertScaleQuestionAction";
+  }): LikertScaleAnswerEvent | null;
+  answerEvent(questionAction: {
+    "@id": Identifier;
+    "@type": "TextQuestionAction";
+  }): TextAnswerEvent | null;
+  answerEvent(questionAction: {
+    "@id": Identifier;
+    "@type": "LikertScaleQuestionAction" | "TextQuestionAction";
+  }): LikertScaleAnswerEvent | TextAnswerEvent | null {
+    for (const entry of this.entries()) {
+      if (entry["@type"] !== "EventLogEntry") {
+        continue;
+      }
+      switch (entry.event["@type"]) {
+        case "LikertScaleAnswerEvent":
+          if (
+            entry.event.questionActionId === questionAction["@id"] &&
+            questionAction["@type"] === "LikertScaleQuestionAction"
+          ) {
+            return entry.event;
+          }
+          break;
+        case "TextAnswerEvent": {
+          if (
+            entry.event.questionActionId === questionAction["@id"] &&
+            questionAction["@type"] === "TextQuestionAction"
+          ) {
+            return entry.event;
+          }
+          break;
+        }
       }
     }
+    return null;
   }
 
   concat(...entries: readonly LogEntry[]) {
@@ -33,23 +66,14 @@ export abstract class Log implements Iterable<LogEntry> {
 
   abstract entries(): Iterable<LogEntry>;
 
-  find(predicate: (entry: LogEntry) => boolean): LogEntry | null {
-    for (const entry of this) {
-      if (predicate(entry)) {
-        return entry;
-      }
-    }
-    return null;
-  }
-
   *[Symbol.iterator](): Iterator<LogEntry> {
     yield* this.entries();
   }
 
-  get lastActionEntry(): ActionLogEntry | null {
+  get lastAction(): Action | null {
     for (const entry of this.reverse()) {
       if (entry["@type"] === "ActionLogEntry") {
-        return entry;
+        return entry.action;
       }
     }
     return null;

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { AcknowledgmentAction } from "~/models/AcknowledgmentAction";
 import { LikertScaleQuestionAction } from "~/models/LikertScaleQuestionAction";
 import type { RenderableAction } from "~/models/RenderableAction";
+import { TextQuestionAction } from "~/models/TextQuestionAction";
 
 export type Action = z.infer<typeof Action.schema>;
 
@@ -10,6 +11,7 @@ export namespace Action {
     switch (action["@type"]) {
       case "AcknowledgmentAction":
       case "LikertScaleQuestionAction":
+      case "TextQuestionAction":
         return true;
     }
   }
@@ -17,5 +19,6 @@ export namespace Action {
   export const schema = z.discriminatedUnion("@type", [
     AcknowledgmentAction.schema,
     LikertScaleQuestionAction.schema,
+    TextQuestionAction.schema,
   ]);
 }

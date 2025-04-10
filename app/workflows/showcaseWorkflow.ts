@@ -6,7 +6,7 @@ const actions: readonly ReturnType<Workflow>[] = [
   {
     "@id": "likert-scale-question",
     "@type": "LikertScaleQuestionAction",
-    item: "Is this the best app ever?",
+    prompt: "Is this the best app ever?",
     responseCategories: [
       "Strongly disagree",
       "Disagree",
@@ -17,12 +17,24 @@ const actions: readonly ReturnType<Workflow>[] = [
       label,
       value: index,
     })),
-    title: "Single Likert scale question",
+    title: "Likert scale question",
+  },
+  {
+    "@id": "text-question",
+    "@type": "TextQuestionAction",
+    prompt: "Tell us what you think of the app.",
+    title: "Likert scale question",
+  },
+  {
+    "@id": "acknowledgment",
+    "@type": "AcknowledgmentAction",
+    message: "Show a score or other summary here.",
+    title: "Acknowledgment",
   },
 ];
 
 export const showcaseWorkflow: Workflow = ({ log }): Action => {
-  const lastAction = log.lastActionEntry?.action ?? null;
+  const lastAction = log.lastAction;
   if (lastAction === null) {
     return actions[0];
   }

@@ -5,11 +5,7 @@ import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Text } from "~/components/ui/text";
 import { useLog } from "~/hooks/useLog";
 import { logger } from "~/logger";
-import type {
-  Event,
-  LikertScaleAnswerEvent,
-  LikertScaleQuestionAction,
-} from "~/models";
+import type { Event, LikertScaleQuestionAction } from "~/models";
 
 export function LikertScaleQuestionActionView({
   action: question,
@@ -20,12 +16,7 @@ export function LikertScaleQuestionActionView({
 }) {
   const log = useLog();
   const answer = useMemo(() => {
-    const answer = log.find(
-      (entry) =>
-        entry["@type"] === "EventLogEntry" &&
-        entry.event["@type"] === "LikertScaleAnswerEvent" &&
-        entry.event.questionActionId === question["@id"],
-    ) as LikertScaleAnswerEvent | null;
+    const answer = log.answerEvent(question);
     if (answer !== null) {
       logger.debug(
         "existing answer to question",
@@ -54,7 +45,7 @@ export function LikertScaleQuestionActionView({
 
   return (
     <View className="flex flex-col flex-1 gap-2 native:justify-center native:px-4">
-      <Text className="text-2xl">{question.item}</Text>
+      <Text className="text-2xl">{question.prompt}</Text>
       <RadioGroup
         onValueChange={onSelectResponseCategoryLabel}
         value={answer?.responseCategory.label ?? ""}

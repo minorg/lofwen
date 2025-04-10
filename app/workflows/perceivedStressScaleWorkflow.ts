@@ -1,10 +1,6 @@
 import invariant from "ts-invariant";
 import { logger } from "~/logger";
-import type {
-  AcknowledgmentAction,
-  LikertScaleAnswerEvent,
-  LikertScaleQuestionAction,
-} from "~/models";
+import type { AcknowledgmentAction, LikertScaleQuestionAction } from "~/models";
 import type { Workflow } from "~/workflows";
 
 const responseCategoryLabels = [
@@ -26,7 +22,7 @@ const questions: readonly LikertScaleQuestionAction[] = [
   "In the last month, how often have you felt that you were on top of things?",
   "In the last month, how often have you been angered because of things that happened that were outside of your control?",
   "In the last month, how often have you felt difficulties were piling up so high that you could not overcome them?",
-].map((item, questionIndexZeroBased) => {
+].map((prompt, questionIndexZeroBased) => {
   let responseCategoryValues: readonly number[];
   switch (questionIndexZeroBased + 1) {
     case 4:
@@ -44,7 +40,7 @@ const questions: readonly LikertScaleQuestionAction[] = [
   return {
     "@id": `pss-${questionIndexZeroBased + 1}`,
     "@type": "LikertScaleQuestionAction",
-    item,
+    prompt,
     title: "Perceived Stress Scale",
     responseCategories: responseCategoryLabels.map(
       (responseCategoryLabel, responseCategoryI) => ({
@@ -82,12 +78,7 @@ export const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
       // Last question answered
 
       const totalScore = questions.reduce((totalScore, question) => {
-        const answer = log.find(
-          (entry) =>
-            entry["@type"] === "EventLogEntry" &&
-            entry.event["@type"] === "LikertScaleAnswerEvent" &&
-            entry.event.questionActionId === question["@id"],
-        ) as LikertScaleAnswerEvent | null;
+        const answer = log.answerEvent(question);
         invariant(answer, `no answer for question ${question["@id"]}`);
         return totalScore + answer.responseCategory.value;
       }, 0);
@@ -113,5 +104,7 @@ export const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
     }
     case "InitialEvent":
       return questions[0];
+    case "TextAnswerEvent":
+      throw new RangeError(event["@type"]);
   }
 };

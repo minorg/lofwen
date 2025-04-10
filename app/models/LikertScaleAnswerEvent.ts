@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { BaseEvent } from "~/models/BaseEvent";
-import { Identifier } from "~/models/Identifier";
+import { BaseAnswerEvent } from "~/models/BaseAnswerEvent";
 import { OrdinalCategory } from "~/models/OrdinalCategory";
 
 export type LikertScaleAnswerEvent = z.infer<
@@ -8,8 +7,7 @@ export type LikertScaleAnswerEvent = z.infer<
 >;
 
 export namespace LikertScaleAnswerEvent {
-  export const schema = BaseEvent.schema.extend({
-    questionActionId: Identifier.schema,
+  export const schema = BaseAnswerEvent.schema.extend({
     responseCategory: OrdinalCategory.schema,
     "@type": z.literal("LikertScaleAnswerEvent"),
   });

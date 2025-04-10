@@ -12,5 +12,7 @@ export * from "./Log";
 export * from "./LogEntry";
 export * from "./OrdinalCategory";
 export * from "./RenderableAction";
+export * from "./TextAnswerEvent";
+export * from "./TextQuestionAction";
 export * from "./Timestamp";
 export * from "./User";

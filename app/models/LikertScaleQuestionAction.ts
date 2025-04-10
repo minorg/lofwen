@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BaseRenderableAction } from "~/models/BaseRenderableAction";
+import { BaseQuestionAction } from "~/models/BaseQuestionAction";
 import { OrdinalCategory } from "~/models/OrdinalCategory";
 
 export type LikertScaleQuestionAction = z.infer<
@@ -7,8 +7,7 @@ export type LikertScaleQuestionAction = z.infer<
 >;
 
 export namespace LikertScaleQuestionAction {
-  export const schema = BaseRenderableAction.schema.extend({
-    item: z.string(),
+  export const schema = BaseQuestionAction.schema.extend({
     responseCategories: z.array(OrdinalCategory.schema),
     "@type": z.literal("LikertScaleQuestionAction"),
   });
