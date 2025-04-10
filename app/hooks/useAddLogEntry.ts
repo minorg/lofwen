@@ -17,6 +17,7 @@ export function useAddLogEntry() {
     },
     undefined,
     undefined,
-    (_, row) => logger.debug("added log entry", JSON.stringify(row)),
+    (rowId, _store, row) =>
+      logger.debug(`added log entry rowId=${rowId} row=${JSON.stringify(row)}`),
   );
 }

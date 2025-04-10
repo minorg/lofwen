@@ -1,6 +1,7 @@
 import type { useAddLogEntry } from "~/hooks/useAddLogEntry";
 import { logger } from "~/logger";
 import {
+  Action,
   type Event,
   type EventLogEntry,
   type Log,
@@ -53,10 +54,8 @@ export class WorkflowEngine {
         timestamp: Timestamp.now(),
       });
 
-      switch (nextAction["@type"]) {
-        case "AcknowledgmentAction":
-        case "LikertScaleQuestionAction":
-          return nextAction;
+      if (Action.isRenderable(nextAction)) {
+        return nextAction;
       }
     }
   }

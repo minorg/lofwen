@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import { AcknowledgmentActionView } from "~/components/AcknowledgmentActionView";
 import { LikertScaleQuestionActionView } from "~/components/LikertScaleQuestionActionView";
+import { TextQuestionActionView } from "~/components/TextQuestionActionView";
 import type { Event, RenderableAction } from "~/models";
 
 export function renderAction({
@@ -17,5 +18,7 @@ export function renderAction({
       return (
         <LikertScaleQuestionActionView action={action} onEvent={onEvent} />
       );
+    case "TextQuestionAction":
+      return <TextQuestionActionView action={action} onEvent={onEvent} />;
   }
 }

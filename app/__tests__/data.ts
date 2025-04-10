@@ -3,6 +3,7 @@ import type {
   Action,
   Event,
   LikertScaleQuestionAction,
+  TextQuestionAction,
 } from "~/models";
 
 export const initialEvent: Event = {
@@ -34,3 +35,10 @@ export const likertScaleQuestionAction: LikertScaleQuestionAction = {
 };
 
 export const questionAction: Action = likertScaleQuestionAction;
+
+export const textQuestionAction: TextQuestionAction = {
+  "@id": "text-question",
+  "@type": "TextQuestionAction",
+  prompt: "Tell us what you like about the app.",
+  title: "Text question",
+};
