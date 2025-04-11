@@ -1,5 +1,6 @@
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
+import invariant from "ts-invariant";
 import type { useAddLogEntry } from "~/hooks/useAddLogEntry";
 import { logger } from "~/logger";
 import {
@@ -10,6 +11,7 @@ import {
   type RenderableAction,
   Timestamp,
 } from "~/models";
+import type { ScheduleNotificationAction } from "~/models/ScheduleNotificationAction";
 import type { Workflow } from "~/workflows";
 
 if (Platform.OS !== "web") {
@@ -90,17 +92,7 @@ export class WorkflowEngine {
     switch (nextAction["@type"]) {
       case "ScheduleNotificationAction": {
         if (Platform.OS !== "web") {
-          logger.debug("scheduling notification");
-          await Notifications.scheduleNotificationAsync({
-            content: nextAction.content,
-            trigger:
-              nextAction.trigger !== null
-                ? Notification.Trigger.toExpoNotificationTriggerInput(
-                    nextAction.trigger,
-                  )
-                : null,
-          });
-          logger.debug("scheduled notification");
+          await this.scheduleNotification(nextAction);
         } else {
           logger.warn("notifications are not available on the web, ignoring");
         }
@@ -114,5 +106,57 @@ export class WorkflowEngine {
         });
       }
     }
+  }
+
+  private async scheduleNotification(
+    action: ScheduleNotificationAction,
+  ): Promise<void> {
+    invariant(Platform.OS !== "web");
+
+    logger.debug("getting notification permissions status");
+    const { status: existingNotificationPermissionsStatus } =
+      await Notifications.getPermissionsAsync();
+    logger.debug(
+      "existing notification permissions status:",
+      existingNotificationPermissionsStatus,
+    );
+
+    if (existingNotificationPermissionsStatus !== "granted") {
+      logger.debug("requesting notification permissions");
+      const { status: newNotificationPermissionsStatus } =
+        await Notifications.requestPermissionsAsync();
+      logger.debug(
+        "new notification permissions status:",
+        newNotificationPermissionsStatus,
+      );
+
+      if (newNotificationPermissionsStatus !== "granted") {
+        logger.warn(
+          "did not get permission for notifications:",
+          newNotificationPermissionsStatus,
+        );
+        return;
+      }
+
+      // This code is needed for Android to work
+      if (Platform.OS === "android") {
+        await Notifications.setNotificationChannelAsync("default", {
+          name: "default",
+          importance: Notifications.AndroidImportance.MAX,
+          vibrationPattern: [0, 250, 250, 250],
+          lightColor: "#FF231F7C",
+        });
+      }
+    }
+
+    logger.debug("scheduling notification");
+    await Notifications.scheduleNotificationAsync({
+      content: action.content,
+      trigger:
+        action.trigger !== null
+          ? Notification.Trigger.toExpoNotificationTriggerInput(action.trigger)
+          : null,
+    });
+    logger.debug("scheduled notification");
   }
 }
