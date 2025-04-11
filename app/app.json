@@ -4,7 +4,8 @@
       "adaptiveIcon": {
         "backgroundColor": "#ffffff",
         "foregroundImage": "./assets/images/adaptive-icon.png"
-      }
+      },
+      "package": "io.github.minorg.lofwen"
     },
     "experiments": {
       "typedRoutes": true
