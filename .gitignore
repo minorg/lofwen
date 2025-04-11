@@ -3,6 +3,5 @@
 .metro-health-check*
 *.tsbuildinfo
 dist/
-expo-env.d.ts
 node_modules/
 npm-debug.*
