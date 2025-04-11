@@ -48,21 +48,36 @@ export class WorkflowEngine {
    * On an event, invoke the workflow one or more times until it produces a renderable action.
    */
   async onEvent(event: Event): Promise<RenderableAction> {
+    // Keep new log entries in an array temporarily instead of invoking addLogEntry as the events emerge,
+    // in order to eliminate downstream re-renders triggered by the log changing.
+    const newLogEntries: Log.Entry[] = [];
+    const nextAction = await this.onEventRecursive({
+      event,
+      newLogEntries,
+    });
+    for (const logEntry of newLogEntries) {
+      this.addLogEntry(logEntry);
+    }
+    return nextAction;
+  }
+
+  private async onEventRecursive({
+    event,
+    newLogEntries,
+  }: { event: Event; newLogEntries: Log.Entry[] }): Promise<RenderableAction> {
     const eventLogEntry: Log.EventEntry = {
       "@type": "EventEntry",
       event,
       timestamp: Timestamp.now(),
     };
-    this.addLogEntry(eventLogEntry);
+    newLogEntries.push(eventLogEntry);
 
     logger.debug("invoking workflow");
-    // log from the hook doesn't include the just-added event yet
-    // Instead of looping back around to look for the event, temporarily concatenate it to the log for the benefit of the workflow.
     const nextAction = this.workflow({
       event,
-      log: this.log.concat(eventLogEntry),
+      log: this.log.concat(...newLogEntries),
     });
-    this.addLogEntry({
+    newLogEntries.push({
       "@type": "ActionEntry",
       action: nextAction,
       timestamp: Timestamp.now(),
@@ -90,9 +105,12 @@ export class WorkflowEngine {
           logger.warn("notifications are not available on the web, ignoring");
         }
 
-        return this.onEvent({
-          "@type": "ScheduledNotificationEvent",
-          scheduleNotificationActionId: nextAction["@id"],
+        return this.onEventRecursive({
+          event: {
+            "@type": "ScheduledNotificationEvent",
+            scheduleNotificationActionId: nextAction["@id"],
+          },
+          newLogEntries,
         });
       }
     }
