@@ -1,12 +1,12 @@
 import { logger } from "~/logger";
-import type { LogEntry } from "~/models";
+import type { Log } from "~/models";
 import { SynchronizedStore } from "~/stores/SynchronizedStore";
 
 export function useAddLogEntry() {
   const { useAddRowCallback } = SynchronizedStore.UiReact;
   return useAddRowCallback(
     "log",
-    (logEntry: LogEntry) => {
+    (logEntry: Log.Entry) => {
       const { "@type": type, timestamp, ...otherProperties } = logEntry;
 
       return {

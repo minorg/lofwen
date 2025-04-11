@@ -1,5 +1,4 @@
 import { Log } from "~/models/Log";
-import type { LogEntry } from "~/models/LogEntry";
 
 /**
  * A Log that concatenates two other Logs.
@@ -12,7 +11,7 @@ export class ConcatenatedLog extends Log {
     super();
   }
 
-  override *entries(): Iterable<LogEntry> {
+  override *entries(): Iterable<Log.Entry> {
     yield* this.head.entries();
     yield* this.tail.entries();
   }
@@ -21,7 +20,7 @@ export class ConcatenatedLog extends Log {
     return this.head.length + this.tail.length;
   }
 
-  override *reverse(): Iterable<LogEntry> {
+  override *reverse(): Iterable<Log.Entry> {
     yield* this.tail.reverse();
     yield* this.head.reverse();
   }

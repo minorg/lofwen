@@ -5,7 +5,6 @@ import { logger } from "~/logger";
 import {
   Action,
   type Event,
-  type EventLogEntry,
   type Log,
   Notification,
   type RenderableAction,
@@ -49,8 +48,8 @@ export class WorkflowEngine {
    * On an event, invoke the workflow one or more times until it produces a renderable action.
    */
   async onEvent(event: Event): Promise<RenderableAction> {
-    const eventLogEntry: EventLogEntry = {
-      "@type": "EventLogEntry",
+    const eventLogEntry: Log.EventEntry = {
+      "@type": "EventEntry",
       event,
       timestamp: Timestamp.now(),
     };
@@ -64,7 +63,7 @@ export class WorkflowEngine {
       log: this.log.concat(eventLogEntry),
     });
     this.addLogEntry({
-      "@type": "ActionLogEntry",
+      "@type": "ActionEntry",
       action: nextAction,
       timestamp: Timestamp.now(),
     });

@@ -1,15 +1,14 @@
 import { Log } from "~/models/Log";
-import type { LogEntry } from "~/models/LogEntry";
 
 /**
  * A Log backed by an array.
  */
 export class EphemeralLog extends Log {
-  constructor(private readonly _entries: readonly LogEntry[]) {
+  constructor(private readonly _entries: readonly Log.Entry[]) {
     super();
   }
 
-  override entries(): Iterable<LogEntry> {
+  override entries(): Iterable<Log.Entry> {
     return this._entries;
   }
 
@@ -17,7 +16,7 @@ export class EphemeralLog extends Log {
     return this._entries.length;
   }
 
-  override reverse(): Iterable<LogEntry> {
+  override reverse(): Iterable<Log.Entry> {
     return this._entries.toReversed();
   }
 }

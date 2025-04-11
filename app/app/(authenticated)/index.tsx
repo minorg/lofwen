@@ -23,7 +23,7 @@ export default function RootScreen() {
       "@type": "InitialEvent",
     };
     addLogEntry({
-      "@type": "EventLogEntry",
+      "@type": "EventEntry",
       event: initialEvent,
       timestamp: Timestamp.now(),
     });
@@ -33,7 +33,7 @@ export default function RootScreen() {
       log,
     });
     addLogEntry({
-      "@type": "ActionLogEntry",
+      "@type": "ActionEntry",
       action: initialAction,
       timestamp: Timestamp.now(),
     });

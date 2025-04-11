@@ -1,18 +1,20 @@
-import type { Action } from "~/models/Action";
+import { z } from "zod";
+import { Timestamp } from "~/models";
+import { Action } from "~/models/Action";
+import { Event } from "~/models/Event";
 import type { Identifier } from "~/models/Identifier";
 import type { LikertScaleAnswerEvent } from "~/models/LikertScaleAnswerEvent";
-import type { LogEntry } from "~/models/LogEntry";
 import type { TextAnswerEvent } from "~/models/TextAnswerEvent";
 
 /**
  * Abstract base class for Log implementations.
  */
-export abstract class Log implements Iterable<LogEntry> {
+export abstract class Log implements Iterable<Log.Entry> {
   protected constructor() {}
 
   actionById(id: Identifier): Action | null {
     for (const entry of this.entries()) {
-      if (entry["@type"] === "ActionLogEntry" && entry.action["@id"] === id) {
+      if (entry["@type"] === "ActionEntry" && entry.action["@id"] === id) {
         return entry.action;
       }
     }
@@ -32,7 +34,7 @@ export abstract class Log implements Iterable<LogEntry> {
     "@type": "LikertScaleQuestionAction" | "TextQuestionAction";
   }): LikertScaleAnswerEvent | TextAnswerEvent | null {
     for (const entry of this.entries()) {
-      if (entry["@type"] !== "EventLogEntry") {
+      if (entry["@type"] !== "EventEntry") {
         continue;
       }
       switch (entry.event["@type"]) {
@@ -58,21 +60,21 @@ export abstract class Log implements Iterable<LogEntry> {
     return null;
   }
 
-  concat(...entries: readonly LogEntry[]) {
+  concat(...entries: readonly Log.Entry[]) {
     const { ConcatenatedLog } = require("~/models/ConcatenatedLog");
     const { EphemeralLog } = require("~/models/EphemeralLog");
     return new ConcatenatedLog(this, new EphemeralLog(entries));
   }
 
-  abstract entries(): Iterable<LogEntry>;
+  abstract entries(): Iterable<Log.Entry>;
 
-  *[Symbol.iterator](): Iterator<LogEntry> {
+  *[Symbol.iterator](): Iterator<Log.Entry> {
     yield* this.entries();
   }
 
   get lastAction(): Action | null {
     for (const entry of this.reverse()) {
-      if (entry["@type"] === "ActionLogEntry") {
+      if (entry["@type"] === "ActionEntry") {
         return entry.action;
       }
     }
@@ -81,5 +83,35 @@ export abstract class Log implements Iterable<LogEntry> {
 
   abstract readonly length: number;
 
-  abstract reverse(): Iterable<LogEntry>;
+  abstract reverse(): Iterable<Log.Entry>;
+}
+
+export namespace Log {
+  const baseEntrySchema = z.object({
+    timestamp: Timestamp.schema,
+  });
+
+  export type Entry = z.infer<typeof Log.Entry.schema>;
+
+  export type ActionEntry = z.infer<typeof ActionEntry.schema>;
+
+  export namespace ActionEntry {
+    export const schema = baseEntrySchema.extend({
+      "@type": z.literal("ActionEntry"),
+      action: Action.schema,
+    });
+  }
+
+  export type EventEntry = z.infer<typeof EventEntry.schema>;
+
+  export namespace EventEntry {
+    export const schema = baseEntrySchema.extend({
+      "@type": z.literal("EventEntry"),
+      event: Event.schema,
+    });
+  }
+
+  export namespace Entry {
+    export const schema = z.union([ActionEntry.schema, EventEntry.schema]);
+  }
 }
