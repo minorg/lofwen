@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { Timestamp } from "~/models";
 import { Action } from "~/models/Action";
 import { Event } from "~/models/Event";
 import type { Identifier } from "~/models/Identifier";
 import type { LikertScaleAnswerEvent } from "~/models/LikertScaleAnswerEvent";
 import type { TextAnswerEvent } from "~/models/TextAnswerEvent";
+import { Timestamp } from "~/models/Timestamp";
 
 /**
  * Abstract base class for Log implementations.
