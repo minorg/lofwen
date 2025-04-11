@@ -59,7 +59,7 @@ export default function RootLayout() {
 
   let element = (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? "dark" : "light"} />
+      <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Slot />
       </GestureHandlerRootView>

@@ -1,8 +1,7 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { useCallback } from "react";
 import { Pressable, View } from "react-native";
 import { useColorScheme } from "~/hooks/useColorScheme";
-import { MoonStar } from "~/icons/MoonStar";
-import { Sun } from "~/icons/Sun";
 import { setAndroidNavigationBar } from "~/lib/setAndroidNavigationBar";
 import { cn } from "~/lib/utils";
 
@@ -28,13 +27,9 @@ export function ThemeToggle() {
           )}
         >
           {isDarkColorScheme ? (
-            <MoonStar
-              className="text-foreground"
-              size={23}
-              strokeWidth={1.25}
-            />
+            <Ionicons className="text-foreground" name="moon" size={24} />
           ) : (
-            <Sun className="text-foreground" size={24} strokeWidth={1.25} />
+            <Ionicons className="text-foreground" name="sunny" size={24} />
           )}
         </View>
       )}

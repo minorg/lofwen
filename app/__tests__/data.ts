@@ -1,32 +1,26 @@
-import {
-  type AcknowledgmentAction,
-  type Action,
-  type Event,
-  type LikertScaleQuestionAction,
-  Timestamp,
+import type {
+  AcknowledgmentAction,
+  Action,
+  Event,
+  LikertScaleQuestionAction,
+  TextQuestionAction,
 } from "~/models";
 
 export const initialEvent: Event = {
-  "@id": "initial-event",
-  "@predecessor": "initial-event",
   "@type": "InitialEvent",
-  "@timestamp": Timestamp.now(),
 };
 
 export const acknowledgmentAction: AcknowledgmentAction = {
   "@id": "acknowledgment",
-  "@predecessor": initialEvent["@id"],
-  "@timestamp": Timestamp.now(),
   "@type": "AcknowledgmentAction",
   message: "Test message",
+  title: "Acknowledgment",
 };
 
 export const likertScaleQuestionAction: LikertScaleQuestionAction = {
   "@id": "likert-scale-question",
-  "@predecessor": initialEvent["@id"],
-  "@timestamp": Timestamp.now(),
   "@type": "LikertScaleQuestionAction",
-  item: "Is this the best app ever?",
+  prompt: "Is this the best app ever?",
   responseCategories: [
     "Strongly disagree",
     "Disagree",
@@ -37,6 +31,14 @@ export const likertScaleQuestionAction: LikertScaleQuestionAction = {
     label,
     value: index,
   })),
+  title: "Likert scale question",
 };
 
 export const questionAction: Action = likertScaleQuestionAction;
+
+export const textQuestionAction: TextQuestionAction = {
+  "@id": "text-question",
+  "@type": "TextQuestionAction",
+  prompt: "Tell us what you like about the app.",
+  title: "Text question",
+};

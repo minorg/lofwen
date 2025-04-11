@@ -1,23 +1,15 @@
-import {} from "tinybase/ui-react";
 import { logger } from "~/logger";
-import type { LogEntry } from "~/models";
+import type { Log } from "~/models";
 import { SynchronizedStore } from "~/stores/SynchronizedStore";
 
 export function useAddLogEntry() {
-  const { useSetRowCallback } = SynchronizedStore.UiReact;
-  return useSetRowCallback(
+  const { useAddRowCallback } = SynchronizedStore.UiReact;
+  return useAddRowCallback(
     "log",
-    (logEntry: LogEntry) => logEntry["@id"],
-    (logEntry: LogEntry) => {
-      const {
-        "@id": id,
-        "@timestamp": timestamp,
-        "@type": type,
-        ...otherProperties
-      } = logEntry;
+    (logEntry: Log.Entry) => {
+      const { "@type": type, timestamp, ...otherProperties } = logEntry;
 
       return {
-        id,
         json: JSON.stringify(otherProperties),
         timestamp,
         type,
@@ -25,6 +17,7 @@ export function useAddLogEntry() {
     },
     undefined,
     undefined,
-    (_, row) => logger.debug("added log entry", JSON.stringify(row)),
+    (rowId, _store, row) =>
+      logger.debug(`added log entry rowId=${rowId} row=${JSON.stringify(row)}`),
   );
 }

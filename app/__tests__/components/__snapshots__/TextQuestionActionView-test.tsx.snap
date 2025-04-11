@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  className="flex flex-col flex-1 gap-2 native:justify-center native:px-4"
+>
+  <Text
+    className="text-foreground web:select-text text-2xl"
+  >
+    Tell us what you like about the app.
+  </Text>
+  <TextInput
+    className="web:flex native:h-12 web:w-full rounded-md border border-input bg-background px-3 web:py-2 text-base lg:text-sm native:text-lg native:leading-[1.25] text-foreground placeholder:text-muted-foreground web:ring-offset-background file:border-0 file:bg-transparent file:font-medium web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2 h-[8rem]"
+    multiline={true}
+    onChangeText={[Function]}
+    placeholderClassName="text-muted-foreground"
+    value=""
+  />
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": true,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    className="opacity-50 web:pointer-events-none group flex items-center justify-center rounded-md web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2 border border-input bg-background web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent h-10 px-4 py-2 native:h-12 native:px-5 native:py-3"
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    role="button"
+  >
+    <Text
+      className="web:select-text web:whitespace-nowrap text-sm native:text-base font-medium text-foreground web:transition-colors group-active:text-accent-foreground web:pointer-events-none"
+    >
+      Submit
+    </Text>
+  </View>
+</View>
+`;

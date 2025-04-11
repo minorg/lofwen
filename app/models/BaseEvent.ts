@@ -1,8 +1,7 @@
-import type { z } from "zod";
-import { BaseLogEntry } from "~/models/BaseLogEntry";
+import { z } from "zod";
 
 export type BaseEvent = z.infer<typeof BaseEvent.schema>;
 
 export namespace BaseEvent {
-  export const schema = BaseLogEntry.schema.extend({});
+  export const schema = z.object({});
 }

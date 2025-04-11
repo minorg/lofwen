@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <View
-  className="flex flex-col flex-1 gap-2 native:justify-center native:px-4"
+  className="flex flex-col gap-2 native:justify-center native:px-4"
 >
   <Text
     className="text-foreground web:select-text text-2xl"

@@ -4,7 +4,8 @@
       "adaptiveIcon": {
         "backgroundColor": "#ffffff",
         "foregroundImage": "./assets/images/adaptive-icon.png"
-      }
+      },
+      "package": "io.github.minorg.lofwen"
     },
     "experiments": {
       "typedRoutes": true
@@ -37,6 +38,14 @@
       "bundler": "metro",
       "favicon": "./assets/images/favicon.png",
       "output": "single"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "ea27b25f-6c98-4f59-bbe8-a572f4dd725a"
+      }
     }
   }
 }

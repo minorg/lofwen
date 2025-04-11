@@ -4,50 +4,41 @@ import {
   useNavigation,
   useRouter,
 } from "expo-router";
-import { type ReactElement, useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Hrefs } from "~/Hrefs";
-import { AcknowledgmentActionView } from "~/components/AcknowledgmentActionView";
-import { LikertScaleQuestionActionView } from "~/components/LikertScaleQuestionActionView";
-import { useAddLogEntry } from "~/hooks/useAddLogEntry";
 import { useLog } from "~/hooks/useLog";
-import { useWorkflow } from "~/hooks/useWorkflow";
+import { useWorkflowEngine } from "~/hooks/useWorkflowEngine";
+import { renderAction } from "~/lib/renderAction";
 import { logger } from "~/logger";
-import type { Event } from "~/models";
+import { Action, type Event } from "~/models";
 
 export default function ActionScreen() {
   const { actionId } = useLocalSearchParams<{
     actionId: string;
   }>();
-  const addLogEntry = useAddLogEntry();
   const log = useLog();
   const action = log.actionById(actionId);
   const navigation = useNavigation();
   const router = useRouter();
-  const workflow = useWorkflow();
+  const workflowEngine = useWorkflowEngine();
 
   const onEvent = useCallback(
     (event: Event) => {
-      addLogEntry(event);
-
-      logger.debug("invoking workflow");
-      // log from the hook doesn't include the just-added event yet
-      // Instead of looping back around to look for the event, temporarily concatenate it to the log for the benefit of the workflow.
-      const nextAction = workflow({ event, log: log.concat(event) });
-
-      addLogEntry(nextAction);
-
-      const nextActionHref = Hrefs.action(nextAction);
-      logger.debug("redirecting to", JSON.stringify(nextActionHref));
-      router.push(nextActionHref);
+      workflowEngine.onEvent(event).then((nextAction) => {
+        const nextActionHref = Hrefs.action(nextAction);
+        logger.debug("redirecting to", JSON.stringify(nextActionHref));
+        router.push(nextActionHref);
+      });
     },
-    [addLogEntry, log, router, workflow],
+    [router, workflowEngine],
   );
 
   useEffect(() => {
-    if (action) {
+    if (action && Action.isRenderable(action)) {
       navigation.setOptions({
-        headerTitle: action.label,
+        headerTitle: action.title,
       });
     }
   }, [action, navigation]);
@@ -57,23 +48,14 @@ export default function ActionScreen() {
     return <Redirect href={Hrefs.root} />;
   }
 
-  let actionView: ReactElement;
-  switch (action["@type"]) {
-    case "AcknowledgmentAction":
-      actionView = (
-        <AcknowledgmentActionView action={action} onEvent={onEvent} />
-      );
-      break;
-    case "LikertScaleQuestionAction":
-      actionView = (
-        <LikertScaleQuestionActionView action={action} onEvent={onEvent} />
-      );
-      break;
+  if (!Action.isRenderable(action)) {
+    logger.warn("action", actionId, "is not renderable");
+    return <Redirect href={Hrefs.root} />;
   }
 
   return (
     <SafeAreaView className="flex-1" id="safe-area-view">
-      {actionView}
+      <View className="web:px-4">{renderAction({ action, onEvent })}</View>
     </SafeAreaView>
   );
 }
