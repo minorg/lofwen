@@ -9,7 +9,7 @@ export function renderAction({
   onEvent,
 }: {
   action: RenderableAction;
-  onEvent: (event: Event) => void;
+  onEvent: (event: Event) => Promise<void>;
 }): ReactElement {
   switch (action["@type"]) {
     case "AcknowledgmentAction":

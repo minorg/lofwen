@@ -104,6 +104,7 @@ export const perceivedStressScaleWorkflow: Workflow = ({ event, log }) => {
     }
     case "InitialEvent":
       return questions[0];
+    case "ScheduledNotificationEvent":
     case "TextAnswerEvent":
       throw new RangeError(event["@type"]);
   }

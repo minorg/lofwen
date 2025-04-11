@@ -26,6 +26,15 @@ const actions: readonly ReturnType<Workflow>[] = [
     title: "Text question",
   },
   {
+    "@id": "schedule-notification",
+    "@type": "ScheduleNotificationAction",
+    content: {
+      body: "Notification body",
+      title: "Notification title",
+    },
+    trigger: null, // Deliver immediately
+  },
+  {
     "@id": "acknowledgment",
     "@type": "AcknowledgmentAction",
     message: "Show a score or other summary here.",
@@ -34,17 +43,27 @@ const actions: readonly ReturnType<Workflow>[] = [
 ];
 
 export const showcaseWorkflow: Workflow = ({ event }): Action => {
+  let nextActionIndex: number;
   switch (event["@type"]) {
     case "InitialEvent":
-      return actions[0];
+      nextActionIndex = 0;
+      break;
     case "LikertScaleAnswerEvent":
     case "TextAnswerEvent": {
-      const questionIndex = actions.findIndex(
-        (action) => action["@id"] === event.questionActionId,
-      );
-      const nextAction = actions[questionIndex + 1];
-      invariant(nextAction);
-      return nextAction;
+      nextActionIndex =
+        actions.findIndex(
+          (action) => action["@id"] === event.questionActionId,
+        ) + 1;
+      break;
     }
+    case "ScheduledNotificationEvent":
+      nextActionIndex =
+        actions.findIndex(
+          (action) => action["@id"] === event.scheduleNotificationActionId,
+        ) + 1;
+      break;
   }
+  const nextAction = actions[nextActionIndex];
+  invariant(nextAction);
+  return nextAction;
 };

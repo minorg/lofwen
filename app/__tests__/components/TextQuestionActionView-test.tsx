@@ -4,7 +4,10 @@ import { TextQuestionActionView } from "~/components/TextQuestionActionView";
 
 it("renders correctly", () => {
   const tree = render(
-    <TextQuestionActionView action={textQuestionAction} onEvent={() => {}} />,
+    <TextQuestionActionView
+      action={textQuestionAction}
+      onEvent={async () => {}}
+    />,
   ).toJSON();
   expect(tree).toMatchSnapshot();
 });

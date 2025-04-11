@@ -13,7 +13,7 @@ export function TextQuestionActionView({
   onEvent,
 }: {
   action: TextQuestionAction;
-  onEvent: (event: Event) => void;
+  onEvent: (event: Event) => Promise<void>;
 }) {
   const log = useLog();
   const [text, setText] = useState("");
@@ -27,13 +27,15 @@ export function TextQuestionActionView({
     }
   }, [log, question]);
 
-  const onSubmitButtonPress = useCallback(() => {
-    onEvent({
-      "@type": "TextAnswerEvent",
-      questionActionId: question["@id"],
-      text,
-    });
-  }, [onEvent, question, text]);
+  const onSubmitButtonPress = useCallback(
+    () =>
+      onEvent({
+        "@type": "TextAnswerEvent",
+        questionActionId: question["@id"],
+        text,
+      }),
+    [onEvent, question, text],
+  );
 
   return (
     <View className="flex flex-col flex-1 gap-2 native:justify-center native:px-4">

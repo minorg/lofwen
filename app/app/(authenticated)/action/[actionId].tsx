@@ -25,8 +25,8 @@ export default function ActionScreen() {
   const workflowEngine = useWorkflowEngine();
 
   const onEvent = useCallback(
-    (event: Event) => {
-      const nextAction = workflowEngine.onEvent(event);
+    async (event: Event) => {
+      const nextAction = await workflowEngine.onEvent(event);
       const nextActionHref = Hrefs.action(nextAction);
       logger.debug("redirecting to", JSON.stringify(nextActionHref));
       router.push(nextActionHref);
@@ -35,7 +35,7 @@ export default function ActionScreen() {
   );
 
   useEffect(() => {
-    if (action) {
+    if (action && Action.isRenderable(action)) {
       navigation.setOptions({
         headerTitle: action.title,
       });

@@ -6,7 +6,7 @@ it("renders correctly", () => {
   const tree = render(
     <AcknowledgmentActionView
       action={acknowledgmentAction}
-      onEvent={() => {}}
+      onEvent={async () => {}}
     />,
   ).toJSON();
   expect(tree).toMatchSnapshot();
