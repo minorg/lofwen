@@ -1,4 +1,5 @@
 import * as Notifications from "expo-notifications";
+import { Platform } from "react-native";
 import type { useAddLogEntry } from "~/hooks/useAddLogEntry";
 import { logger } from "~/logger";
 import {
@@ -10,6 +11,16 @@ import {
   Timestamp,
 } from "~/models";
 import type { Workflow } from "~/workflows";
+
+if (Platform.OS !== "web") {
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
+}
 
 export class WorkflowEngine {
   private readonly log: Log;
@@ -60,13 +71,18 @@ export class WorkflowEngine {
 
     switch (nextAction["@type"]) {
       case "ScheduleNotificationAction": {
-        await Notifications.scheduleNotificationAsync({
-          content: {
-            title: "Look at that notification",
-            body: "I'm so proud of myself!",
-          },
-          trigger: null,
-        });
+        if (Platform.OS !== "web") {
+          logger.debug("scheduling notification");
+          await Notifications.scheduleNotificationAsync({
+            content: nextAction.content,
+            trigger:
+              nextAction.trigger as Notifications.NotificationTriggerInput | null,
+          });
+          logger.debug("scheduled notification");
+        } else {
+          logger.warn("notifications are not available on the web, ignoring");
+        }
+
         return this.onEvent({
           "@type": "ScheduledNotificationEvent",
           scheduleNotificationActionId: nextAction["@id"],
