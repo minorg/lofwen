@@ -32,7 +32,12 @@ const actions: readonly ReturnType<Workflow>[] = [
       body: "Notification body",
       title: "Notification title",
     },
-    trigger: null, // Deliver immediately
+    identifier: "showCaseNotification",
+    trigger: {
+      repeats: false,
+      seconds: 5,
+      type: "timeInterval",
+    },
   },
   {
     "@id": "acknowledgment",

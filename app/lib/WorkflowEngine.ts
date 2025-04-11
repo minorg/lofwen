@@ -152,6 +152,7 @@ export class WorkflowEngine {
     logger.debug("scheduling notification");
     await Notifications.scheduleNotificationAsync({
       content: action.content,
+      identifier: action.identifier,
       trigger:
         action.trigger !== null
           ? Notification.Trigger.toExpoNotificationTriggerInput(action.trigger)

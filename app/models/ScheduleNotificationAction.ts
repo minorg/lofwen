@@ -10,6 +10,14 @@ export namespace ScheduleNotificationAction {
   export const schema = BaseAction.schema.extend({
     "@type": z.literal("ScheduleNotificationAction"),
     content: Notification.Content.schema,
-    trigger: Notification.Trigger.schema.nullable(), // null trigger = schedule immediately
+    identifier: z
+      .string()
+      .optional()
+      .describe(
+        "unique identifier -- if set, will overwrite an existing notification with that identifier",
+      ),
+    trigger: Notification.Trigger.schema
+      .nullable()
+      .describe("trigger -- null means schedule immediately"),
   });
 }
