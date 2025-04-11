@@ -26,10 +26,11 @@ export default function ActionScreen() {
 
   const onEvent = useCallback(
     (event: Event) => {
-      const nextAction = await workflowEngine.onEvent(event);
-      const nextActionHref = Hrefs.action(nextAction);
-      logger.debug("redirecting to", JSON.stringify(nextActionHref));
-      router.push(nextActionHref);
+      workflowEngine.onEvent(event).then((nextAction) => {
+        const nextActionHref = Hrefs.action(nextAction);
+        logger.debug("redirecting to", JSON.stringify(nextActionHref));
+        router.push(nextActionHref);
+      });
     },
     [router, workflowEngine],
   );
