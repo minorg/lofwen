@@ -6,7 +6,7 @@ it("renders correctly", () => {
   const tree = render(
     <LikertScaleQuestionActionView
       action={likertScaleQuestionAction}
-      onEvent={async () => {}}
+      onEvent={() => {}}
     />,
   ).toJSON();
   expect(tree).toMatchSnapshot();

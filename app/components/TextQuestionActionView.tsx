@@ -13,7 +13,7 @@ export function TextQuestionActionView({
   onEvent,
 }: {
   action: TextQuestionAction;
-  onEvent: (event: Event) => Promise<void>;
+  onEvent: (event: Event) => void;
 }) {
   const log = useLog();
   const [text, setText] = useState("");

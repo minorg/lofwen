@@ -12,7 +12,7 @@ export function LikertScaleQuestionActionView({
   onEvent,
 }: {
   action: LikertScaleQuestionAction;
-  onEvent: (event: Event) => Promise<void>;
+  onEvent: (event: Event) => void;
 }) {
   const log = useLog();
   const answer = useMemo(() => {

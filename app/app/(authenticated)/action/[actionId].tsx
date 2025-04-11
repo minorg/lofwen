@@ -25,7 +25,7 @@ export default function ActionScreen() {
   const workflowEngine = useWorkflowEngine();
 
   const onEvent = useCallback(
-    async (event: Event) => {
+    (event: Event) => {
       const nextAction = await workflowEngine.onEvent(event);
       const nextActionHref = Hrefs.action(nextAction);
       logger.debug("redirecting to", JSON.stringify(nextActionHref));

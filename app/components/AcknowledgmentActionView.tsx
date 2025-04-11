@@ -7,7 +7,7 @@ export function AcknowledgmentActionView({
   action,
 }: {
   action: AcknowledgmentAction;
-  onEvent: (event: Event) => Promise<void>;
+  onEvent: (event: Event) => void;
 }) {
   return (
     <View className="flex flex-col flex-1 native:justify-center native:px-4">
