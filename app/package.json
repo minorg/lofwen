@@ -72,6 +72,7 @@
     "android": "expo start --android",
     "check": "biome check",
     "check:fix:unsafe": "biome check --fix --unsafe",
+    "eas:build:android:development": "eas build --platform android --profile development --local",
     "expo-doctor": "expo-doctor",
     "ios": "expo start --ios",
     "start": "expo start",
