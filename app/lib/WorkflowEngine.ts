@@ -7,6 +7,7 @@ import {
   type Event,
   type EventLogEntry,
   type Log,
+  Notification,
   type RenderableAction,
   Timestamp,
 } from "~/models";
@@ -14,11 +15,14 @@ import type { Workflow } from "~/workflows";
 
 if (Platform.OS !== "web") {
   Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    }),
+    handleNotification: async (notification: Notifications.Notification) => {
+      logger.debug("handling notification:", JSON.stringify(notification));
+      return {
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+      };
+    },
   });
 }
 
@@ -76,7 +80,11 @@ export class WorkflowEngine {
           await Notifications.scheduleNotificationAsync({
             content: nextAction.content,
             trigger:
-              nextAction.trigger as Notifications.NotificationTriggerInput | null,
+              nextAction.trigger !== null
+                ? Notification.Trigger.toExpoNotificationTriggerInput(
+                    nextAction.trigger,
+                  )
+                : null,
           });
           logger.debug("scheduled notification");
         } else {

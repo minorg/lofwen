@@ -10,6 +10,7 @@ export * from "./LikertScaleAnswerEvent";
 export * from "./LikertScaleQuestionAction";
 export * from "./Log";
 export * from "./LogEntry";
+export * from "./Notification";
 export * from "./OrdinalCategory";
 export * from "./RenderableAction";
 export * from "./TextAnswerEvent";
