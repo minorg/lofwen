@@ -51,7 +51,7 @@ export function TextQuestionActionView({
         onPress={onSubmitButtonPress}
         variant="outline"
       >
-        Submit
+        <Text>Submit</Text>
       </Button>
     </View>
   );

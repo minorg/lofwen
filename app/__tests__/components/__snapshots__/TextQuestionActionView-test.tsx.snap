@@ -49,7 +49,11 @@ exports[`renders correctly 1`] = `
     onStartShouldSetResponder={[Function]}
     role="button"
   >
-    Submit
+    <Text
+      className="web:select-text web:whitespace-nowrap text-sm native:text-base font-medium text-foreground web:transition-colors group-active:text-accent-foreground web:pointer-events-none"
+    >
+      Submit
+    </Text>
   </View>
 </View>
 `;
