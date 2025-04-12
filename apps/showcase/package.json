@@ -68,8 +68,8 @@
   "private": true,
   "scripts": {
     "android": "expo start --android",
-    "check-types": "tsc --noEmit",
-    "check-types:watch": "tsc --noEmit -w",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit -w",
     "eas:build:android:development": "eas build --platform android --profile development --local",
     "expo-doctor": "expo-doctor",
     "ios": "expo start --ios",

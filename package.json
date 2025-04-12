@@ -13,13 +13,13 @@
   "packageManager": "yarn@1.22.22",
   "private": true,
   "scripts": {
-    "check-types": "turbo run check-types",
-    "biome:check": "biome check",
     "biome:check:write": "biome check --write",
     "biome:check:write:unsafe": "biome check --write --unsafe",
+    "lint": "biome check",
     "syncpack:fix-mismatches": "syncpack fix-mismatches",
     "test": "turbo run test",
-    "test:packages": "turbo run --filter \"./packages/*\" test"
+    "test:packages": "turbo run --filter \"./packages/*\" test",
+    "type-check": "turbo run type-check"
   },
   "workspaces": ["apps/*", "packages/*"]
 }
