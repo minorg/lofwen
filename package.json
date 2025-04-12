@@ -10,15 +10,13 @@
     "node": ">=18"
   },
   "name": "lofwen",
+  "packageManager": "yarn@1.22.22",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
-    "build:packages": "turbo run --filter \"./packages/*\" build",
+    "check-types": "turbo run check-types",
     "biome:check": "biome check",
     "biome:check:write": "biome check --write",
     "biome:check:write:unsafe": "biome check --write --unsafe",
-    "tsc:noEmit": "turbo run tsc:noEmit",
-    "tsc:noEmit:watch": "turbo run tsc:noEmit:watch",
     "syncpack:fix-mismatches": "syncpack fix-mismatches",
     "test": "turbo run test",
     "test:packages": "turbo run --filter \"./packages/*\" test"
