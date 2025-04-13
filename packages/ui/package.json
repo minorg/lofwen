@@ -1,14 +1,18 @@
 {
   "dependencies": {
+    "@expo/vector-icons": "^14.1.0",
     "@rn-primitives/label": "^1.1.0",
     "@rn-primitives/radio-group": "^1.1.0",
     "@rn-primitives/slot": "^1.1.0",
     "@rn-primitives/types": "^1.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "nativewind": "^4.1.23",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-native": "0.76.9"
+    "react-native": "0.76.9",
+    "react-native-web": "~0.19.13",
+    "tailwind-merge": "^3.1.0"
   },
   "devDependencies": {
     "@lofwen/tsconfig": "1.0.0",
