@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@tsconfig/strictest": "^2.0.5"
+  },
+  "name": "@lofwen/tsconfig",
+  "private": true,
+  "version": "1.0.0"
+}

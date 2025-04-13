@@ -1,9 +1,6 @@
 {
-  "extends": ["expo/tsconfig.base", "@tsconfig/strictest"],
+  "extends": ["expo/tsconfig.base", "@lofwen/tsconfig/base.json"],
   "compilerOptions": {
-    "exactOptionalPropertyTypes": false,
-    "forceConsistentCasingInFileNames": true,
-    "noUncheckedIndexedAccess": false,
     "paths": {
       "~/*": ["./*"]
     }
