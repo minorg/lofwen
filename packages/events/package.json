@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "zod": "~3.24.2"
+  },
+  "devDependencies": {},
+  "exports": {
+    "./*": {
+      "types": "./src/*.ts",
+      "default": "./dist/*.js"
+    }
+  },
+  "license": "Apache-2.0",
+  "name": "@lofwen/models",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "dev": "tsc --watch",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit -w"
+  },
+  "version": "1.0.0"
+}

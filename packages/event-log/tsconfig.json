@@ -6,5 +6,25 @@
     }
   },
   "extends": ["@lofwen/tsconfig/lib.json"],
-  "include": ["src/*.ts"]
+  "include": [
+    "src/*.ts",
+    "../events/src/AcknowledgmentAction.ts",
+    "../events/src/Action.ts",
+    "../events/src/BaseAction.ts",
+    "../events/src/BaseAnswerEvent.ts",
+    "../events/src/BaseQuestionAction.ts",
+    "../events/src/BaseRenderableAction.ts",
+    "../events/src/Event.ts",
+    "../models/src/Identifier.ts",
+    "../events/src/InitialEvent.ts",
+    "../events/src/index.ts",
+    "../events/src/LikertScaleAnswerEvent.ts",
+    "../events/src/LikertScaleQuestionAction.ts",
+    "../models/src/Notification.ts",
+    "../models/src/OrdinalCategory.ts",
+    "../events/src/TextAnswerEvent.ts",
+    "../events/src/RenderableAction.ts",
+    "../events/src/TextQuestionAction.ts",
+    "../models/src/Timestamp.ts"
+  ]
 }

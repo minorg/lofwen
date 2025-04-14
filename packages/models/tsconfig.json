@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  },
+  "extends": ["@lofwen/tsconfig/lib.json"],
+  "include": ["src/*.ts"]
+}

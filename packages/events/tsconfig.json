@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  },
+  "extends": ["@lofwen/tsconfig/lib.json"],
+  "include": [
+    "src/*.ts",
+    "../models/src/Timestamp.ts",
+    "../models/src/Identifier.ts",
+    "../models/src/OrdinalCategory.ts",
+    "../models/src/Notification.ts"
+  ]
+}
