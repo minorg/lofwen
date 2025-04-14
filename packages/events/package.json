@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@lofwen/models": "1.0.0",
     "zod": "~3.24.2"
   },
   "devDependencies": {},
