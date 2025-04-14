@@ -4,8 +4,8 @@
   },
   "dependencies": {
     "react": "18.3.1",
-    "tinybase": "^5.4.8",
-    "ws": "^8.18.1"
+    "tinybase": "~5.4.8",
+    "ws": "~8.18.1"
   },
   "license": "Apache-2.0",
   "main": "index.js",

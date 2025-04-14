@@ -1,22 +1,27 @@
 {
   "dependencies": {
-    "@expo/vector-icons": "^14.1.0",
-    "@rn-primitives/label": "^1.1.0",
-    "@rn-primitives/radio-group": "^1.1.0",
-    "@rn-primitives/slot": "^1.1.0",
-    "@rn-primitives/types": "^1.1.0",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "nativewind": "^4.1.23",
+    "@expo/vector-icons": "~14.1.0",
+    "@rn-primitives/label": "~1.1.0",
+    "@rn-primitives/radio-group": "~1.1.0",
+    "@rn-primitives/slot": "~1.1.0",
+    "@rn-primitives/types": "~1.1.0",
+    "class-variance-authority": "~0.7.1",
+    "clsx": "~2.1.1",
+    "expo": "~52.0.42",
+    "expo-font": "~13.0.4",
+    "nativewind": "~4.1.23",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-native": "0.76.9",
     "react-native-web": "~0.19.13",
-    "tailwind-merge": "^3.1.0"
+    "tailwind-merge": "~3.1.0"
   },
   "devDependencies": {
+    "@babel/core": "~7.25.2",
+    "@babel/preset-env": "~7.25.2",
     "@lofwen/tsconfig": "1.0.0",
-    "@testing-library/react-native": "^13.2.0"
+    "@testing-library/react-native": "~13.2.0",
+    "react-test-renderer": "~18.2.0"
   },
   "exports": {
     "./*": {
