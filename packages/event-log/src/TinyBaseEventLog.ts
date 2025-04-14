@@ -48,8 +48,11 @@ export class TinyBaseEventLog<
     this.table = table;
   }
 
-  addEntry(entry: EventLog.Entry<EventT>): void {
-    this.addRowCallback(entry);
+  addEvent(event: EventT): void {
+    this.addRowCallback({
+      event,
+      timestamp: Date.now(),
+    });
   }
 
   override *entries(): Iterable<EventLog.Entry<EventT>> {
@@ -65,7 +68,7 @@ export class TinyBaseEventLog<
     return Object.values(this.table).length;
   }
 
-  override *reverse(): Iterable<EventLog.Entry<EventT>> {
+  override *reverseEntries(): Iterable<EventLog.Entry<EventT>> {
     const rowEntries = Object.entries(this.table);
     for (let rowI = rowEntries.length - 1; rowI >= 0; rowI--) {
       const rowEntry = rowEntries[rowI]!;

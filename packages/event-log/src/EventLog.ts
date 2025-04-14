@@ -8,13 +8,27 @@ export abstract class EventLog<EventT extends BaseEvent>
 {
   abstract entries(): Iterable<EventLog.Entry<EventT>>;
 
+  *events(): Iterable<EventT> {
+    for (const entry of this.entries()) {
+      yield entry.event;
+    }
+  }
+
   *[Symbol.iterator](): Iterator<EventLog.Entry<EventT>> {
     yield* this.entries();
   }
 
   abstract readonly length: number;
 
-  abstract reverse(): Iterable<EventLog.Entry<EventT>>;
+  reverseEntries(): Iterable<EventLog.Entry<EventT>> {
+    return [...this.entries()].toReversed();
+  }
+
+  *reverseEvents(): Iterable<EventT> {
+    for (const entry of this.reverseEntries()) {
+      yield entry.event;
+    }
+  }
 }
 
 export namespace EventLog {

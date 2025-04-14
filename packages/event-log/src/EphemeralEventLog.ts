@@ -19,7 +19,7 @@ export class EphemeralEventLog<
     return this._entries.length;
   }
 
-  override reverse(): Iterable<EventLog.Entry<EventT>> {
+  override reverseEntries(): Iterable<EventLog.Entry<EventT>> {
     return this._entries.toReversed();
   }
 }

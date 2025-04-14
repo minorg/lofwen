@@ -23,8 +23,8 @@ export class ConcatenatedEventLog<
     return this.head.length + this.tail.length;
   }
 
-  override *reverse(): Iterable<EventLog.Entry<EventT>> {
-    yield* this.tail.reverse();
-    yield* this.head.reverse();
+  override *reverseEntries(): Iterable<EventLog.Entry<EventT>> {
+    yield* this.tail.reverseEntries();
+    yield* this.head.reverseEntries();
   }
 }
