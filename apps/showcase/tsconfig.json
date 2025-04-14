@@ -10,6 +10,9 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "nativewind-env.d.ts"
+    "nativewind-env.d.ts",
+    "../../packages/auth/src/UnauthenticatedUser.ts",
+    "../../packages/auth/src/User.ts",
+    "../../packages/auth/src/AuthenticatedUser.ts"
   ]
 }

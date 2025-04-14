@@ -1,6 +1,8 @@
-import { logger } from "~/logger";
-import { AuthenticatedUser } from "~/models";
-import { localKeyValueStore } from "~/stores/localKeyValueStore";
+import * as reactNativeLogs from "react-native-logs";
+import { AuthenticatedUser } from "~/AuthenticatedUser";
+import { localKeyValueStore } from "~/localKeyValueStore";
+
+const logger = reactNativeLogs.logger.createLogger().extend("LocalUserStore");
 
 class LocalUserStore {
   private readonly key = "localUser";

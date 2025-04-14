@@ -1,5 +1,5 @@
 export * from "./AcknowledgmentAction";
-export * from "./AuthenticatedUser";
+export * from "../../../packages/auth/src/AuthenticatedUser";
 export * from "./Action";
 export * from "./Event";
 export * from "./Identifier";
@@ -13,4 +13,4 @@ export * from "./RenderableAction";
 export * from "./TextAnswerEvent";
 export * from "./TextQuestionAction";
 export * from "./Timestamp";
-export * from "./User";
+export * from "../../../packages/auth/src/User";

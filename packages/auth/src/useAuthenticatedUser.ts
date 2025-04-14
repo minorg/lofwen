@@ -1,5 +1,5 @@
-import { useUser } from "~/hooks/useUser";
-import type { AuthenticatedUser } from "~/models";
+import type { AuthenticatedUser } from "~/AuthenticatedUser";
+import { useUser } from "~/useUser";
 
 export function useAuthenticatedUser(): AuthenticatedUser {
   const user = useUser();
