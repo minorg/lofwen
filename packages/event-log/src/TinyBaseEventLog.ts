@@ -2,6 +2,7 @@ import * as reactNativeLogs from "react-native-logs";
 import * as UiReactWithSchemas from "tinybase/ui-react/with-schemas";
 import type {
   NoValuesSchema,
+  ParameterizedCallback,
   Row,
   Table,
   TablesSchema,
@@ -18,6 +19,9 @@ const logger = reactNativeLogs.logger.createLogger().extend("TinyBaseEventLog");
 export class TinyBaseEventLog<
   EventT extends BaseEvent,
 > extends EventLog<EventT> {
+  private readonly addRowCallback: ParameterizedCallback<
+    EventLog.Entry<EventT>
+  >;
   private readonly entrySchema: z.ZodType<EventLog.Entry<EventT>>;
   private readonly parsedRowCache: Record<
     string,
@@ -26,19 +30,26 @@ export class TinyBaseEventLog<
   private readonly table: Table<typeof TinyBaseEventLog.tablesSchema, "log">;
 
   constructor({
+    addRowCallback,
     eventSchema,
     table,
   }: {
+    addRowCallback: ParameterizedCallback<EventLog.Entry<EventT>>;
     eventSchema: z.ZodType<EventT>;
     table: Table<typeof TinyBaseEventLog.tablesSchema, "log">;
   }) {
     super();
+    this.addRowCallback = addRowCallback;
     // @ts-ignore
     this.entrySchema = z.object({
       event: eventSchema,
       timestamp: z.number(),
     });
     this.table = table;
+  }
+
+  addEntry(entry: EventLog.Entry<EventT>): void {
+    this.addRowCallback(entry);
   }
 
   override *entries(): Iterable<EventLog.Entry<EventT>> {
