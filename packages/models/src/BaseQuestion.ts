@@ -7,5 +7,6 @@ export namespace BaseQuestion {
   export const schema = z.object({
     "@id": Identifier.schema,
     prompt: z.string(),
+    title: z.string().optional(),
   });
 }

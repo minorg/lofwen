@@ -1,4 +1,4 @@
-import { Identifier } from "@lofwen/models";
+import { Identifier, Notification } from "@lofwen/models";
 import { z } from "zod";
 import { BaseEvent } from "~/models/BaseEvent";
 
@@ -9,6 +9,8 @@ export type NotificationScheduledEvent = z.infer<
 export namespace NotificationScheduledEvent {
   export const schema = BaseEvent.schema.extend({
     "@type": z.literal("NotificationScheduledEvent"),
-    scheduleNotificationActionId: Identifier.schema,
+    content: Notification.Content.schema,
+    identifier: Identifier.schema.optional(),
+    trigger: Notification.Trigger.schema.nullable(),
   });
 }

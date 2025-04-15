@@ -2,31 +2,15 @@ import "~/global.css";
 
 import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
 import { tokenCache } from "@clerk/clerk-expo/token-cache";
-import {
-  DarkTheme,
-  DefaultTheme,
-  type Theme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { setAndroidNavigationBar, useColorScheme } from "@lofwen/ui";
+import { ThemeProvider } from "@react-navigation/native";
 import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { configuration } from "~/configuration";
-import { useColorScheme } from "~/hooks/useColorScheme";
-import { setAndroidNavigationBar } from "~/lib/setAndroidNavigationBar";
 import { navTheme } from "~/navTheme";
-
-const LIGHT_THEME: Theme = {
-  ...DefaultTheme,
-  colors: navTheme.light,
-};
-
-const DARK_THEME: Theme = {
-  ...DarkTheme,
-  colors: navTheme.dark,
-};
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -48,7 +32,7 @@ export default function RootLayout() {
     //   document.documentElement.classList.add("bg-background");
     // }
 
-    setAndroidNavigationBar(colorScheme);
+    setAndroidNavigationBar({ colorScheme, navTheme });
     setIsColorSchemeLoaded(true);
     hasMounted.current = true;
   }, []);
@@ -58,7 +42,7 @@ export default function RootLayout() {
   }
 
   let element = (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+    <ThemeProvider value={isDarkColorScheme ? navTheme.dark : navTheme.light}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Slot />

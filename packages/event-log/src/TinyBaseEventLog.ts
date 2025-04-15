@@ -1,6 +1,7 @@
 import * as reactNativeLogs from "react-native-logs";
 import * as UiReactWithSchemas from "tinybase/ui-react/with-schemas";
 import type {
+  MergeableStore,
   NoValuesSchema,
   ParameterizedCallback,
   Row,
@@ -98,6 +99,8 @@ export class TinyBaseEventLog<
 }
 
 export namespace TinyBaseEventLog {
+  export type Store = MergeableStore<[typeof tablesSchema, NoValuesSchema]>;
+
   export const UiReact = UiReactWithSchemas as UiReactWithSchemas.WithSchemas<
     [typeof tablesSchema, NoValuesSchema]
   >;

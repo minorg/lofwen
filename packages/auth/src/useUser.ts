@@ -1,15 +1,15 @@
 import { useUser as useClerkUser } from "@clerk/clerk-expo";
-import * as reactNativeLogs from "react-native-logs";
 import type { User } from "./User";
 import { localUserStore } from "./localUserStore";
 
-const logger = reactNativeLogs.logger.createLogger().extend("useUser");
-
-export function useUser(parameters?: {
-  clerkConfiguration?: { publishableKey: string };
+export function useUser({
+  configuration,
+  logger,
+}: {
+  configuration: { clerk: { publishableKey: string } | null };
+  logger: { debug: (...args: unknown[]) => void };
 }): User {
-  const clerkConfiguration = parameters?.clerkConfiguration;
-  const { isLoaded: clerkIsLoaded, user: clerkUser } = clerkConfiguration
+  const { isLoaded: clerkIsLoaded, user: clerkUser } = configuration.clerk
     ? useClerkUser()
     : { isLoaded: false, user: null };
   if (clerkUser != null) {

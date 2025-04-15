@@ -1,50 +1,25 @@
-import { Redirect } from "expo-router";
 import { useEffect } from "react";
-import { Hrefs } from "~/Hrefs";
-import { useAddLogEntry } from "~/hooks/useAddLogEntry";
-import { useLog } from "~/hooks/useLog";
-import { useWorkflow } from "~/hooks/useWorkflow";
-import { logger } from "~/logger";
-import { type Event, Timestamp } from "~/models";
+
+import { Timestamp } from "@lofwen/models";
+import { useEventLog } from "~/hooks/useEventLog";
+import { useWorkflowEngine } from "~/hooks/useWorkflowEngine";
+import { rootLogger } from "~/rootLogger";
+
+const logger = rootLogger.extend("RootScreen");
 
 export default function RootScreen() {
-  const addLogEntry = useAddLogEntry();
-  const log = useLog();
-  const lastAction = log.lastAction;
-  const workflow = useWorkflow();
+  const lastEvent = useEventLog().last;
+  const workflowEngine = useWorkflowEngine();
 
   useEffect(() => {
-    if (lastAction !== null) {
+    if (lastEvent !== null) {
       logger.debug("there are already actions in the log");
       return;
     }
 
-    const initialEvent: Event = {
-      "@type": "InitialEvent",
-    };
-    addLogEntry({
-      "@type": "EventEntry",
-      event: initialEvent,
+    workflowEngine.onEvent({
+      "@type": "AppStartedEvent",
       timestamp: Timestamp.now(),
-    });
-
-    const initialAction = workflow({
-      event: initialEvent,
-      log,
-    });
-    addLogEntry({
-      "@type": "ActionEntry",
-      action: initialAction,
-      timestamp: Timestamp.now(),
-    });
-  }, [addLogEntry, lastAction, log, workflow]);
-
-  if (lastAction === null) {
-    logger.debug("there is no last action");
-    return null;
-  }
-
-  logger.debug(`redirecting to last action: ${lastAction["@id"]}`);
-
-  return <Redirect href={Hrefs.action(lastAction)} />;
+    }); // Will redirect
+  }, [lastEvent, workflowEngine]);
 }

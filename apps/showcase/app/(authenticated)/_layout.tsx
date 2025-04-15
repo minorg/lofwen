@@ -1,4 +1,6 @@
 import "~/global.css";
+import { type AuthenticatedUser, useUser } from "@lofwen/auth";
+import { TinyBaseEventLog } from "@lofwen/event-log";
 import {} from "@react-navigation/native";
 import { Redirect, Stack } from "expo-router";
 // // https://github.com/partykit/partykit/issues/516
@@ -12,12 +14,12 @@ import { Redirect, Stack } from "expo-router";
 // import { WebSocket } from "partysocket";
 import { type PropsWithChildren, useMemo, useState } from "react";
 import { createWsSynchronizer } from "tinybase/synchronizers/synchronizer-ws-client/with-schemas";
+import { createMergeableStore } from "tinybase/with-schemas";
 import { Hrefs } from "~/Hrefs";
 import { configuration } from "~/configuration";
-import { useUser } from "~/hooks/useUser";
-import { logger } from "~/logger";
-import type { AuthenticatedUser } from "~/models";
-import { SynchronizedStore } from "~/stores/SynchronizedStore";
+import { rootLogger } from "~/rootLogger";
+
+const logger = rootLogger.extend("Synchronizer");
 
 function Synchronization({
   children,
@@ -26,12 +28,12 @@ function Synchronization({
   user,
 }: PropsWithChildren<{
   serverUrl: string;
-  store: SynchronizedStore;
+  store: TinyBaseEventLog.Store;
   user: AuthenticatedUser;
 }>) {
-  const { useCreateSynchronizer } = SynchronizedStore.UiReact;
+  const { useCreateSynchronizer } = TinyBaseEventLog.UiReact;
   const [synchronizerStartedSync, setSynchronizerStartedSync] = useState(false);
-  useCreateSynchronizer(store!, async (store: SynchronizedStore) => {
+  useCreateSynchronizer(store!, async (store: TinyBaseEventLog.Store) => {
     const webSocketUrl = `${serverUrl}${user["@id"]}`;
     logger.info("synchronizing with", webSocketUrl);
 
@@ -81,8 +83,11 @@ function Synchronization({
 }
 
 export default function AuthenticatedLayout() {
-  const store = useMemo(() => SynchronizedStore.create(), []);
-  const user = useUser();
+  const store = useMemo(
+    () => createMergeableStore().setTablesSchema(TinyBaseEventLog.tablesSchema),
+    [],
+  );
+  const user = useUser({ configuration, logger });
 
   if (user["@type"] === "UnauthenticatedUser") {
     return <Redirect href={Hrefs.signIn} />;
@@ -91,7 +96,7 @@ export default function AuthenticatedLayout() {
   const stack = <Stack screenOptions={{ headerShown: false }} />;
 
   return (
-    <SynchronizedStore.UiReact.Provider store={store}>
+    <TinyBaseEventLog.UiReact.Provider store={store}>
       {configuration.synchronization !== null ? (
         <Synchronization
           serverUrl={configuration.synchronization.serverUrl!}
@@ -103,6 +108,6 @@ export default function AuthenticatedLayout() {
       ) : (
         stack
       )}
-    </SynchronizedStore.UiReact.Provider>
+    </TinyBaseEventLog.UiReact.Provider>
   );
 }

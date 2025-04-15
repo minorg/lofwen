@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@lofwen/auth": "1.0.0",
     "@lofwen/event-log": "1.0.0",
     "@lofwen/models": "1.0.0",
     "@lofwen/ui": "1.0.0",

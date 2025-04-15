@@ -1,12 +1,12 @@
+import type { Identifier } from "@lofwen/models";
 import type { Href } from "expo-router";
-import type { Identifier } from "~/models";
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class Hrefs {
-  static action(action: { "@id": Identifier }): Href {
+  static question(question: { "@id": Identifier }): Href {
     return {
-      pathname: "/(authenticated)/action/[actionId]",
-      params: { actionId: action["@id"] },
+      pathname: "/(authenticated)/question/[questionId]",
+      params: { questionId: question["@id"] },
     };
   }
 

@@ -8,15 +8,6 @@ export abstract class EventLog<EventT extends BaseEvent>
 {
   abstract [Symbol.iterator](): Iterator<EventT>;
 
-  find(predicate: (event: EventT) => boolean): EventT | null {
-    for (const event of this) {
-      if (predicate(event)) {
-        return event;
-      }
-    }
-    return null;
-  }
-
   get last(): EventT | null {
     for (const event of this.reverse()) {
       return event;

@@ -1,6 +1,4 @@
-import type { EventLog } from "@lofwen/event-log";
-import type { Event } from "~/models/Event";
+import type { PoseQuestionAction } from "~/models/PoseQuestionAction";
+import type { ScheduleNotificationAction } from "~/models/ScheduleNotificationAction";
 
-export interface Action {
-  execute(parameters: { eventLog: EventLog<Event> }): Promise<void>;
-}
+export type Action = PoseQuestionAction | ScheduleNotificationAction;

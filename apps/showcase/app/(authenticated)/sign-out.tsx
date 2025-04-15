@@ -3,8 +3,11 @@ import { Redirect } from "expo-router";
 import { useEffect } from "react";
 import { Hrefs } from "~/Hrefs";
 import { configuration } from "~/configuration";
-import { logger } from "~/logger";
-import { localUserStore } from "~/stores/localUserStore";
+
+import { localUserStore } from "@lofwen/auth";
+import { rootLogger } from "~/rootLogger";
+
+const logger = rootLogger.extend("SignOutScreen");
 
 export default function SignOutScreen() {
   const {

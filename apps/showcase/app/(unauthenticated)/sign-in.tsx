@@ -4,6 +4,8 @@ import {
   useSSO,
 } from "@clerk/clerk-expo";
 import type { ClerkAPIError, OAuthStrategy } from "@clerk/types";
+import { localUserStore, useUser, useWarmUpBrowser } from "@lofwen/auth";
+import { Button, Text } from "@lofwen/ui";
 import * as AuthSession from "expo-auth-session";
 import { randomUUID } from "expo-crypto";
 import { Redirect, useRouter } from "expo-router";
@@ -13,13 +15,10 @@ import { View } from "react-native";
 import { Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Hrefs } from "~/Hrefs";
-import { Button } from "~/components/ui/button";
-import { Text } from "~/components/ui/text";
 import { configuration } from "~/configuration";
-import { useUser } from "~/hooks/useUser";
-import { useWarmUpBrowser } from "~/hooks/useWarmUpBrowser";
-import { logger } from "~/logger";
-import { localUserStore } from "~/stores/localUserStore";
+import { rootLogger } from "~/rootLogger";
+
+const logger = rootLogger.extend("SignInScreen");
 
 // Handle any pending authentication sessions
 WebBrowser.maybeCompleteAuthSession();
@@ -45,7 +44,7 @@ export default function SignInScreen() {
       };
   const router = useRouter();
   const [errors, setErrors] = React.useState<ClerkAPIError[]>([]);
-  const user = useUser();
+  const user = useUser({ configuration, logger });
 
   const onLocalButtonPress = React.useCallback(() => {
     localUserStore.setLocalUserSync({
