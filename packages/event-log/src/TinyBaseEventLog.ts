@@ -5,61 +5,48 @@ import type {
   ParameterizedCallback,
   Row,
   Table,
-  TablesSchema,
 } from "tinybase/with-schemas";
-import { z } from "zod";
+import type { z } from "zod";
 import type { BaseEvent } from "./BaseEvent";
 import { EventLog } from "./EventLog";
 
 const logger = reactNativeLogs.logger.createLogger().extend("TinyBaseEventLog");
 
 /**
- * Log implementation backed by a TinyBase store.
+ * Event log implementation backed by a TinyBase store.
  */
 export class TinyBaseEventLog<
   EventT extends BaseEvent,
 > extends EventLog<EventT> {
-  private readonly addRowCallback: ParameterizedCallback<
-    EventLog.Entry<EventT>
-  >;
-  private readonly entrySchema: z.ZodType<EventLog.Entry<EventT>>;
-  private readonly parsedRowCache: Record<
-    string,
-    EventLog.Entry<EventT> | null
-  > = {};
-  private readonly table: Table<typeof TinyBaseEventLog.tablesSchema, "log">;
+  private readonly addRowCallback: ParameterizedCallback<EventT>;
+  private readonly eventSchema: z.ZodType<EventT>;
+  private readonly parsedRowCache: Record<string, EventT | null> = {};
+  private readonly table: Table<typeof TinyBaseEventLog.tablesSchema, "event">;
 
   constructor({
     addRowCallback,
     eventSchema,
     table,
   }: {
-    addRowCallback: ParameterizedCallback<EventLog.Entry<EventT>>;
+    addRowCallback: ParameterizedCallback<EventT>;
     eventSchema: z.ZodType<EventT>;
-    table: Table<typeof TinyBaseEventLog.tablesSchema, "log">;
+    table: Table<typeof TinyBaseEventLog.tablesSchema, "event">;
   }) {
     super();
     this.addRowCallback = addRowCallback;
-    // @ts-ignore
-    this.entrySchema = z.object({
-      event: eventSchema,
-      timestamp: z.number(),
-    });
+    this.eventSchema = eventSchema;
     this.table = table;
   }
 
-  addEvent(event: EventT): void {
-    this.addRowCallback({
-      event,
-      timestamp: Date.now(),
-    });
+  append(event: EventT): void {
+    this.addRowCallback(event);
   }
 
-  override *entries(): Iterable<EventLog.Entry<EventT>> {
+  override *[Symbol.iterator](): Iterator<EventT> {
     for (const rowEntry of Object.entries(this.table)) {
-      const entry = this.parseRow(rowEntry[0], rowEntry[1]);
-      if (entry !== null) {
-        yield entry;
+      const event = this.parseRow(rowEntry[0], rowEntry[1]);
+      if (event !== null) {
+        yield event;
       }
     }
   }
@@ -68,21 +55,21 @@ export class TinyBaseEventLog<
     return Object.values(this.table).length;
   }
 
-  override *reverseEntries(): Iterable<EventLog.Entry<EventT>> {
+  override *reverse(): Iterable<EventT> {
     const rowEntries = Object.entries(this.table);
     for (let rowI = rowEntries.length - 1; rowI >= 0; rowI--) {
       const rowEntry = rowEntries[rowI]!;
-      const entry = this.parseRow(rowEntry[0], rowEntry[1]);
-      if (entry !== null) {
-        yield entry;
+      const event = this.parseRow(rowEntry[0], rowEntry[1]);
+      if (event !== null) {
+        yield event;
       }
     }
   }
 
   private parseRow(
     rowId: string,
-    row: Row<typeof TinyBaseEventLog.tablesSchema, "log", false>,
-  ): EventLog.Entry<EventT> | null {
+    row: Row<typeof TinyBaseEventLog.tablesSchema, "event", false>,
+  ): EventT | null {
     {
       const entry = this.parsedRowCache[rowId];
       if (typeof entry !== "undefined") {
@@ -90,23 +77,17 @@ export class TinyBaseEventLog<
       }
     }
 
-    const jsonCellParsed = JSON.parse(row["json"] as string);
-    const entryJsonObject = {
-      "@type": row["type"],
-      timestamp: row["timestamp"],
-      ...jsonCellParsed,
-    };
-    const entryParseResult = this.entrySchema.safeParse(entryJsonObject);
+    const entryParseResult = this.eventSchema.safeParse(
+      JSON.parse(row["json"] as string),
+    );
     if (!entryParseResult.success) {
       logger.warn(
-        "unable to parse log row",
+        "unable to parse event log row",
         rowId,
         "\n",
         entryParseResult.error,
         "\n",
         JSON.stringify(row),
-        "\n",
-        JSON.stringify(entryJsonObject),
       );
       return null;
     }
@@ -121,11 +102,9 @@ export namespace TinyBaseEventLog {
     [typeof tablesSchema, NoValuesSchema]
   >;
 
-  export const tablesSchema: TablesSchema = {
-    log: {
+  export const tablesSchema = {
+    event: {
       json: { type: "string" },
-      timestamp: { type: "number" },
-      type: { type: "string" },
     },
   } as const;
 }

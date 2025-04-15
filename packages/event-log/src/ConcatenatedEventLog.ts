@@ -2,7 +2,7 @@ import type { BaseEvent } from "./BaseEvent";
 import { EventLog } from "./EventLog";
 
 /**
- * A Log that concatenates two other Logs.
+ * An event log that concatenates two other event logs.
  */
 export class ConcatenatedEventLog<
   EventT extends BaseEvent,
@@ -14,17 +14,17 @@ export class ConcatenatedEventLog<
     super();
   }
 
-  override *entries(): Iterable<EventLog.Entry<EventT>> {
-    yield* this.head.entries();
-    yield* this.tail.entries();
+  override *[Symbol.iterator](): Iterator<EventT, any, any> {
+    yield* this.head;
+    yield* this.tail;
   }
 
   override get length(): number {
     return this.head.length + this.tail.length;
   }
 
-  override *reverseEntries(): Iterable<EventLog.Entry<EventT>> {
-    yield* this.tail.reverseEntries();
-    yield* this.head.reverseEntries();
+  override *reverse(): Iterable<EventT> {
+    yield* this.tail.reverse();
+    yield* this.head.reverse();
   }
 }
