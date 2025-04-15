@@ -1,4 +1,5 @@
 export * from "./AuthenticatedUser";
+export * from "./Configuration";
 export * from "./localUserStore";
 export * from "./UnauthenticatedUser";
 export * from "./User";

@@ -1,4 +1,5 @@
 import { useUser as useClerkUser } from "@clerk/clerk-expo";
+import type { Configuration } from "./Configuration";
 import type { User } from "./User";
 import { localUserStore } from "./localUserStore";
 
@@ -6,7 +7,7 @@ export function useUser({
   configuration,
   logger,
 }: {
-  configuration: { clerk: { publishableKey: string } | null };
+  configuration: Configuration;
   logger: { debug: (...args: unknown[]) => void };
 }): User {
   const { isLoaded: clerkIsLoaded, user: clerkUser } = configuration.clerk
