@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import * as reactNativeLogs from "react-native-logs";
 import type { z } from "zod";
-import type { BaseEvent } from "~/BaseEvent";
-import type { EventLog } from "~/EventLog";
-import { TinyBaseEventLog } from "~/TinyBaseEventLog";
+import type { BaseEvent } from "./BaseEvent";
+import type { EventLog } from "./EventLog";
+import { TinyBaseEventLog } from "./TinyBaseEventLog";
 
 const logger = reactNativeLogs.logger.createLogger().extend("TinyBaseEventLog");
 

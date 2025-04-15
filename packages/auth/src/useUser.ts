@@ -1,7 +1,7 @@
 import { useUser as useClerkUser } from "@clerk/clerk-expo";
 import * as reactNativeLogs from "react-native-logs";
-import type { User } from "~/User";
-import { localUserStore } from "~/localUserStore";
+import type { User } from "./User";
+import { localUserStore } from "./localUserStore";
 
 const logger = reactNativeLogs.logger.createLogger().extend("useUser");
 

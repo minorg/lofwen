@@ -1,4 +1,4 @@
-import type { BaseEvent } from "~/BaseEvent";
+import type { BaseEvent } from "./BaseEvent";
 
 /**
  * Abstract base class for EventLog implementations.

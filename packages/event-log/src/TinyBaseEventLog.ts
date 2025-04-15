@@ -8,8 +8,8 @@ import type {
   TablesSchema,
 } from "tinybase/with-schemas";
 import { z } from "zod";
-import type { BaseEvent } from "~/BaseEvent";
-import { EventLog } from "~/EventLog";
+import type { BaseEvent } from "./BaseEvent";
+import { EventLog } from "./EventLog";
 
 const logger = reactNativeLogs.logger.createLogger().extend("TinyBaseEventLog");
 

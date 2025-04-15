@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Identifier } from "~/Identifier";
+import { Identifier } from "./Identifier";
 
 export type BaseAnswer = z.infer<typeof BaseAnswer.schema>;
 

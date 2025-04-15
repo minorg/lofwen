@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { AuthenticatedUser } from "~/AuthenticatedUser";
-import { UnauthenticatedUser } from "~/UnauthenticatedUser";
+import { AuthenticatedUser } from "./AuthenticatedUser";
+import { UnauthenticatedUser } from "./UnauthenticatedUser";
 
 export type User = z.infer<typeof User.schema>;
 

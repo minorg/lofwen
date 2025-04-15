@@ -1,5 +1,5 @@
-import type { BaseEvent } from "~/BaseEvent";
-import { EventLog } from "~/EventLog";
+import type { BaseEvent } from "./BaseEvent";
+import { EventLog } from "./EventLog";
 
 /**
  * A Log backed by an array.

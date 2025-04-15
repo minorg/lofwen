@@ -1,5 +1,5 @@
-import type { AuthenticatedUser } from "~/AuthenticatedUser";
-import { useUser } from "~/useUser";
+import type { AuthenticatedUser } from "./AuthenticatedUser";
+import { useUser } from "./useUser";
 
 export function useAuthenticatedUser(): AuthenticatedUser {
   const user = useUser();
