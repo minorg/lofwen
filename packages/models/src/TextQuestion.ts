@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BaseQuestion } from "~/models/BaseQuestion";
+import { BaseQuestion } from "~/BaseQuestion";
 
 export type TextQuestion = z.infer<typeof TextQuestion.schema>;
 

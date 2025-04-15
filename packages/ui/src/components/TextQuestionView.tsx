@@ -1,40 +1,30 @@
-import { useCallback, useEffect, useState } from "react";
+import type { TextAnswer, TextQuestion } from "@lofwen/models";
+import { useCallback, useState } from "react";
 import { View } from "react-native";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import {} from "~/components/ui/radio-group";
 import { Text } from "~/components/ui/text";
-import { useLog } from "~/hooks/useLog";
-import { logger } from "~/logger";
-import type { Event, TextQuestionAction } from "~/models";
 
 export function TextQuestionActionView({
-  action: question,
-  onEvent,
+  answer,
+  onAnswer,
+  question,
 }: {
-  action: TextQuestionAction;
-  onEvent: (event: Event) => void;
+  answer: TextAnswer | null;
+  onAnswer: (answer: TextAnswer) => void;
+  question: TextQuestion;
 }) {
-  const log = useLog();
   const [text, setText] = useState("");
-
-  useEffect(() => {
-    const answer = log.answerEvent(question);
-    if (answer !== null) {
-      setText(answer.text);
-    } else {
-      logger.debug("no existing answer to question", question["@id"]);
-    }
-  }, [log, question]);
 
   const onSubmitButtonPress = useCallback(
     () =>
-      onEvent({
-        "@type": "TextAnswerEvent",
-        questionActionId: question["@id"],
+      onAnswer({
+        questionId: question["@id"],
         text,
-      }),
-    [onEvent, question, text],
+        "@type": "TextAnswer",
+      } satisfies TextAnswer),
+    [question, text],
   );
 
   return (

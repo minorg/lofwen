@@ -11,7 +11,7 @@
     }
   },
   "license": "Apache-2.0",
-  "name": "@lofwen/events",
+  "name": "@lofwen/models",
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
