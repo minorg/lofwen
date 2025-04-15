@@ -1,10 +1,13 @@
 import { useColorScheme as useNativewindColorScheme } from "nativewind";
 import { useColorScheme as useReactNativeColorScheme } from "react-native";
-import * as reactNativeLogs from "react-native-logs";
 
-const logger = reactNativeLogs.logger.createLogger().extend("useColorScheme");
-
-export function useColorScheme() {
+export function useColorScheme({
+  logger,
+}: {
+  logger: {
+    warn: (...args: unknown[]) => void;
+  };
+}) {
   let { colorScheme, setColorScheme, toggleColorScheme } =
     useNativewindColorScheme();
   const reactNativeColorScheme = useReactNativeColorScheme();

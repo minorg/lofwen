@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "react-native-logs": "~5.3.0",
     "tinybase": "~5.4.8",
     "zod": "~3.24.2"
   },

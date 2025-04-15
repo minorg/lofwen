@@ -7,9 +7,15 @@ import { setAndroidNavigationBar } from "../setAndroidNavigationBar";
 import { cn } from "./ui/cn";
 
 export function ThemeToggle({
+  logger,
   navTheme,
-}: { navTheme: { dark: Theme; light: Theme } }) {
-  const { isDarkColorScheme, setColorScheme } = useColorScheme();
+}: {
+  logger: {
+    warn: (...args: unknown[]) => void;
+  };
+  navTheme: { dark: Theme; light: Theme };
+}) {
+  const { isDarkColorScheme, setColorScheme } = useColorScheme({ logger });
 
   const toggleColorScheme = useCallback(() => {
     const newTheme = isDarkColorScheme ? "light" : "dark";

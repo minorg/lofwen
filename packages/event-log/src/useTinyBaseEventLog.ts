@@ -1,15 +1,17 @@
 import { useMemo } from "react";
-import * as reactNativeLogs from "react-native-logs";
 import type { z } from "zod";
 import type { BaseEvent } from "./BaseEvent";
 import { TinyBaseEventLog } from "./TinyBaseEventLog";
 
-const logger = reactNativeLogs.logger.createLogger().extend("TinyBaseEventLog");
-
 export function useTinyBaseEventLog<EventT extends BaseEvent>({
   eventSchema,
+  logger,
 }: {
   eventSchema: z.ZodType<EventT>;
+  logger: {
+    debug: (...args: unknown[]) => void;
+    warn: (...args: unknown[]) => void;
+  };
 }): TinyBaseEventLog<EventT> {
   const { useAddRowCallback, useTable } = TinyBaseEventLog.UiReact;
   const table = useTable("event");
@@ -26,7 +28,7 @@ export function useTinyBaseEventLog<EventT extends BaseEvent>({
       logger.debug(`added event rowId=${rowId} row=${JSON.stringify(row)}`),
   );
   return useMemo(
-    () => new TinyBaseEventLog({ addRowCallback, eventSchema, table }),
+    () => new TinyBaseEventLog({ addRowCallback, eventSchema, logger, table }),
     [addRowCallback, eventSchema, table],
   );
 }

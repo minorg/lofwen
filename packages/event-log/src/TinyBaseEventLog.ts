@@ -1,4 +1,3 @@
-import * as reactNativeLogs from "react-native-logs";
 import * as UiReactWithSchemas from "tinybase/ui-react/with-schemas";
 import type {
   MergeableStore,
@@ -11,8 +10,6 @@ import type { z } from "zod";
 import type { BaseEvent } from "./BaseEvent";
 import { EventLog } from "./EventLog";
 
-const logger = reactNativeLogs.logger.createLogger().extend("TinyBaseEventLog");
-
 /**
  * Event log implementation backed by a TinyBase store.
  */
@@ -21,21 +18,31 @@ export class TinyBaseEventLog<
 > extends EventLog<EventT> {
   private readonly addRowCallback: ParameterizedCallback<EventT>;
   private readonly eventSchema: z.ZodType<EventT>;
+  private readonly logger: {
+    debug: (...args: unknown[]) => void;
+    warn: (...args: unknown[]) => void;
+  };
+
   private readonly parsedRowCache: Record<string, EventT | null> = {};
   private readonly table: Table<typeof TinyBaseEventLog.tablesSchema, "event">;
 
   constructor({
     addRowCallback,
     eventSchema,
+    logger,
     table,
   }: {
     addRowCallback: ParameterizedCallback<EventT>;
     eventSchema: z.ZodType<EventT>;
+    logger: {
+      debug: (...args: unknown[]) => void;
+    };
     table: Table<typeof TinyBaseEventLog.tablesSchema, "event">;
   }) {
     super();
     this.addRowCallback = addRowCallback;
     this.eventSchema = eventSchema;
+    this.logger = logger;
     this.table = table;
   }
 
@@ -82,7 +89,7 @@ export class TinyBaseEventLog<
       JSON.parse(row["json"] as string),
     );
     if (!entryParseResult.success) {
-      logger.warn(
+      this.logger.warn(
         "unable to parse event log row",
         rowId,
         "\n",
