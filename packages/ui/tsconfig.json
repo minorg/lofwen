@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "outDir": "dist"
+    "baseUrl": "src",
+    "outDir": "dist",
+    "paths": {
+      "~/*": ["./*"]
+    }
   },
   "extends": ["@lofwen/tsconfig/react-native-lib.json"],
   "include": ["src/**/*.tsx", "src/**/*.ts"]
