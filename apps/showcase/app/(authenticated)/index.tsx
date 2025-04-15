@@ -1,5 +1,5 @@
-import { Redirect } from "expo-router";
-import { Hrefs } from "~/Hrefs";
+import { useMemo } from "react";
+import { executeAction } from "~/executeAction";
 import { useEventLog } from "~/hooks/useEventLog";
 import { rootLogger } from "~/rootLogger";
 import { workflow } from "~/workflow";
@@ -7,15 +7,9 @@ import { workflow } from "~/workflow";
 const logger = rootLogger.extend("RootScreen");
 
 export default function RootScreen() {
+  logger.debug("rendering");
   const eventLog = useEventLog();
-
-  const action = workflow({ eventLog });
-  switch (action["@type"]) {
-    case "PoseQuestionAction": {
-      eventLog.append({
-        "@type": "QuestionFormulatedEvent",
-      });
-      return <Redirect href={Hrefs.question(action.question)} />;
-    }
-  }
+  const action = useMemo(() => workflow({ eventLog }), [eventLog]);
+  logger.debug("action:", action["@type"]);
+  return executeAction({ action, eventLog });
 }

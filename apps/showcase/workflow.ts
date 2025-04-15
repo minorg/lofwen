@@ -2,6 +2,7 @@ import type { EventLog } from "@lofwen/event-log";
 import invariant from "ts-invariant";
 import type { Action } from "~/models/Action";
 import type { Event } from "~/models/Event";
+import { rootLogger } from "~/rootLogger";
 
 const actions: readonly Action[] = [
   {
@@ -45,7 +46,12 @@ const actions: readonly Action[] = [
       type: "timeInterval",
     },
   },
+  {
+    "@type": "NopAction",
+  },
 ];
+
+const logger = rootLogger.extend("workflow");
 
 export const workflow = ({
   eventLog,
@@ -55,47 +61,47 @@ export const workflow = ({
     return actions[0];
   }
 
-  let nextActionIndex: number;
+  logger.debug("last event:", JSON.stringify(lastEvent));
+
+  let currentActionIndex: number;
   switch (lastEvent["@type"]) {
     case "QuestionFormulatedEvent": {
       // Pose the question
-      nextActionIndex =
-        actions.findIndex(
-          (action) =>
-            action["@type"] === "PoseQuestionAction" &&
-            action.question["@id"] === lastEvent.question["@id"],
-        ) + 1;
+      currentActionIndex = actions.findIndex(
+        (action) =>
+          action["@type"] === "PoseQuestionAction" &&
+          action.question["@id"] === lastEvent.question["@id"],
+      );
       break;
     }
     case "QuestionPosedEvent": {
       // Re-pose the question
-      nextActionIndex =
-        actions.findIndex(
-          (action) =>
-            action["@type"] === "PoseQuestionAction" &&
-            action.question["@id"] === lastEvent.questionId,
-        ) + 1;
+      currentActionIndex = actions.findIndex(
+        (action) =>
+          action["@type"] === "PoseQuestionAction" &&
+          action.question["@id"] === lastEvent.questionId,
+      );
       break;
     }
     case "QuestionAnsweredEvent": {
       // Pose the next question
-      nextActionIndex =
-        actions.findIndex(
-          (action) =>
-            action["@type"] === "PoseQuestionAction" &&
-            action.question["@id"] === lastEvent.answer.questionId,
-        ) + 1;
+      currentActionIndex = actions.findIndex(
+        (action) =>
+          action["@type"] === "PoseQuestionAction" &&
+          action.question["@id"] === lastEvent.answer.questionId,
+      );
       break;
     }
     case "NotificationScheduledEvent": {
-      nextActionIndex =
-        actions.findIndex(
-          (action) => action["@type"] === "ScheduleNotificationAction",
-        ) + 1;
+      currentActionIndex = actions.findIndex(
+        (action) => action["@type"] === "ScheduleNotificationAction",
+      );
       break;
     }
   }
-  const nextAction = actions[nextActionIndex];
+  invariant(currentActionIndex >= 0);
+  logger.debug("current action index:", currentActionIndex);
+  const nextAction = actions[currentActionIndex + 1];
   invariant(nextAction);
   return nextAction;
 };

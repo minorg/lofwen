@@ -10,18 +10,22 @@ import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import invariant from "ts-invariant";
 import { Hrefs } from "~/Hrefs";
+import { executeAction } from "~/executeAction";
 import { useEventLog } from "~/hooks/useEventLog";
-import { useWorkflowEngine } from "~/hooks/useWorkflowEngine";
 import type { Answer } from "~/models/Answer";
 import { rootLogger } from "~/rootLogger";
+import { workflow } from "~/workflow";
 
 const logger = rootLogger.extend("QuestionScreen");
 
 export default function QuestionScreen() {
+  logger.debug("rendering");
+
   const { questionId } = useLocalSearchParams<{
     questionId: string;
   }>();
   const eventLog = useEventLog();
+  const nextAction = useMemo(() => workflow({ eventLog }), [eventLog]);
   const question = useMemo(() => {
     for (const event of eventLog.reverse()) {
       if (
@@ -45,17 +49,16 @@ export default function QuestionScreen() {
     return null;
   }, [eventLog, questionId]);
   const navigation = useNavigation();
-  const workflowEngine = useWorkflowEngine();
 
   const onAnswer = useCallback(
     (answer: Answer) => {
-      workflowEngine.onEvent({
+      eventLog.append({
         answer,
         timestamp: Timestamp.now(),
         "@type": "QuestionAnsweredEvent",
       });
     },
-    [workflowEngine],
+    [eventLog],
   );
 
   useEffect(() => {
@@ -86,6 +89,14 @@ export default function QuestionScreen() {
     logger.warn("no such question:", questionId);
     return <Redirect href={Hrefs.root} />;
   }
+
+  if (
+    nextAction["@type"] !== "PoseQuestionAction" ||
+    nextAction.question["@id"] !== question["@id"]
+  ) {
+    return executeAction({ action: nextAction, eventLog });
+  }
+  logger.debug("next action would execute to the current page, nop");
 
   let questionView: ReactElement;
   switch (question["@type"]) {

@@ -1,6 +1,9 @@
 import { ThemeToggle } from "@lofwen/ui";
 import { Platform } from "react-native";
 import { navTheme } from "~/navTheme";
+import { rootLogger } from "~/rootLogger";
+
+const logger = rootLogger.extend("ThemeToggle");
 
 export const screenOptions = {
   ...(Platform.OS !== "ios"
@@ -16,6 +19,6 @@ export const screenOptions = {
           backgroundColor: "transparent",
         },
       }),
-  headerRight: () => <ThemeToggle navTheme={navTheme} />,
+  headerRight: () => <ThemeToggle logger={logger} navTheme={navTheme} />,
   headerTitle: "",
 };
