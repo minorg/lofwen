@@ -1,4 +1,6 @@
 import { render } from "@testing-library/react-native";
+// biome-ignore lint/correctness/noUnusedImports: <explanation>
+import React from "react";
 import { LikertScaleQuestionView } from "../../src/components/LikertScaleQuestionView";
 import { likertScaleQuestion } from "../data";
 

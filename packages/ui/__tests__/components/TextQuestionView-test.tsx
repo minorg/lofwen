@@ -1,4 +1,6 @@
 import { render } from "@testing-library/react-native";
+// biome-ignore lint/correctness/noUnusedImports: <explanation>
+import React from "react";
 import { TextQuestionView } from "../../src/components/TextQuestionView";
 import { textQuestion } from "../data";
 
