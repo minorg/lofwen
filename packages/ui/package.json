@@ -33,6 +33,7 @@
       "default": "./dist/*.js"
     }
   },
+  "files": ["dist/**"],
   "license": "Apache-2.0",
   "name": "@lofwen/ui",
   "scripts": {

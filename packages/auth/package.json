@@ -17,6 +17,7 @@
       "default": "./dist/*.js"
     }
   },
+  "files": ["dist/*.d.ts", "dist/*.js"],
   "license": "Apache-2.0",
   "name": "@lofwen/auth",
   "scripts": {
