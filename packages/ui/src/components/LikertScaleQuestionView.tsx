@@ -1,46 +1,30 @@
-import { useCallback, useMemo } from "react";
+import type { LikertScaleAnswer, LikertScaleQuestion } from "@lofwen/models";
+import { useCallback } from "react";
 import { View } from "react-native";
 import { Label } from "~/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Text } from "~/components/ui/text";
-import { useLog } from "~/hooks/useLog";
-import { logger } from "~/logger";
-import type { Event, LikertScaleQuestionAction } from "~/models";
 
 export function LikertScaleQuestionActionView({
-  action: question,
-  onEvent,
+  answer,
+  onAnswer,
+  question,
 }: {
-  action: LikertScaleQuestionAction;
-  onEvent: (event: Event) => void;
+  answer: LikertScaleAnswer | null;
+  onAnswer: (answer: LikertScaleAnswer) => void;
+  question: LikertScaleQuestion;
 }) {
-  const log = useLog();
-  const answer = useMemo(() => {
-    const answer = log.answerEvent(question);
-    if (answer !== null) {
-      logger.debug(
-        "existing answer to question",
-        question["@id"],
-        ":",
-        JSON.stringify(answer),
-      );
-    } else {
-      logger.debug("no existing answer to question", question["@id"]);
-    }
-    return answer;
-  }, [log, question]);
-
   const onSelectResponseCategoryLabel = useCallback(
     (responseCategoryLabel: string) =>
-      onEvent({
-        "@type": "LikertScaleAnswerEvent",
-        questionActionId: question["@id"],
+      onAnswer({
+        "@type": "LikertScaleAnswer",
+        questionId: question["@id"],
         responseCategory: question.responseCategories.find(
           (responseCategory) =>
             responseCategory.label === responseCategoryLabel,
         )!,
       }),
-    [onEvent, question],
+    [onAnswer, question],
   );
 
   return (

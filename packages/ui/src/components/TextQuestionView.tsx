@@ -1,5 +1,5 @@
 import type { TextAnswer, TextQuestion } from "@lofwen/models";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -24,8 +24,14 @@ export function TextQuestionActionView({
         text,
         "@type": "TextAnswer",
       } satisfies TextAnswer),
-    [question, text],
+    [onAnswer, question, text],
   );
+
+  useEffect(() => {
+    if (answer !== null) {
+      setText(answer.text);
+    }
+  }, [answer]);
 
   return (
     <View className="flex flex-col flex-1 gap-2 native:justify-center native:px-4">
