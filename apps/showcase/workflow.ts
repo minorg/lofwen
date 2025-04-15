@@ -51,14 +51,12 @@ export const workflow = ({
   eventLog,
 }: { eventLog: EventLog<Event> }): Action => {
   const lastEvent = eventLog.last;
-  invariant(lastEvent !== null);
+  if (lastEvent === null) {
+    return actions[0];
+  }
 
   let nextActionIndex: number;
   switch (lastEvent["@type"]) {
-    case "AppStartedEvent": {
-      nextActionIndex = 0;
-      break;
-    }
     case "QuestionFormulatedEvent": {
       // Pose the question
       nextActionIndex =

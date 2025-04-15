@@ -1,25 +1,21 @@
-import { useEffect } from "react";
-
-import { Timestamp } from "@lofwen/models";
+import { Redirect } from "expo-router";
+import { Hrefs } from "~/Hrefs";
 import { useEventLog } from "~/hooks/useEventLog";
-import { useWorkflowEngine } from "~/hooks/useWorkflowEngine";
 import { rootLogger } from "~/rootLogger";
+import { workflow } from "~/workflow";
 
 const logger = rootLogger.extend("RootScreen");
 
 export default function RootScreen() {
-  const lastEvent = useEventLog().last;
-  const workflowEngine = useWorkflowEngine();
+  const eventLog = useEventLog();
 
-  useEffect(() => {
-    if (lastEvent !== null) {
-      logger.debug("there are already actions in the log");
-      return;
+  const action = workflow({ eventLog });
+  switch (action["@type"]) {
+    case "PoseQuestionAction": {
+      eventLog.append({
+        "@type": "QuestionFormulatedEvent",
+      });
+      return <Redirect href={Hrefs.question(action.question)} />;
     }
-
-    workflowEngine.onEvent({
-      "@type": "AppStartedEvent",
-      timestamp: Timestamp.now(),
-    }); // Will redirect
-  }, [lastEvent, workflowEngine]);
+  }
 }

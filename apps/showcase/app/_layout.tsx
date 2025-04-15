@@ -30,10 +30,10 @@ export default function RootLayout() {
       return;
     }
 
-    // if (Platform.OS === "web") {
-    //   // Adds the background color to the html element to prevent white background on overscroll.
-    //   document.documentElement.classList.add("bg-background");
-    // }
+    if (Platform.OS === "web") {
+      // Adds the background color to the html element to prevent white background on overscroll.
+      document.documentElement.classList.add("bg-background");
+    }
 
     setAndroidNavigationBar({ colorScheme, navTheme });
     setIsColorSchemeLoaded(true);
@@ -41,6 +41,7 @@ export default function RootLayout() {
   }, []);
 
   if (!isColorSchemeLoaded) {
+    logger.debug("color scheme isn't loaded, returning null on first render");
     return null;
   }
 
