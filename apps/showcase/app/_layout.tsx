@@ -14,9 +14,9 @@ import * as React from "react";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { configuration } from "~/configuration";
-import { navTheme } from "~/constants/navTheme";
 import { useColorScheme } from "~/hooks/useColorScheme";
 import { setAndroidNavigationBar } from "~/lib/setAndroidNavigationBar";
+import { navTheme } from "~/navTheme";
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,

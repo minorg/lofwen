@@ -42,6 +42,7 @@
     ]
   },
   "license": "Apache-2.0",
+  "module": "./dist/index.js",
   "name": "@lofwen/ui",
   "scripts": {
     "build": "tsc",
@@ -53,5 +54,6 @@
     "type-check:watch": "tsc --noEmit -w"
   },
   "type": "module",
+  "types": "./dist/index.d.ts",
   "version": "1.0.0"
 }

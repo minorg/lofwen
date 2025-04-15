@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "@lofwen/event-log": "1.0.0",
+    "@lofwen/models": "1.0.0",
+    "@lofwen/ui": "1.0.0",
     "@react-navigation/native": "~7.0.14",
     "envalid": "~8.0.0",
     "expo": "~52.0.42",
