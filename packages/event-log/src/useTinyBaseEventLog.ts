@@ -29,6 +29,6 @@ export function useTinyBaseEventLog<EventT extends BaseEvent>({
   );
   return useMemo(
     () => new TinyBaseEventLog({ addRowCallback, eventSchema, logger, table }),
-    [addRowCallback, eventSchema, table],
+    [addRowCallback, eventSchema, logger, table],
   );
 }

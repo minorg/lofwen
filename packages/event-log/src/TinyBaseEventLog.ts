@@ -36,6 +36,7 @@ export class TinyBaseEventLog<
     eventSchema: z.ZodType<EventT>;
     logger: {
       debug: (...args: unknown[]) => void;
+      warn: (...args: unknown[]) => void;
     };
     table: Table<typeof TinyBaseEventLog.tablesSchema, "event">;
   }) {
