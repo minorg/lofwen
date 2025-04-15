@@ -6,7 +6,7 @@ import { Input } from "~/components/ui/input";
 import {} from "~/components/ui/radio-group";
 import { Text } from "~/components/ui/text";
 
-export function TextQuestionActionView({
+export function TextQuestionView({
   answer,
   onAnswer,
   question,
