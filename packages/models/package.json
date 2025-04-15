@@ -4,14 +4,9 @@
     "zod": "~3.24.2"
   },
   "devDependencies": {},
-  "exports": {
-    "./*": {
-      "types": "./src/*.ts",
-      "default": "./dist/*.js"
-    }
-  },
-  "files": ["dist/*.d.ts", "dist/*.js"],
+  "files": ["dist/**"],
   "license": "Apache-2.0",
+  "module": "./dist/index.js",
   "name": "@lofwen/models",
   "scripts": {
     "build": "tsc",
@@ -20,5 +15,7 @@
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit -w"
   },
+  "type": "module",
+  "types": "./dist/index.d.ts",
   "version": "1.0.0"
 }
