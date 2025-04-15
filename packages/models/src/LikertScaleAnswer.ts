@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { BaseAnswer } from "~/BaseAnswer";
-import { OrdinalCategory } from "~/OrdinalCategory";
+import { BaseAnswer } from "./BaseAnswer";
+import { OrdinalCategory } from "./OrdinalCategory";
 
 export type LikertScaleAnswer = z.infer<typeof LikertScaleAnswer.schema>;
 

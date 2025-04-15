@@ -1,13 +1,3 @@
-import {
-  type DailyTriggerInput,
-  type DateTriggerInput,
-  type MonthlyTriggerInput,
-  type NotificationTriggerInput,
-  SchedulableTriggerInputTypes,
-  type TimeIntervalTriggerInput,
-  type WeeklyTriggerInput,
-  type YearlyTriggerInput,
-} from "expo-notifications";
 import { z } from "zod";
 
 export namespace Notification {
@@ -122,55 +112,5 @@ export namespace Notification {
         type: z.literal("yearly"),
       }),
     ]);
-
-    export function toExpoNotificationTriggerInput(
-      trigger: Notification.Trigger,
-    ): NotificationTriggerInput {
-      // This madness is due to expo-notifications using a native enum for the type discriminator, which Zod can't really handle.
-      switch (trigger.type) {
-        case "daily": {
-          const { type, ...otherProps } = trigger;
-          return {
-            ...otherProps,
-            type: SchedulableTriggerInputTypes.DAILY,
-          } satisfies DailyTriggerInput;
-        }
-        case "date": {
-          const { type, ...otherProps } = trigger;
-          return {
-            ...otherProps,
-            type: SchedulableTriggerInputTypes.DATE,
-          } satisfies DateTriggerInput;
-        }
-        case "monthly": {
-          const { type, ...otherProps } = trigger;
-          return {
-            ...otherProps,
-            type: SchedulableTriggerInputTypes.MONTHLY,
-          } satisfies MonthlyTriggerInput;
-        }
-        case "timeInterval": {
-          const { type, ...otherProps } = trigger;
-          return {
-            ...otherProps,
-            type: SchedulableTriggerInputTypes.TIME_INTERVAL,
-          } satisfies TimeIntervalTriggerInput;
-        }
-        case "weekly": {
-          const { type, ...otherProps } = trigger;
-          return {
-            ...otherProps,
-            type: SchedulableTriggerInputTypes.WEEKLY,
-          } satisfies WeeklyTriggerInput;
-        }
-        case "yearly": {
-          const { type, ...otherProps } = trigger;
-          return {
-            ...otherProps,
-            type: SchedulableTriggerInputTypes.YEARLY,
-          } satisfies YearlyTriggerInput;
-        }
-      }
-    }
   }
 }
