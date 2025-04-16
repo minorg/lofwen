@@ -77,6 +77,8 @@
     "expo-doctor": "expo-doctor",
     "ios": "expo start --ios",
     "start": "expo start",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit -w",
     "web": "expo start --web"
