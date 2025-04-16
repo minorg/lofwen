@@ -9,9 +9,12 @@ import { type ReactElement, useCallback, useEffect, useMemo } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import invariant from "ts-invariant";
-import { executeAction } from "~/executeAction";
 import { useEventLog } from "~/hooks/useEventLog";
 import type { Answer } from "~/models/Answer";
+import { ExecutableAction } from "~/models/ExecutableAction";
+import { NopAction } from "~/models/NopAction";
+import { PoseQuestionAction } from "~/models/PoseQuestionAction";
+import { RenderableAction } from "~/models/RenderableAction";
 import { rootLogger } from "~/rootLogger";
 import { workflow } from "~/workflow";
 
@@ -80,7 +83,7 @@ export default function QuestionScreen() {
     const lastEvent = eventLog.last;
     // The workflow should return the PoseQuestionAction until the redirect here succeeds and the QuestionPosedEvent is added to the event log
     if (
-      nextAction["@type"] === "PoseQuestionAction" &&
+      nextAction instanceof PoseQuestionAction &&
       nextAction.question["@id"] === questionId
     ) {
       if (
@@ -104,18 +107,24 @@ export default function QuestionScreen() {
     }
   }, [eventLog, nextAction, questionId]);
 
-  switch (nextAction["@type"]) {
-    case "NopAction":
-      logger.debug("next action is nop");
-      break;
-    case "PoseQuestionAction":
-      if (nextAction.question["@id"] === questionId) {
-        logger.debug("next action would execute to the current page, nop");
-        break;
-      }
-      return executeAction({ action: nextAction, eventLog });
-    default:
-      return executeAction({ action: nextAction, eventLog });
+  useEffect(() => {
+    if (nextAction instanceof ExecutableAction) {
+      nextAction.execute({ eventLog });
+    }
+  }, [eventLog, nextAction]);
+
+  if (nextAction instanceof NopAction) {
+    logger.debug("next action is nop");
+  } else if (nextAction instanceof PoseQuestionAction) {
+    if (nextAction.question["@id"] === questionId) {
+      logger.debug("next action would execute to the current page, nop");
+    } else {
+      return nextAction.render();
+    }
+  } else if (nextAction instanceof RenderableAction) {
+    return nextAction.render();
+  } else {
+    invariant(nextAction instanceof ExecutableAction);
   }
 
   if (question === null) {
