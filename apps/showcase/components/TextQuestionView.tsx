@@ -1,9 +1,9 @@
 import type { TextAnswer, TextQuestion } from "@lofwen/models";
+import { Button } from "@lofwen/ui/src/components/ui/button";
+import { Input } from "@lofwen/ui/src/components/ui/input";
+import { Text } from "@lofwen/ui/src/components/ui/text";
 import { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Text } from "./ui/text";
 
 export function TextQuestionView({
   answer,

@@ -1,27 +1,18 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import type { Theme } from "@react-navigation/native";
+import { cn } from "@lofwen/ui/src/components/ui/cn";
 import { useCallback } from "react";
 import { Pressable, View } from "react-native";
-import { useColorScheme } from "../hooks/useColorScheme";
-import { setAndroidNavigationBar } from "../setAndroidNavigationBar";
-import { cn } from "./ui/cn";
+import { useColorScheme } from "~/hooks/useColorScheme";
+import { setAndroidNavigationBar } from "~/lib/setAndroidNavigationBar";
 
-export function ThemeToggle({
-  logger,
-  navTheme,
-}: {
-  logger: {
-    warn: (...args: unknown[]) => void;
-  };
-  navTheme: { dark: Theme; light: Theme };
-}) {
-  const { isDarkColorScheme, setColorScheme } = useColorScheme({ logger });
+export function ThemeToggle() {
+  const { isDarkColorScheme, setColorScheme } = useColorScheme();
 
   const toggleColorScheme = useCallback(() => {
-    const newTheme = isDarkColorScheme ? "light" : "dark";
-    setAndroidNavigationBar({ navTheme, colorScheme: newTheme });
-    setColorScheme(newTheme);
-  }, [isDarkColorScheme, navTheme, setColorScheme]);
+    const newColorScheme = isDarkColorScheme ? "light" : "dark";
+    setAndroidNavigationBar({ colorScheme: newColorScheme });
+    setColorScheme(newColorScheme);
+  }, [isDarkColorScheme, setColorScheme]);
 
   return (
     <Pressable

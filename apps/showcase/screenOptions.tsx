@@ -1,5 +1,5 @@
-import { ThemeToggle } from "@lofwen/ui";
 import { Platform } from "react-native";
+import { ThemeToggle } from "~/components/ThemeToggle";
 import { navTheme } from "~/navTheme";
 import { rootLogger } from "~/rootLogger";
 

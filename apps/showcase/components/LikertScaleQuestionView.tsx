@@ -1,9 +1,12 @@
 import type { LikertScaleAnswer, LikertScaleQuestion } from "@lofwen/models";
+import { Label } from "@lofwen/ui/src/components/ui/label";
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from "@lofwen/ui/src/components/ui/radio-group";
+import { Text } from "@lofwen/ui/src/components/ui/text";
 import { useCallback } from "react";
 import { View } from "react-native";
-import { Label } from "./ui/label";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
-import { Text } from "./ui/text";
 
 export function LikertScaleQuestionView({
   answer,

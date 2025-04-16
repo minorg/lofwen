@@ -1,15 +1,15 @@
 import { render } from "@testing-library/react-native";
 // biome-ignore lint/correctness/noUnusedImports: <explanation>
 import React from "react";
-import { LikertScaleQuestionView } from "../../src/components/LikertScaleQuestionView";
-import { likertScaleQuestion } from "../data";
+import { TextQuestionView } from "~/components/TextQuestionView";
+import { textQuestion } from "../data";
 
 it("renders correctly", () => {
   const tree = render(
-    <LikertScaleQuestionView
+    <TextQuestionView
       answer={null}
       onAnswer={() => {}}
-      question={likertScaleQuestion}
+      question={textQuestion}
     />,
   ).toJSON();
   expect(tree).toMatchSnapshot();

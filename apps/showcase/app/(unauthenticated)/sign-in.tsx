@@ -5,7 +5,6 @@ import {
 } from "@clerk/clerk-expo";
 import type { ClerkAPIError, OAuthStrategy } from "@clerk/types";
 import { localUserStore, useUser, useWarmUpBrowser } from "@lofwen/auth";
-import { Button, Text } from "@lofwen/ui";
 import * as AuthSession from "expo-auth-session";
 import { randomUUID } from "expo-crypto";
 import { Redirect, useRouter } from "expo-router";
@@ -15,6 +14,8 @@ import { View } from "react-native";
 import { Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Hrefs } from "~/Hrefs";
+import { Button } from "~/components/ui/button";
+import { Text } from "~/components/ui/text";
 import { configuration } from "~/configuration";
 import { rootLogger } from "~/rootLogger";
 

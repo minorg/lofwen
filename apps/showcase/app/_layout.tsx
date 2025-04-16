@@ -2,7 +2,6 @@ import "~/global.css";
 
 import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
 import { tokenCache } from "@clerk/clerk-expo/token-cache";
-import { setAndroidNavigationBar, useColorScheme } from "@lofwen/ui";
 import { ThemeProvider } from "@react-navigation/native";
 import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -10,6 +9,7 @@ import * as React from "react";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { configuration } from "~/configuration";
+import { useColorScheme } from "~/hooks/useColorScheme";
 import { navTheme } from "~/navTheme";
 import { rootLogger } from "~/rootLogger";
 
@@ -22,7 +22,7 @@ const logger = rootLogger.extend("RootLayout");
 
 export default function RootLayout() {
   const hasMounted = React.useRef(false);
-  const { colorScheme, isDarkColorScheme } = useColorScheme({ logger });
+  const { colorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   useIsomorphicLayoutEffect(() => {
