@@ -90,8 +90,9 @@ export const workflow = ({
     }
   }
   invariant(currentActionIndex >= 0);
-  logger.debug("current action index:", currentActionIndex);
+  logger.debug(`current action index: ${currentActionIndex}`);
   const nextAction = actions[currentActionIndex + 1];
   invariant(nextAction);
+  logger.debug(`next action type: ${nextAction["@type"]}`);
   return nextAction;
 };

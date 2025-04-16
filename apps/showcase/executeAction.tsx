@@ -92,27 +92,16 @@ export function executeAction({
   action: Action;
   eventLog: TinyBaseEventLog<Event>;
 }): ReactElement | null {
-  logger.debug("executing", action["@type"]);
   const lastEvent = eventLog.last;
   logger.debug("last event:", JSON.stringify(lastEvent));
 
+  logger.debug("executing", JSON.stringify(action));
+
   switch (action["@type"]) {
     case "NopAction":
+      logger.warn("executing", action["@type"]);
       return null;
     case "PoseQuestionAction": {
-      // Add a QuestionPosedEvent if necessary
-      if (
-        lastEvent === null ||
-        lastEvent["@type"] !== "QuestionPosedEvent" ||
-        lastEvent.question["@id"] !== action.question["@id"]
-      ) {
-        eventLog.append({
-          "@type": "QuestionPosedEvent",
-          question: action.question,
-          timestamp: Timestamp.now(),
-        });
-      }
-      logger.debug("executed", action["@type"], ", redirecting to question");
       return <Redirect href={Hrefs.question(action.question)} />;
     }
     case "ScheduleNotificationAction": {
