@@ -1,4 +1,6 @@
 .env
+.turbo/
 *.tsbuildinfo
+dist/
 node_modules/
 npm-debug.*

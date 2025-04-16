@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "@clerk/clerk-expo": "~2.9.9",
+    "expo-auth-session": "~6.0.3",
+    "expo-secure-store": "~14.0.1",
+    "expo-web-browser": "~14.0.2",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-native": "0.76.9",
+    "zod": "~3.24.2"
+  },
+  "files": ["dist/**"],
+  "license": "Apache-2.0",
+  "module": "./dist/index.js",
+  "name": "@lofwen/auth",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "dev": "tsc --watch",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit -w"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0"
+}

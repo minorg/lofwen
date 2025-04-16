@@ -1,0 +1,26 @@
+name: app Continuous Integration
+on:
+  push:
+    branches-ignore:
+      - main
+  workflow_dispatch:
+env:
+  DO_NOT_TRACK: 1
+  NODE_OPTIONS: "--max-old-space-size=4096"
+  TURBO_TELEMETRY_DISABLED: 1
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: "yarn"
+          node-version: 22
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Lint
+        run: yarn lint
+      - name: Build
+        run: yarn build

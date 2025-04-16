@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "_version": "2.0.0",
+
+  "compilerOptions": {
+    "jsx": "react-native",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"]
+  },
+  "extends": "./lib.json"
+}
