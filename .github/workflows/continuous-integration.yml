@@ -20,7 +20,7 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - run: ls node_modules
+      - run: ls node_modules/@lofwen
       - name: Lint
         run: yarn lint
       - name: Type-check
