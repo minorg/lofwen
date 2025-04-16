@@ -1,18 +1,16 @@
-import { useAuthenticatedUser } from "@lofwen/auth";
 import { Timestamp } from "@lofwen/models";
 import { useCallback, useMemo } from "react";
 import { View } from "react-native";
 import { GiftedChat, type IMessage, type User } from "react-native-gifted-chat";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { configuration } from "~/configuration";
+import { useAuthenticatedUser } from "~/hooks/useAuthenticatedUser";
 import { useEventLog } from "~/hooks/useEventLog";
-import { rootLogger } from "~/rootLogger";
 
-const logger = rootLogger.extend("ChatScreen");
+// const logger = rootLogger.extend("ChatScreen");
 
 export default function ChatScreen() {
   const eventLog = useEventLog();
-  const user = useAuthenticatedUser({ configuration, logger });
+  const user = useAuthenticatedUser();
   const chatUser = useMemo(
     () =>
       ({
@@ -24,7 +22,7 @@ export default function ChatScreen() {
   const messages = useMemo(() => {
     const messages: IMessage[] = [];
     for (const event of eventLog) {
-      if (event["@type"] === "ChatMessageEvent") {
+      if (event["@type"] === "ChatMessageSentEvent") {
         messages.push(event.chatMessage);
       }
     }
@@ -35,7 +33,7 @@ export default function ChatScreen() {
     (messages: IMessage[]) => {
       for (const message of messages) {
         eventLog.append({
-          "@type": "ChatMessageEvent",
+          "@type": "ChatMessageSentEvent",
           chatMessage: {
             _id: message._id,
             createdAt:

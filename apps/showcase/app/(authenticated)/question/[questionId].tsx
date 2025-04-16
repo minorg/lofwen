@@ -10,6 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import invariant from "ts-invariant";
 import { LikertScaleQuestionView } from "~/components/LikertScaleQuestionView";
 import { TextQuestionView } from "~/components/TextQuestionView";
+import { useAuthenticatedUser } from "~/hooks/useAuthenticatedUser";
 import { useEventLog } from "~/hooks/useEventLog";
 import type { Answer } from "~/models/Answer";
 import { ExecutableAction } from "~/models/ExecutableAction";
@@ -28,6 +29,7 @@ export default function QuestionScreen() {
     questionId: string;
   }>();
   const eventLog = useEventLog();
+  const user = useAuthenticatedUser();
 
   const answer = useMemo(() => {
     for (const event of eventLog.reverse()) {
@@ -45,7 +47,7 @@ export default function QuestionScreen() {
 
   const navigation = useNavigation();
 
-  const nextAction = useMemo(() => workflow({ eventLog }), [eventLog]);
+  const nextAction = useMemo(() => workflow({ eventLog, user }), [eventLog]);
 
   const question = useMemo(() => {
     for (const event of eventLog.reverse()) {

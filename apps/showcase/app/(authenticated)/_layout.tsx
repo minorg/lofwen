@@ -1,5 +1,5 @@
 import "~/global.css";
-import { type AuthenticatedUser, useUser } from "@lofwen/auth";
+import type { AuthenticatedUser } from "@lofwen/auth";
 import {
   TinyBaseEventLog,
   useTinyBaseEventLogSynchronizer,
@@ -9,6 +9,7 @@ import { Redirect, Slot } from "expo-router";
 import { type PropsWithChildren, useMemo } from "react";
 import { Hrefs } from "~/Hrefs";
 import { configuration } from "~/configuration";
+import { useUser } from "~/hooks/useUser";
 import { rootLogger } from "~/rootLogger";
 
 const logger = rootLogger.extend("Synchronizer");
@@ -40,7 +41,7 @@ function Synchronization({
 
 export default function AuthenticatedLayout() {
   const store = useMemo(() => TinyBaseEventLog.Store.create(), []);
-  const user = useUser({ configuration, logger });
+  const user = useUser();
 
   if (user["@type"] === "UnauthenticatedUser") {
     return <Redirect href={Hrefs.signIn} />;

@@ -1,10 +1,13 @@
+import type { User } from "@lofwen/auth";
 import type { EventLog } from "@lofwen/event-log";
+import { Identifier, Timestamp } from "@lofwen/models";
 import invariant from "ts-invariant";
 import type { Action } from "~/models/Action";
 import type { Event } from "~/models/Event";
 import { NopAction } from "~/models/NopAction";
 import { PoseQuestionAction } from "~/models/PoseQuestionAction";
 import { ScheduleNotificationAction } from "~/models/ScheduleNotificationAction";
+import { SendChatMessageAction } from "~/models/SendChatMessageAction";
 import { rootLogger } from "~/rootLogger";
 
 const actions: readonly Action[] = [
@@ -49,7 +52,8 @@ const logger = rootLogger.extend("workflow");
 
 export const workflow = ({
   eventLog,
-}: { eventLog: EventLog<Event> }): Action => {
+  user,
+}: { eventLog: EventLog<Event>; user: User }): Action => {
   const lastEvent = eventLog.last;
   if (lastEvent === null) {
     return actions[0];
@@ -59,6 +63,23 @@ export const workflow = ({
 
   let currentActionIndex: number;
   switch (lastEvent["@type"]) {
+    case "ChatMessageSentEvent": {
+      if (
+        user["@type"] === "AuthenticatedUser" &&
+        lastEvent.chatMessage.user._id === user["@id"]
+      ) {
+        return new SendChatMessageAction({
+          _id: Identifier.random(),
+          createdAt: Timestamp.now(),
+          text: "How does that make you feel?",
+          user: {
+            _id: "system",
+            name: "System",
+          },
+        });
+      }
+      return new NopAction();
+    }
     case "QuestionPosedEvent": {
       // Return the PoseQuestionAction again so the workflow is deterministic
       return actions.find(
