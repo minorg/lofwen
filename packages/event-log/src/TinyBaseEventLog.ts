@@ -1,10 +1,11 @@
 import * as UiReactWithSchemas from "tinybase/ui-react/with-schemas";
-import type {
-  MergeableStore,
-  NoValuesSchema,
-  ParameterizedCallback,
-  Row,
-  Table,
+import {
+  type MergeableStore,
+  type NoValuesSchema,
+  type ParameterizedCallback,
+  type Row,
+  type Table,
+  createMergeableStore,
 } from "tinybase/with-schemas";
 import type { z } from "zod";
 import type { BaseEvent } from "./BaseEvent";
@@ -108,6 +109,12 @@ export class TinyBaseEventLog<
 
 export namespace TinyBaseEventLog {
   export type Store = MergeableStore<[typeof tablesSchema, NoValuesSchema]>;
+
+  export namespace Store {
+    export function create(): Store {
+      return createMergeableStore().setTablesSchema(tablesSchema);
+    }
+  }
 
   export const UiReact = UiReactWithSchemas as UiReactWithSchemas.WithSchemas<
     [typeof tablesSchema, NoValuesSchema]
