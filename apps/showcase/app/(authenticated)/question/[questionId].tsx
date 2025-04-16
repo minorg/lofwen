@@ -47,7 +47,10 @@ export default function QuestionScreen() {
 
   const navigation = useNavigation();
 
-  const nextAction = useMemo(() => workflow({ eventLog, user }), [eventLog]);
+  const nextAction = useMemo(
+    () => workflow({ eventLog, user }),
+    [eventLog, user],
+  );
 
   const question = useMemo(() => {
     for (const event of eventLog.reverse()) {

@@ -1,12 +1,16 @@
 import { Timestamp } from "@lofwen/models";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { View } from "react-native";
 import { GiftedChat, type IMessage, type User } from "react-native-gifted-chat";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuthenticatedUser } from "~/hooks/useAuthenticatedUser";
 import { useEventLog } from "~/hooks/useEventLog";
+import { ExecutableAction } from "~/models/ExecutableAction";
+import { RenderableAction } from "~/models/RenderableAction";
+import { rootLogger } from "~/rootLogger";
+import { workflow } from "~/workflow";
 
-// const logger = rootLogger.extend("ChatScreen");
+const logger = rootLogger.extend("ChatScreen");
 
 export default function ChatScreen() {
   const eventLog = useEventLog();
@@ -29,6 +33,11 @@ export default function ChatScreen() {
     return messages;
   }, [eventLog]);
 
+  const nextAction = useMemo(
+    () => workflow({ eventLog, user }),
+    [eventLog, user],
+  );
+
   const onSend = useCallback(
     (messages: IMessage[]) => {
       for (const message of messages) {
@@ -49,6 +58,16 @@ export default function ChatScreen() {
     },
     [eventLog],
   );
+
+  useEffect(() => {
+    if (nextAction instanceof ExecutableAction) {
+      nextAction.execute({ eventLog });
+    }
+  }, [eventLog, nextAction]);
+
+  if (nextAction instanceof RenderableAction) {
+    return nextAction.render();
+  }
 
   return (
     <SafeAreaView className="flex-1" id="safe-area-view">
