@@ -5,7 +5,7 @@ import {
   useTinyBaseEventLogSynchronizer,
 } from "@lofwen/event-log";
 import {} from "@react-navigation/native";
-import { Redirect, Stack } from "expo-router";
+import { Redirect, Slot } from "expo-router";
 import { type PropsWithChildren, useMemo } from "react";
 import { Hrefs } from "~/Hrefs";
 import { configuration } from "~/configuration";
@@ -46,7 +46,7 @@ export default function AuthenticatedLayout() {
     return <Redirect href={Hrefs.signIn} />;
   }
 
-  const stack = <Stack screenOptions={{ headerShown: false }} />;
+  const stack = <Slot screenOptions={{ headerShown: false }} />;
 
   return (
     <TinyBaseEventLog.UiReact.Provider store={store}>
