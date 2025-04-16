@@ -25,18 +25,7 @@ export default function QuestionScreen() {
     questionId: string;
   }>();
   const eventLog = useEventLog();
-  const nextAction = useMemo(() => workflow({ eventLog }), [eventLog]);
-  const question = useMemo(() => {
-    for (const event of eventLog.reverse()) {
-      if (
-        event["@type"] === "QuestionFormulatedEvent" &&
-        event.question["@id"] === questionId
-      ) {
-        return event.question;
-      }
-    }
-    return null;
-  }, [eventLog, questionId]);
+
   const answer = useMemo(() => {
     for (const event of eventLog.reverse()) {
       if (
@@ -48,7 +37,22 @@ export default function QuestionScreen() {
     }
     return null;
   }, [eventLog, questionId]);
+
   const navigation = useNavigation();
+
+  const nextAction = useMemo(() => workflow({ eventLog }), [eventLog]);
+
+  const question = useMemo(() => {
+    for (const event of eventLog.reverse()) {
+      if (
+        event["@type"] === "QuestionPosedEvent" &&
+        event.question["@id"] === questionId
+      ) {
+        return event.question;
+      }
+    }
+    return null;
+  }, [eventLog, questionId]);
 
   const onAnswer = useCallback(
     (answer: Answer) => {
@@ -67,36 +71,26 @@ export default function QuestionScreen() {
         headerTitle: question.title,
       });
     }
-
-    if (question !== null) {
-      // Append a QuestionPosedEvent to the event log if it's not there already
-      const lastEvent = eventLog.last;
-      if (
-        lastEvent === null ||
-        lastEvent["@type"] !== "QuestionPosedEvent" ||
-        lastEvent.questionId !== question["@id"]
-      ) {
-        eventLog.append({
-          "@type": "QuestionPosedEvent",
-          questionId: question["@id"],
-          timestamp: Timestamp.now(),
-        });
-      }
-    }
-  }, [eventLog, navigation, question]);
+  }, [navigation, question]);
 
   if (question === null) {
     logger.warn("no such question:", questionId);
     return <Redirect href={Hrefs.root} />;
   }
 
-  if (
-    nextAction["@type"] !== "PoseQuestionAction" ||
-    nextAction.question["@id"] !== question["@id"]
-  ) {
-    return executeAction({ action: nextAction, eventLog });
+  switch (nextAction["@type"]) {
+    case "NopAction":
+      logger.debug("next action is nop");
+      break;
+    case "PoseQuestionAction":
+      if (nextAction.question["@id"] === question["@id"]) {
+        logger.debug("next action would execute to the current page, nop");
+        break;
+      }
+      return executeAction({ action: nextAction, eventLog });
+    default:
+      return executeAction({ action: nextAction, eventLog });
   }
-  logger.debug("next action would execute to the current page, nop");
 
   let questionView: ReactElement;
   switch (question["@type"]) {

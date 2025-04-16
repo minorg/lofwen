@@ -65,23 +65,13 @@ export const workflow = ({
 
   let currentActionIndex: number;
   switch (lastEvent["@type"]) {
-    case "QuestionFormulatedEvent": {
-      // Pose the question
-      currentActionIndex = actions.findIndex(
+    case "QuestionPosedEvent": {
+      // Return the PoseQuestionAction again so the workflow is deterministic
+      return actions.find(
         (action) =>
           action["@type"] === "PoseQuestionAction" &&
           action.question["@id"] === lastEvent.question["@id"],
-      );
-      break;
-    }
-    case "QuestionPosedEvent": {
-      // Re-pose the question
-      currentActionIndex = actions.findIndex(
-        (action) =>
-          action["@type"] === "PoseQuestionAction" &&
-          action.question["@id"] === lastEvent.questionId,
-      );
-      break;
+      )!;
     }
     case "QuestionAnsweredEvent": {
       // Pose the next question
