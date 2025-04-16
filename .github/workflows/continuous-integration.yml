@@ -18,10 +18,9 @@ jobs:
         with:
           cache: "yarn"
           node-version: 22
-      # - name: Install dependencies
-      #   run: yarn install --frozen-lockfile
+      - run: ls node_modules
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Lint
         run: yarn lint
       - name: Type-check
