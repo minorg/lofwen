@@ -5,7 +5,9 @@ on:
       - main
   workflow_dispatch:
 env:
+  DO_NOT_TRACK: 1
   NODE_OPTIONS: "--max-old-space-size=4096"
+  TURBO_TELEMETRY_DISABLED: 1
 jobs:
   build:
     name: Build and test
