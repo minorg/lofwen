@@ -1,9 +1,9 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { cn } from "@lofwen/ui/src/components/ui/cn";
 import { useCallback } from "react";
 import { Pressable, View } from "react-native";
 import { useColorScheme } from "~/hooks/useColorScheme";
 import { setAndroidNavigationBar } from "~/lib/setAndroidNavigationBar";
+import { cn } from "~/lib/utils";
 
 export function ThemeToggle() {
   const { isDarkColorScheme, setColorScheme } = useColorScheme();

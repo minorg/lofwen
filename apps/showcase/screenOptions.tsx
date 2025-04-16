@@ -1,9 +1,5 @@
 import { Platform } from "react-native";
 import { ThemeToggle } from "~/components/ThemeToggle";
-import { navTheme } from "~/navTheme";
-import { rootLogger } from "~/rootLogger";
-
-const logger = rootLogger.extend("ThemeToggle");
 
 export const screenOptions = {
   ...(Platform.OS !== "ios"
@@ -19,6 +15,6 @@ export const screenOptions = {
           backgroundColor: "transparent",
         },
       }),
-  headerRight: () => <ThemeToggle logger={logger} navTheme={navTheme} />,
+  headerRight: () => <ThemeToggle />,
   headerTitle: "",
 };

@@ -3,12 +3,13 @@ import {
   type TextAnswer,
   Timestamp,
 } from "@lofwen/models";
-import { LikertScaleQuestionView, TextQuestionView } from "@lofwen/ui";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { type ReactElement, useCallback, useEffect, useMemo } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import invariant from "ts-invariant";
+import { LikertScaleQuestionView } from "~/components/LikertScaleQuestionView";
+import { TextQuestionView } from "~/components/TextQuestionView";
 import { useEventLog } from "~/hooks/useEventLog";
 import type { Answer } from "~/models/Answer";
 import { ExecutableAction } from "~/models/ExecutableAction";

@@ -10,6 +10,7 @@ import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { configuration } from "~/configuration";
 import { useColorScheme } from "~/hooks/useColorScheme";
+import { setAndroidNavigationBar } from "~/lib/setAndroidNavigationBar";
 import { navTheme } from "~/navTheme";
 import { rootLogger } from "~/rootLogger";
 
@@ -35,7 +36,7 @@ export default function RootLayout() {
       document.documentElement.classList.add("bg-background");
     }
 
-    setAndroidNavigationBar({ colorScheme, navTheme });
+    setAndroidNavigationBar({ colorScheme });
     setIsColorSchemeLoaded(true);
     hasMounted.current = true;
   }, []);
