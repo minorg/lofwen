@@ -8,6 +8,9 @@
   "license": "Apache-2.0",
   "module": "./dist/index.js",
   "name": "@lofwen/event-log",
+  "peerDependencies": {
+    "react": "18.3.1"
+  },
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",

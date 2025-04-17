@@ -1,6 +1,5 @@
-import type { TinyBaseEventLog } from "@lofwen/event-log";
 import { Action } from "~/models/Action";
-import type { Event } from "~/models/Event";
+import type { EventLog } from "~/models/EventLog";
 
 /**
  * An action that should be executed in a useEffect.
@@ -9,6 +8,6 @@ import type { Event } from "~/models/Event";
  */
 export abstract class ExecutableAction extends Action {
   abstract execute(parameters: {
-    eventLog: TinyBaseEventLog<Event>;
+    eventLog: EventLog;
   }): Promise<void>;
 }

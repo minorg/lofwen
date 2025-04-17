@@ -1,10 +1,9 @@
-import type { TinyBaseEventLog } from "@lofwen/event-log";
 import { type Identifier, type Notification, Timestamp } from "@lofwen/models";
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
-import type { Event } from "~/models/Event";
+import type { EventLog } from "~/models/EventLog";
 import { ExecutableAction } from "~/models/ExecutableAction";
-import type { NotificationScheduledEvent } from "~/models/NotificationScheduledEvent";
+import type { ScheduledNotificationEvent } from "~/models/ScheduledNotificationEvent";
 import { rootLogger } from "~/rootLogger";
 
 const logger = rootLogger.extend("executeAction");
@@ -42,11 +41,9 @@ export class ScheduleNotificationAction extends ExecutableAction {
     this.trigger = trigger ?? null;
   }
 
-  override async execute({
-    eventLog,
-  }: { eventLog: TinyBaseEventLog<Event> }): Promise<void> {
-    const notificationScheduledEvent: NotificationScheduledEvent = {
-      "@type": "NotificationScheduledEvent",
+  override async execute({ eventLog }: { eventLog: EventLog }): Promise<void> {
+    const notificationScheduledEvent: ScheduledNotificationEvent = {
+      "@type": "ScheduledNotificationEvent",
       content: this.content,
       timestamp: Timestamp.now(),
       trigger: this.trigger,

@@ -4,7 +4,8 @@
     "ignore": [
       "apps/**/components/ui/*",
       "apps/**/components.json",
-      "server/.dockerignore"
+      "**/.expo/**",
+      "apps/server/.dockerignore"
     ],
     "ignoreUnknown": true
   },

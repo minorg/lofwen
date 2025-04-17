@@ -4,7 +4,7 @@ import {
   useSSO,
 } from "@clerk/clerk-expo";
 import type { ClerkAPIError, OAuthStrategy } from "@clerk/types";
-import { localUserStore, useUser, useWarmUpBrowser } from "@lofwen/auth";
+import { localUserStore, useWarmUpBrowser } from "@lofwen/auth";
 import * as AuthSession from "expo-auth-session";
 import { randomUUID } from "expo-crypto";
 import { Redirect, useRouter } from "expo-router";
@@ -17,6 +17,7 @@ import { Hrefs } from "~/Hrefs";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { configuration } from "~/configuration";
+import { useUser } from "~/hooks/useUser";
 import { rootLogger } from "~/rootLogger";
 
 const logger = rootLogger.extend("SignInScreen");
@@ -45,7 +46,7 @@ export default function SignInScreen() {
       };
   const router = useRouter();
   const [errors, setErrors] = React.useState<ClerkAPIError[]>([]);
-  const user = useUser({ configuration, logger });
+  const user = useUser();
 
   const onLocalButtonPress = React.useCallback(() => {
     localUserStore.setLocalUserSync({
