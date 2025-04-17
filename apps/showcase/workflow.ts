@@ -63,7 +63,7 @@ export const workflow = ({
 
   let currentActionIndex: number;
   switch (lastEvent["@type"]) {
-    case "ChatMessageSentEvent": {
+    case "SentChatMessageEvent": {
       if (
         user["@type"] === "AuthenticatedUser" &&
         lastEvent.chatMessage.user._id === user["@id"]
@@ -80,7 +80,7 @@ export const workflow = ({
       }
       return new NopAction();
     }
-    case "QuestionPosedEvent": {
+    case "PosedQuestionEvent": {
       // Return the PoseQuestionAction again so the workflow is deterministic
       return actions.find(
         (action) =>
@@ -88,7 +88,7 @@ export const workflow = ({
           action.question["@id"] === lastEvent.question["@id"],
       )!;
     }
-    case "QuestionAnsweredEvent": {
+    case "AnsweredQuestionEvent": {
       // Pose the next question
       currentActionIndex = actions.findIndex(
         (action) =>
@@ -97,7 +97,7 @@ export const workflow = ({
       );
       break;
     }
-    case "NotificationScheduledEvent": {
+    case "ScheduledNotificationEvent": {
       currentActionIndex = actions.findIndex(
         (action) => action instanceof ScheduleNotificationAction,
       );

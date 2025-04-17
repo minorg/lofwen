@@ -7,10 +7,9 @@ import { useAuthenticatedUser } from "~/hooks/useAuthenticatedUser";
 import { useEventLog } from "~/hooks/useEventLog";
 import { ExecutableAction } from "~/models/ExecutableAction";
 import { RenderableAction } from "~/models/RenderableAction";
-import { rootLogger } from "~/rootLogger";
 import { workflow } from "~/workflow";
 
-const logger = rootLogger.extend("ChatScreen");
+// const logger = rootLogger.extend("ChatScreen");
 
 export default function ChatScreen() {
   const eventLog = useEventLog();
@@ -26,7 +25,7 @@ export default function ChatScreen() {
   const messages = useMemo(() => {
     const messages: IMessage[] = [];
     for (const event of eventLog) {
-      if (event["@type"] === "ChatMessageSentEvent") {
+      if (event["@type"] === "SentChatMessageEvent") {
         messages.push(event.chatMessage);
       }
     }
@@ -42,7 +41,7 @@ export default function ChatScreen() {
     (messages: IMessage[]) => {
       for (const message of messages) {
         eventLog.append({
-          "@type": "ChatMessageSentEvent",
+          "@type": "SentChatMessageEvent",
           chatMessage: {
             _id: message._id,
             createdAt:

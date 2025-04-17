@@ -2,11 +2,11 @@ import { z } from "zod";
 import { BaseEvent } from "~/models/BaseEvent";
 import { Question } from "~/models/Question";
 
-export type QuestionPosedEvent = z.infer<typeof QuestionPosedEvent.schema>;
+export type PosedQuestionEvent = z.infer<typeof PosedQuestionEvent.schema>;
 
-export namespace QuestionPosedEvent {
+export namespace PosedQuestionEvent {
   export const schema = BaseEvent.schema.extend({
-    "@type": z.literal("QuestionPosedEvent"),
+    "@type": z.literal("PosedQuestionEvent"),
     question: Question.schema,
   });
 }

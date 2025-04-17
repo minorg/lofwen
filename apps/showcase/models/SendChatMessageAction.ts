@@ -10,7 +10,7 @@ export class SendChatMessageAction extends ExecutableAction {
 
   override async execute({ eventLog }: { eventLog: EventLog }): Promise<void> {
     eventLog.append({
-      "@type": "ChatMessageSentEvent",
+      "@type": "SentChatMessageEvent",
       chatMessage: this.chatMessage,
       timestamp: Timestamp.now(),
     });

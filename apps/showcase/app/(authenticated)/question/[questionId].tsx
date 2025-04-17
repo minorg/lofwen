@@ -34,7 +34,7 @@ export default function QuestionScreen() {
   const answer = useMemo(() => {
     for (const event of eventLog.reverse()) {
       if (
-        event["@type"] === "QuestionAnsweredEvent" &&
+        event["@type"] === "AnsweredQuestionEvent" &&
         event.answer.questionId === questionId
       ) {
         logger.debug(`have answer to question ${questionId} in event log`);
@@ -55,7 +55,7 @@ export default function QuestionScreen() {
   const question = useMemo(() => {
     for (const event of eventLog.reverse()) {
       if (
-        event["@type"] === "QuestionPosedEvent" &&
+        event["@type"] === "PosedQuestionEvent" &&
         event.question["@id"] === questionId
       ) {
         logger.debug(`have question ${questionId} in event log`);
@@ -71,7 +71,7 @@ export default function QuestionScreen() {
       eventLog.append({
         answer,
         timestamp: Timestamp.now(),
-        "@type": "QuestionAnsweredEvent",
+        "@type": "AnsweredQuestionEvent",
       });
     },
     [eventLog],
@@ -87,27 +87,27 @@ export default function QuestionScreen() {
 
   useEffect(() => {
     const lastEvent = eventLog.last;
-    // The workflow should return the PoseQuestionAction until the redirect here succeeds and the QuestionPosedEvent is added to the event log
+    // The workflow should return the PoseQuestionAction until the redirect here succeeds and the PosedQuestionEvent is added to the event log
     if (
       nextAction instanceof PoseQuestionAction &&
       nextAction.question["@id"] === questionId
     ) {
       if (
         lastEvent === null ||
-        lastEvent["@type"] !== "QuestionPosedEvent" ||
+        lastEvent["@type"] !== "PosedQuestionEvent" ||
         lastEvent.question["@id"] !== questionId
       ) {
         logger.debug(
-          `last event is not a QuestionPosedEvent to the current question (${questionId}), appending a QuestionPosedEvent to the event log`,
+          `last event is not a PosedQuestionEvent to the current question (${questionId}), appending a PosedQuestionEvent to the event log`,
         );
         eventLog.append({
-          "@type": "QuestionPosedEvent",
+          "@type": "PosedQuestionEvent",
           question: nextAction.question,
           timestamp: Timestamp.now(),
         });
       } else {
         logger.debug(
-          `last event is already a QuestionPosedEvent to the current question (${questionId})`,
+          `last event is already a PosedQuestionEvent to the current question (${questionId})`,
         );
       }
     }

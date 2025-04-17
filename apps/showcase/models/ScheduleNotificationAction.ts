@@ -3,7 +3,7 @@ import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 import type { EventLog } from "~/models/EventLog";
 import { ExecutableAction } from "~/models/ExecutableAction";
-import type { NotificationScheduledEvent } from "~/models/NotificationScheduledEvent";
+import type { ScheduledNotificationEvent } from "~/models/ScheduledNotificationEvent";
 import { rootLogger } from "~/rootLogger";
 
 const logger = rootLogger.extend("executeAction");
@@ -42,8 +42,8 @@ export class ScheduleNotificationAction extends ExecutableAction {
   }
 
   override async execute({ eventLog }: { eventLog: EventLog }): Promise<void> {
-    const notificationScheduledEvent: NotificationScheduledEvent = {
-      "@type": "NotificationScheduledEvent",
+    const notificationScheduledEvent: ScheduledNotificationEvent = {
+      "@type": "ScheduledNotificationEvent",
       content: this.content,
       timestamp: Timestamp.now(),
       trigger: this.trigger,
