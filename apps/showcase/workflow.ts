@@ -31,7 +31,7 @@ export const workflow = ({
         question: {
           "@id": "likert-scale-question",
           "@type": "LikertScaleQuestion",
-          prompt: "Is this the best app ever?",
+          prompt: "Is this the **best** app ever?",
           responseCategories: [
             "Strongly disagree",
             "Disagree",
@@ -57,7 +57,7 @@ export const workflow = ({
             question: {
               "@id": "text-question",
               "@type": "TextQuestion",
-              prompt: "Tell us what you think of the app.",
+              prompt: "Tell us what you *think* of the app.",
               title: "Text question",
             },
           });

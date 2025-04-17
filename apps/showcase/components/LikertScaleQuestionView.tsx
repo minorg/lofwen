@@ -1,6 +1,7 @@
 import type { LikertScaleAnswer, LikertScaleQuestion } from "@lofwen/models";
 import { useCallback } from "react";
 import { View } from "react-native";
+import Markdown from "react-native-markdown-display";
 import { Label } from "~/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Text } from "~/components/ui/text";
@@ -29,7 +30,9 @@ export function LikertScaleQuestionView({
 
   return (
     <View className="flex flex-col gap-2 native:justify-center native:px-4">
-      <Text className="text-2xl">{question.prompt}</Text>
+      <Text className="text-2xl">
+        <Markdown>{question.prompt}</Markdown>
+      </Text>
       <RadioGroup
         onValueChange={onSelectResponseCategoryLabel}
         value={answer?.responseCategory.label ?? ""}
