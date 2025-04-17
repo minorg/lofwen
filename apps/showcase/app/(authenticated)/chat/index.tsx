@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuthenticatedUser } from "~/hooks/useAuthenticatedUser";
 import { useEventLog } from "~/hooks/useEventLog";
 import { ExecutableAction } from "~/models/ExecutableAction";
+import { OpenChatAction } from "~/models/OpenChatAction";
 import { RenderableAction } from "~/models/RenderableAction";
 import { workflow } from "~/workflow";
 
@@ -29,6 +30,10 @@ export default function ChatScreen() {
         messages.push(event.chatMessage);
       }
     }
+    messages.sort(
+      (left, right) =>
+        ((left.createdAt as number) - (right.createdAt as number)) * -1,
+    );
     return messages;
   }, [eventLog]);
 
@@ -58,13 +63,24 @@ export default function ChatScreen() {
     [eventLog],
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Run once
   useEffect(() => {
-    if (nextAction instanceof ExecutableAction) {
+    eventLog.append({ "@type": "OpenedChatEvent", timestamp: Timestamp.now() });
+  }, []);
+
+  useEffect(() => {
+    if (
+      !(nextAction instanceof OpenChatAction) &&
+      nextAction instanceof ExecutableAction
+    ) {
       nextAction.execute({ eventLog });
     }
   }, [eventLog, nextAction]);
 
-  if (nextAction instanceof RenderableAction) {
+  if (
+    !(nextAction instanceof OpenChatAction) &&
+    nextAction instanceof RenderableAction
+  ) {
     return nextAction.render();
   }
 
