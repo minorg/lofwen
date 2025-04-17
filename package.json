@@ -10,7 +10,6 @@
     "node": ">=18"
   },
   "name": "lofwen",
-  "packageManager": "yarn@1.22.22",
   "private": true,
   "scripts": {
     "biome:check:write": "biome check --write",
