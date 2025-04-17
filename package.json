@@ -10,7 +10,11 @@
     "node": ">=18"
   },
   "name": "lofwen",
-  "packageManager": "yarn@1.22.22",
+  "optionalDependencies": {
+    "@biomejs/cli-linux-x64": "1.9.4",
+    "@rollup/rollup-linux-x64-gnu": "4.24.0"
+  },
+  "packageManager": "npm@10.9.2",
   "private": true,
   "scripts": {
     "biome:check:write": "biome check --write",
