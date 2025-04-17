@@ -18,7 +18,9 @@ export const workflow = ({
   user,
 }: { eventLog: EventLog<Event>; user: User }): Action => {
   const lastEvent = eventLog.last;
-  invariant(lastEvent !== null);
+  if (lastEvent === null) {
+    return NopAction.instance;
+  }
 
   logger.debug("last event:", JSON.stringify(lastEvent));
 
@@ -112,5 +114,7 @@ export const workflow = ({
       invariant(lastEvent.chatMessage.user._id === "system");
       return NopAction.instance;
     }
+    default:
+      throw new RangeError(lastEvent["@type"]);
   }
 };
