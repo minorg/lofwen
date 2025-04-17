@@ -5,8 +5,11 @@ import type { Question } from "~/models/Question";
 import { RenderableAction } from "~/models/RenderableAction";
 
 export class PoseQuestionAction extends RenderableAction {
-  constructor(readonly question: Question) {
+  readonly question: Question;
+
+  constructor({ question }: { question: Question }) {
     super();
+    this.question = question;
   }
 
   override render(): ReactNode {

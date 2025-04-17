@@ -4,8 +4,11 @@ import type { EventLog } from "~/models/EventLog";
 import { ExecutableAction } from "~/models/ExecutableAction";
 
 export class SendChatMessageAction extends ExecutableAction {
-  constructor(readonly chatMessage: ChatMessage) {
+  readonly chatMessage: ChatMessage;
+
+  constructor({ chatMessage }: { chatMessage: ChatMessage }) {
     super();
+    this.chatMessage = chatMessage;
   }
 
   override async execute({ eventLog }: { eventLog: EventLog }): Promise<void> {
