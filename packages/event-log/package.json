@@ -6,7 +6,7 @@
   "devDependencies": {},
   "files": ["dist/**"],
   "license": "Apache-2.0",
-  "module": "./dist/index.js",
+  "main": "./dist/index.js",
   "name": "@lofwen/event-log",
   "peerDependencies": {
     "react": "18.3.1"
