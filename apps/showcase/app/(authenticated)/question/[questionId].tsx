@@ -1,4 +1,5 @@
 import {
+  type DichotomousAnswer,
   type LikertScaleAnswer,
   type TextAnswer,
   Timestamp,
@@ -8,6 +9,7 @@ import { type ReactElement, useCallback, useEffect, useMemo } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import invariant from "ts-invariant";
+import { DichotomousQuestionView } from "~/components/DichotomousQuestionView";
 import { LikertScaleQuestionView } from "~/components/LikertScaleQuestionView";
 import { TextQuestionView } from "~/components/TextQuestionView";
 import { useAuthenticatedUser } from "~/hooks/useAuthenticatedUser";
@@ -140,6 +142,17 @@ export default function QuestionScreen() {
 
   let questionView: ReactElement;
   switch (question["@type"]) {
+    case "DichotomousQuestion": {
+      invariant(answer === null || answer["@type"] === "DichotomousAnswer");
+      questionView = (
+        <DichotomousQuestionView
+          answer={answer as DichotomousAnswer | null}
+          onAnswer={onAnswer}
+          question={question}
+        />
+      );
+      break;
+    }
     case "LikertScaleQuestion": {
       invariant(answer === null || answer["@type"] === "LikertScaleAnswer");
       questionView = (
