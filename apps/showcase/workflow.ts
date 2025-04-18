@@ -19,6 +19,7 @@ export const workflow = ({
 }: { eventLog: EventLog<Event>; user: User }): Action => {
   const lastEvent = eventLog.last;
   if (lastEvent === null) {
+    logger.info("event log is empty, returning NopAction");
     return NopAction.instance;
   }
 
