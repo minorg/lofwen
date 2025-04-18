@@ -1,4 +1,24 @@
-import type { LikertScaleQuestion, TextQuestion } from "@lofwen/models";
+import type {
+  DichotomousQuestion,
+  LikertScaleQuestion,
+  TextQuestion,
+} from "@lofwen/models";
+
+export const dichotomousQuestion: DichotomousQuestion = {
+  "@id": "dichotomous-question",
+  "@type": "DichotomousQuestion",
+  prompt: "Do you like the app?",
+  responseCategories: [
+    {
+      label: "Yes",
+      value: 1,
+    },
+    {
+      label: "No",
+      value: 0,
+    },
+  ],
+};
 
 export const likertScaleQuestion: LikertScaleQuestion = {
   "@id": "likert-scale-question",

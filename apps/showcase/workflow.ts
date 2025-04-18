@@ -56,6 +56,24 @@ export const workflow = ({
         case "likert-scale-question":
           return new PoseQuestionAction({
             question: {
+              "@id": "dichotomous-question",
+              "@type": "DichotomousQuestion",
+              prompt: "Do you like the app?",
+              responseCategories: [
+                {
+                  label: "Yes",
+                  value: 1,
+                },
+                {
+                  label: "No",
+                  value: 0,
+                },
+              ],
+            },
+          });
+        case "dichotomous-question":
+          return new PoseQuestionAction({
+            question: {
               "@id": "text-question",
               "@type": "TextQuestion",
               prompt: "Tell us what you *think* of the app.",

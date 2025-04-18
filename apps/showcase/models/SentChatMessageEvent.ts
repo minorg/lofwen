@@ -1,7 +1,6 @@
-import {} from "@lofwen/models";
+import { ChatMessage } from "@lofwen/models";
 import { z } from "zod";
 import { BaseEvent } from "~/models/BaseEvent";
-import { ChatMessage } from "~/models/ChatMessage";
 
 export type SentChatMessageEvent = z.infer<typeof SentChatMessageEvent.schema>;
 

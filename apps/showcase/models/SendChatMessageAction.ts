@@ -1,5 +1,4 @@
-import { Timestamp } from "@lofwen/models";
-import type { ChatMessage } from "~/models/ChatMessage";
+import { type ChatMessage, Timestamp } from "@lofwen/models";
 import type { EventLog } from "~/models/EventLog";
 import { ExecutableAction } from "~/models/ExecutableAction";
 

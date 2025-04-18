@@ -1,5 +1,5 @@
-import { Timestamp } from "@lofwen/models";
 import { z } from "zod";
+import { Timestamp } from "./Timestamp";
 
 // Should conform to react-gifted-chat IMessage
 export type ChatMessage = z.infer<typeof ChatMessage.schema>;

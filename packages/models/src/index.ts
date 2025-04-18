@@ -1,3 +1,6 @@
+export * from "./DichotomousAnswer";
+export * from "./DichotomousQuestion";
+export * from "./ChatMessage";
 export * from "./Identifier";
 export * from "./LikertScaleAnswer";
 export * from "./LikertScaleQuestion";
