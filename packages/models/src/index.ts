@@ -1,3 +1,4 @@
+export * from "./ChatMessage";
 export * from "./Identifier";
 export * from "./LikertScaleAnswer";
 export * from "./LikertScaleQuestion";
