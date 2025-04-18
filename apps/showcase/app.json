@@ -5,7 +5,7 @@
         "backgroundColor": "#ffffff",
         "foregroundImage": "./assets/images/adaptive-icon.png"
       },
-      "package": "io.github.minorg.lofwen"
+      "package": "io.github.minorg.lofwen.showcase"
     },
     "experiments": {
       "typedRoutes": true
@@ -14,7 +14,7 @@
     "ios": {
       "supportsTablet": true
     },
-    "name": "lofwen",
+    "name": "lofwen-showcase",
     "newArchEnabled": true,
     "orientation": "portrait",
     "plugins": [
@@ -30,8 +30,8 @@
       ],
       "expo-secure-store"
     ],
-    "scheme": "myapp",
-    "slug": "lofwen",
+    "scheme": "lofwen-showcase",
+    "slug": "lofwen-showcase",
     "userInterfaceStyle": "automatic",
     "version": "1.0.0",
     "web": {

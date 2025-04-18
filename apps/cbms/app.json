@@ -30,8 +30,8 @@
       ],
       "expo-secure-store"
     ],
-    "scheme": "myapp",
-    "slug": "lofwen",
+    "scheme": "cbms",
+    "slug": "cbms",
     "userInterfaceStyle": "automatic",
     "version": "1.0.0",
     "web": {
@@ -42,9 +42,6 @@
     "extra": {
       "router": {
         "origin": false
-      },
-      "eas": {
-        "projectId": "ea27b25f-6c98-4f59-bbe8-a572f4dd725a"
       }
     }
   }
