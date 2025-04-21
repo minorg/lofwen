@@ -65,7 +65,7 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }) => {
     }
 
     case "GaveInstructionsEvent": {
-      // Return the PoseQuestionAction again so the workflow is deterministic
+      // Return the GiveInstructionsAction again so the workflow is deterministic
       return new GiveInstructionsAction({
         instructions: lastEvent.instructions,
       });

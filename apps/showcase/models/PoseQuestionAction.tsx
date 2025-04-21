@@ -1,22 +1,22 @@
+import type { Identifier } from "@lofwen/models";
 import { Redirect } from "expo-router";
 import type { ReactNode } from "react";
 import { Hrefs } from "~/Hrefs";
-import type { Question } from "~/models/Question";
 import { RenderableAction } from "~/models/RenderableAction";
 
 export class PoseQuestionAction extends RenderableAction {
-  readonly question: Question;
+  readonly questionId: Identifier;
 
-  constructor({ question }: { question: Question }) {
+  constructor({ questionId }: { questionId: Identifier }) {
     super();
-    this.question = question;
+    this.questionId = questionId;
   }
 
   override render(): ReactNode {
-    return <Redirect href={Hrefs.question(this.question)} />;
+    return <Redirect href={Hrefs.question({ "@id": this.questionId })} />;
   }
 
   override toString(): string {
-    return `PoseQuestionAction(question=${this.question["@type"]}(@id=${this.question["@id"]}))`;
+    return `PoseQuestionAction(questionId=${this.questionId}))`;
   }
 }
