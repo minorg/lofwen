@@ -16,10 +16,10 @@ export default function AuthenticatedLayout() {
     (store) => {
       if (Platform.OS === "web") {
         const {
-          createLocalPersister,
+          createSessionPersister,
         } = require("tinybase/persisters/persister-browser/with-schemas");
-        const persister = createLocalPersister(store, "cbms-app");
-        logger.debug("created browser local persister");
+        const persister = createSessionPersister(store, "cbms-app");
+        logger.debug("created browser session persister");
         return persister;
       }
 
