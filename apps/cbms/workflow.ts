@@ -7,7 +7,6 @@ import { FormulateInstructionsAction } from "~/models/FormulateInstructionsActio
 import { FormulateQuestionAction } from "~/models/FormulateQuestionAction";
 import { GiveInstructionsAction } from "~/models/GiveInstructionsAction";
 import type { Instructions } from "~/models/Instructions";
-import { NopAction } from "~/models/NopAction";
 import { PerceivedStressScale } from "~/models/PerceivedStressScale";
 import { PoseQuestionAction } from "~/models/PoseQuestionAction";
 import type { Question } from "~/models/Question";
@@ -41,8 +40,8 @@ function formulateInstructionsOrQuestion(
 export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
   const lastEvent = eventLog.last;
   if (lastEvent === null) {
-    logger.debug("no last event, returning NopAction");
-    return NopAction.instance;
+    logger.debug("no last event, starting onboarding");
+    return formulateInstructionsOrQuestion(onboardingSequence[0]);
   }
   logger.debug(`last event type: ${lastEvent["@type"]}`);
 
@@ -109,19 +108,13 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
       });
 
     case "GaveInstructionsEvent":
-      return NopAction.instance; // Wait for acknowledgment
+      // May be resuming, redirect to the question page
+      return new GiveInstructionsAction({
+        instructionsId: lastEvent.instructionsId,
+      });
 
     case "PosedQuestionEvent":
-      return NopAction.instance; // Wait for the answer
-
-    case "StartedAppEvent":
-      if (
-        eventLog.some((event) => event["@type"] === "CompletedOnboardingEvent")
-      ) {
-        throw new Error("redirect to plot");
-      }
-
-      // Start onboarding
-      return formulateInstructionsOrQuestion(onboardingSequence[0]);
+      // May be resuming, redirect to the question page
+      return new PoseQuestionAction({ questionId: lastEvent.questionId });
   }
 };

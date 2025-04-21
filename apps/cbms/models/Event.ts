@@ -6,7 +6,6 @@ import { FormulatedInstructionsEvent } from "~/models/FormulatedInstructionsEven
 import { FormulatedQuestionEvent } from "~/models/FormulatedQuestionEvent";
 import { GaveInstructionsEvent } from "~/models/GaveInstructionsEvent";
 import { PosedQuestionEvent } from "~/models/PosedQuestionEvent";
-import { StartedAppEvent } from "~/models/StartedAppEvent";
 
 export type Event = z.infer<typeof Event.schema>;
 
@@ -19,6 +18,5 @@ export namespace Event {
     FormulatedQuestionEvent.schema,
     GaveInstructionsEvent.schema,
     PosedQuestionEvent.schema,
-    StartedAppEvent.schema,
   ]);
 }

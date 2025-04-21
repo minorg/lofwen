@@ -8,6 +8,7 @@ import { Hrefs } from "~/Hrefs";
 import { InstructionsView } from "~/components/InstructionsView";
 import { useEventLog } from "~/hooks/useEventLog";
 import { ExecutableAction } from "~/models/ExecutableAction";
+import { GiveInstructionsAction } from "~/models/GiveInstructionsAction";
 import { RenderableAction } from "~/models/RenderableAction";
 import { rootLogger } from "~/rootLogger";
 import { workflow } from "~/workflow";
@@ -74,10 +75,15 @@ export default function InstructionsScreen() {
     }
   }, [eventLog, nextAction]);
 
-  if (nextAction instanceof RenderableAction) {
+  if (
+    nextAction instanceof GiveInstructionsAction &&
+    nextAction.instructionsId === instructionsId
+  ) {
+  } else if (nextAction instanceof RenderableAction) {
     return nextAction.render();
+  } else {
+    invariant(nextAction instanceof ExecutableAction);
   }
-  invariant(nextAction instanceof ExecutableAction);
 
   if (instructions === null) {
     logger.warn(`no such instructions: ${instructionsId}`);

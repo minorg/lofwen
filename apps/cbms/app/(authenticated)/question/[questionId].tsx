@@ -16,6 +16,7 @@ import { TextQuestionView } from "~/components/TextQuestionView";
 import { useEventLog } from "~/hooks/useEventLog";
 import type { Answer } from "~/models/Answer";
 import { ExecutableAction } from "~/models/ExecutableAction";
+import { PoseQuestionAction } from "~/models/PoseQuestionAction";
 import { RenderableAction } from "~/models/RenderableAction";
 import { rootLogger } from "~/rootLogger";
 import { workflow } from "~/workflow";
@@ -100,10 +101,15 @@ export default function QuestionScreen() {
     }
   }, [eventLog, nextAction]);
 
-  if (nextAction instanceof RenderableAction) {
+  if (
+    nextAction instanceof PoseQuestionAction &&
+    nextAction.questionId === questionId
+  ) {
+  } else if (nextAction instanceof RenderableAction) {
     return nextAction.render();
+  } else {
+    invariant(nextAction instanceof ExecutableAction);
   }
-  invariant(nextAction instanceof ExecutableAction);
 
   if (question === null) {
     logger.warn(`no such question: ${questionId}`);

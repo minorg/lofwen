@@ -1,4 +1,3 @@
-import { Timestamp } from "@lofwen/models";
 import { useEffect, useMemo } from "react";
 import invariant from "ts-invariant";
 import { useEventLog } from "~/hooks/useEventLog";
@@ -14,10 +13,6 @@ export default function RootScreen() {
   const eventLog = useEventLog();
   const nextAction = useMemo(() => workflow({ eventLog }), [eventLog]);
   logger.debug(`next action: ${nextAction}`);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: run useEffect once
-  useEffect(() => {
-    eventLog.append({ "@type": "StartedAppEvent", timestamp: Timestamp.now() });
-  }, []);
   useEffect(() => {
     if (nextAction instanceof ExecutableAction) {
       nextAction.execute({ eventLog });
