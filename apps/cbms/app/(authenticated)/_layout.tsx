@@ -2,9 +2,8 @@ import "~/global.css";
 import { TinyBaseEventLog } from "@lofwen/event-log";
 import {} from "@react-navigation/native";
 import { Slot } from "expo-router";
-import { openDatabaseSync } from "expo-sqlite";
 import { useMemo } from "react";
-import { createExpoSqlitePersister } from "tinybase/persisters/persister-expo-sqlite/with-schemas";
+import { Platform } from "react-native";
 import { rootLogger } from "~/rootLogger";
 
 const logger = rootLogger.extend("Synchronizer");
@@ -15,9 +14,22 @@ export default function AuthenticatedLayout() {
   useCreatePersister(
     store,
     (store) => {
+      if (Platform.OS === "web") {
+        const {
+          createLocalPersister,
+        } = require("tinybase/persisters/persister-browser/with-schemas");
+        const persister = createLocalPersister(store, "cbms-app");
+        logger.debug("created browser local persister");
+        return persister;
+      }
+
+      const { openDatabaseSync } = require("expo-sqlite");
       const db = openDatabaseSync("cbms-app");
+      const {
+        createExpoSqlitePersister,
+      } = require("tinybase/persisters/persister-expo-sqlite/with-schemas");
       const persister = createExpoSqlitePersister(store, db);
-      logger.debug("created persister");
+      logger.debug("created Expo SQLite persister");
       return persister;
     },
     undefined,
