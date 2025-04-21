@@ -2,9 +2,10 @@ import invariant from "ts-invariant";
 import type { AnsweredQuestionEvent } from "~/models/AnsweredQuestionEvent";
 import { CompleteOnboardingAction } from "~/models/CompleteOnboardingAction";
 import type { EventLog } from "~/models/EventLog";
-import { NopAction } from "~/models/NopAction";
+import { GiveInstructionsAction } from "~/models/GiveInstructionsAction";
 import { PerceivedStressScale } from "~/models/PerceivedStressScale";
 import { PoseQuestionAction } from "~/models/PoseQuestionAction";
+import { WelcomeAction } from "~/models/WelcomeAction";
 import { rootLogger } from "~/rootLogger";
 
 const logger = rootLogger.extend("workflow");
@@ -14,8 +15,7 @@ const onboardingQuestions = PerceivedStressScale.questions;
 export const workflow = ({ eventLog }: { eventLog: EventLog }) => {
   const lastEvent = eventLog.last;
   if (lastEvent === null) {
-    logger.info("event log is empty, returning NopAction");
-    return NopAction.instance;
+    return WelcomeAction.instance;
   }
 
   switch (lastEvent["@type"]) {
@@ -64,9 +64,11 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }) => {
       // } satisfies AcknowledgmentAction;
     }
 
-    case "CompletedOnboardingEvent": {
-      // Show an acknowledgment screen.
-      break;
+    case "GaveInstructionsEvent": {
+      // Return the PoseQuestionAction again so the workflow is deterministic
+      return new GiveInstructionsAction({
+        instructions: lastEvent.instructions,
+      });
     }
 
     case "PosedQuestionEvent": {
