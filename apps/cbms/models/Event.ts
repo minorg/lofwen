@@ -2,6 +2,7 @@ import { z } from "zod";
 import { AcknowledgedInstructionsEvent } from "~/models/AcknowledgedInstructionsEvent";
 import { AnsweredQuestionEvent } from "~/models/AnsweredQuestionEvent";
 import { CompletedOnboardingEvent } from "~/models/CompletedOnboardingEvent";
+import { FormulatedQuestionEvent } from "~/models/FormulatedQuestionEvent";
 import { GaveInstructionsEvent } from "~/models/GaveInstructionsEvent";
 import { PosedQuestionEvent } from "~/models/PosedQuestionEvent";
 import { StartedAppEvent } from "~/models/StartedAppEvent";
@@ -13,6 +14,7 @@ export namespace Event {
     AcknowledgedInstructionsEvent.schema,
     AnsweredQuestionEvent.schema,
     CompletedOnboardingEvent.schema,
+    FormulatedQuestionEvent.schema,
     GaveInstructionsEvent.schema,
     PosedQuestionEvent.schema,
     StartedAppEvent.schema,
