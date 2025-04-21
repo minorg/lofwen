@@ -41,8 +41,10 @@ function formulateInstructionsOrQuestion(
 export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
   const lastEvent = eventLog.last;
   if (lastEvent === null) {
+    logger.debug("no last event, returning NopAction");
     return NopAction.instance;
   }
+  logger.debug(`last event type: ${lastEvent["@type"]}`);
 
   switch (lastEvent["@type"]) {
     case "AcknowledgedInstructionsEvent":
