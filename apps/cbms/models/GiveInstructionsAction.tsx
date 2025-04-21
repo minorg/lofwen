@@ -1,22 +1,24 @@
+import type { Identifier } from "@lofwen/models";
 import { Redirect } from "expo-router";
 import type { ReactNode } from "react";
 import { Hrefs } from "~/Hrefs";
-import type { Instructions } from "~/models/Instructions";
 import { RenderableAction } from "~/models/RenderableAction";
 
 export class GiveInstructionsAction extends RenderableAction {
-  readonly instructions: Instructions;
+  readonly instructionsId: Identifier;
 
-  constructor({ instructions }: { instructions: Instructions }) {
+  constructor({ instructionsId }: { instructionsId: Identifier }) {
     super();
-    this.instructions = instructions;
+    this.instructionsId = instructionsId;
   }
 
   override render(): ReactNode {
-    return <Redirect href={Hrefs.instructions(this.instructions)} />;
+    return (
+      <Redirect href={Hrefs.instructions({ "@id": this.instructionsId })} />
+    );
   }
 
   override toString(): string {
-    return `GiveInstructionsAction(@id=${this.instructions["@id"]}))`;
+    return `GiveInstructionsAction(instructionsId=${this.instructionsId}))`;
   }
 }

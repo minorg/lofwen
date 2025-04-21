@@ -1,14 +1,13 @@
 import { Timestamp } from "@lofwen/models";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { Redirect, useLocalSearchParams, useNavigation } from "expo-router";
 import { useCallback, useEffect, useMemo } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import invariant from "ts-invariant";
+import { Hrefs } from "~/Hrefs";
 import { InstructionsView } from "~/components/InstructionsView";
 import { useEventLog } from "~/hooks/useEventLog";
 import { ExecutableAction } from "~/models/ExecutableAction";
-import { GiveInstructionsAction } from "~/models/GiveInstructionsAction";
-import { NopAction } from "~/models/NopAction";
 import { RenderableAction } from "~/models/RenderableAction";
 import { rootLogger } from "~/rootLogger";
 import { workflow } from "~/workflow";
@@ -30,7 +29,7 @@ export default function InstructionsScreen() {
   const instructions = useMemo(() => {
     for (const event of eventLog.reverse()) {
       if (
-        event["@type"] === "GaveInstructionsEvent" &&
+        event["@type"] === "FormulatedInstructionsEvent" &&
         event.instructions["@id"] === instructionsId
       ) {
         logger.debug(`have instructions ${instructionsId} in event log`);
@@ -58,33 +57,16 @@ export default function InstructionsScreen() {
     }
   }, [navigation, instructions]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run useEffect once
   useEffect(() => {
-    const lastEvent = eventLog.last;
-    // The workflow should return the GiveInstructionsAction until the redirect here succeeds and the GaveInstructionsEvent is added to the event log
-    if (
-      nextAction instanceof GiveInstructionsAction &&
-      nextAction.instructions["@id"] === instructionsId
-    ) {
-      if (
-        lastEvent === null ||
-        lastEvent["@type"] !== "GaveInstructionsEvent" ||
-        lastEvent.instructions["@id"] !== instructionsId
-      ) {
-        logger.debug(
-          `last event is not a GaveInstructionsEvent to the current instructions (${instructionsId}), appending a GaveInstructionsEvent to the event log`,
-        );
-        eventLog.append({
-          "@type": "GaveInstructionsEvent",
-          instructions: nextAction.instructions,
-          timestamp: Timestamp.now(),
-        });
-      } else {
-        logger.debug(
-          `last event is already a GaveInstructionsEvent to the current instructions (${instructionsId})`,
-        );
-      }
+    if (instructions !== null) {
+      eventLog.append({
+        "@type": "GaveInstructionsEvent",
+        instructionsId: instructions["@id"],
+        timestamp: Timestamp.now(),
+      });
     }
-  }, [eventLog, nextAction, instructionsId]);
+  }, []);
 
   useEffect(() => {
     if (nextAction instanceof ExecutableAction) {
@@ -92,23 +74,14 @@ export default function InstructionsScreen() {
     }
   }, [eventLog, nextAction]);
 
-  if (nextAction instanceof NopAction) {
-    logger.debug("next action is nop");
-  } else if (nextAction instanceof GiveInstructionsAction) {
-    if (nextAction.instructions["@id"] === instructionsId) {
-      logger.debug("next action would execute to the current page, nop");
-    } else {
-      return nextAction.render();
-    }
-  } else if (nextAction instanceof RenderableAction) {
+  if (nextAction instanceof RenderableAction) {
     return nextAction.render();
-  } else {
-    invariant(nextAction instanceof ExecutableAction);
   }
+  invariant(nextAction instanceof ExecutableAction);
 
   if (instructions === null) {
-    logger.debug("instructions not set yet");
-    return null;
+    logger.warn(`no such instructions: ${instructionsId}`);
+    return <Redirect href={Hrefs.root} />;
   }
 
   return (

@@ -1,44 +1,76 @@
 import invariant from "ts-invariant";
+import type { Action } from "~/models/Action";
 import type { AnsweredQuestionEvent } from "~/models/AnsweredQuestionEvent";
 import { CompleteOnboardingAction } from "~/models/CompleteOnboardingAction";
 import type { EventLog } from "~/models/EventLog";
+import { FormulateInstructionsAction } from "~/models/FormulateInstructionsAction";
+import { FormulateQuestionAction } from "~/models/FormulateQuestionAction";
 import { GiveInstructionsAction } from "~/models/GiveInstructionsAction";
+import type { Instructions } from "~/models/Instructions";
+import { NopAction } from "~/models/NopAction";
 import { PerceivedStressScale } from "~/models/PerceivedStressScale";
 import { PoseQuestionAction } from "~/models/PoseQuestionAction";
-import { WelcomeAction } from "~/models/WelcomeAction";
+import type { Question } from "~/models/Question";
 import { rootLogger } from "~/rootLogger";
 
 const logger = rootLogger.extend("workflow");
 
-const onboardingQuestions = PerceivedStressScale.questions;
+const onboardingSequence: readonly (Instructions | Question)[] = [
+  {
+    "@id": "initial-instructions",
+    "@type": "Instructions",
+    title: "Initial instructions",
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  },
+  ...PerceivedStressScale.questions,
+];
 
-export const workflow = ({ eventLog }: { eventLog: EventLog }) => {
+export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
   const lastEvent = eventLog.last;
   if (lastEvent === null) {
-    return WelcomeAction.instance;
+    return NopAction.instance;
   }
 
   switch (lastEvent["@type"]) {
+    case "AcknowledgedInstructionsEvent":
     case "AnsweredQuestionEvent": {
-      const answer = lastEvent.answer;
-
-      const questionIndexZeroBased = onboardingQuestions.findIndex(
-        (questionAction) => questionAction["@id"] === answer.questionId,
-      );
+      let onboardingSequenceIndex: number;
+      if (lastEvent["@type"] === "AcknowledgedInstructionsEvent") {
+        onboardingSequenceIndex = onboardingSequence.findIndex(
+          (instructions) =>
+            instructions["@type"] === "Instructions" &&
+            instructions["@id"] === lastEvent.instructionsId,
+        );
+      } else {
+        const answer = lastEvent.answer;
+        onboardingSequenceIndex = onboardingSequence.findIndex(
+          (question) =>
+            question["@type"] !== "Instructions" &&
+            question["@id"] === answer.questionId,
+        );
+      }
       invariant(
-        questionIndexZeroBased >= 0 &&
-          questionIndexZeroBased < onboardingQuestions.length,
+        onboardingSequenceIndex >= 0 &&
+          onboardingSequenceIndex < onboardingSequence.length,
       );
       logger.debug(
-        "answered onboarding question index (0-based):",
-        questionIndexZeroBased,
+        `answered/acknowledged onboarding sequence index (0-based): ${onboardingSequenceIndex}`,
       );
-      if (questionIndexZeroBased + 1 < onboardingQuestions.length) {
-        // Questions remaining
-        return onboardingQuestions[questionIndexZeroBased + 1];
+      if (onboardingSequenceIndex + 1 < onboardingSequence.length) {
+        // Questions or sequence remaining
+        const nextInstructionsOrQuestion =
+          onboardingSequence[onboardingSequenceIndex + 1];
+        if (nextInstructionsOrQuestion["@type"] === "Instructions") {
+          return new FormulateInstructionsAction({
+            instructions: nextInstructionsOrQuestion,
+          });
+        }
+        return new FormulateQuestionAction({
+          question: nextInstructionsOrQuestion,
+        });
       }
 
-      // Last question answered
+      // End of onboarding sequence
       return new CompleteOnboardingAction({
         perceivedStressScaleScores: PerceivedStressScale.score(
           PerceivedStressScale.questions.map((question) => {
@@ -55,28 +87,28 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }) => {
           }),
         ),
       });
-
-      // return {
-      //   "@id": "pss-acknowledgment",
-      //   "@type": "AcknowledgmentAction",
-      //   message: `Your perceived stress: ${perceivedStress} (total score: ${totalScore})`,
-      //   title: "Perceived Stress Scale",
-      // } satisfies AcknowledgmentAction;
     }
 
-    case "GaveInstructionsEvent": {
-      // Return the GiveInstructionsAction again so the workflow is deterministic
+    case "CompletedOnboardingEvent":
+      throw new Error("redirect to plot");
+
+    case "FormulatedInstructionsEvent":
       return new GiveInstructionsAction({
-        instructions: lastEvent.instructions,
+        instructionsId: lastEvent.instructions["@id"],
       });
-    }
 
-    case "PosedQuestionEvent": {
-      // Return the PoseQuestionAction again so the workflow is deterministic
-      return new PoseQuestionAction({ question: lastEvent.question });
-    }
+    case "FormulatedQuestionEvent":
+      return new PoseQuestionAction({
+        questionId: lastEvent.question["@id"],
+      });
 
-    case "StartedAppEvent": {
+    case "GaveInstructionsEvent":
+      return NopAction.instance; // Wait for acknowledgment
+
+    case "PosedQuestionEvent":
+      return NopAction.instance; // Wait for the answer
+
+    case "StartedAppEvent":
       if (
         eventLog.some((event) => event["@type"] === "CompletedOnboardingEvent")
       ) {
@@ -84,7 +116,6 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }) => {
       }
 
       // Start onboarding
-      return new PoseQuestionAction({ question: onboardingQuestions[0] });
-    }
+      return new FormulateQuestionAction({ question: onboardingQuestions[0] });
   }
 };
