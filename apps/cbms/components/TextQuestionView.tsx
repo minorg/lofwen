@@ -20,11 +20,10 @@ export function TextQuestionView({
   const onSubmitButtonPress = useCallback(
     () =>
       onAnswer({
-        questionId: question["@id"],
         text,
         "@type": "TextAnswer",
       } satisfies TextAnswer),
-    [onAnswer, question, text],
+    [onAnswer, text],
   );
 
   useEffect(() => {

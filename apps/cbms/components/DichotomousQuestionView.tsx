@@ -19,7 +19,6 @@ export function DichotomousQuestionView({
     (responseCategoryLabel: string) =>
       onAnswer({
         "@type": "DichotomousAnswer",
-        questionId: question["@id"],
         responseCategory: question.responseCategories.find(
           (responseCategory) =>
             responseCategory.label === responseCategoryLabel,

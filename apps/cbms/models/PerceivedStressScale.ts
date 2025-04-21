@@ -67,10 +67,8 @@ export namespace PerceivedStressScale {
 
   export function score(answers: readonly LikertScaleAnswer[]): Scores {
     invariant(answers.length === questions.length);
-    const total = questions.reduce((totalScore, question, questionI) => {
-      const answer = answers[questionI];
-      invariant(question["@id"] === answer.questionId);
-      return totalScore + answer.responseCategory.value;
+    const total = questions.reduce((totalScore, _, questionI) => {
+      return totalScore + answers[questionI].responseCategory.value;
     }, 0);
 
     let category: Scores["category"];

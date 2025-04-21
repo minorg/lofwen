@@ -25,6 +25,19 @@ const onboardingSequence: readonly (Instructions | Question)[] = [
   ...PerceivedStressScale.questions,
 ];
 
+function formulateInstructionsOrQuestion(
+  instructionsOrQuestion: Instructions | Question,
+): Action {
+  if (instructionsOrQuestion["@type"] === "Instructions") {
+    return new FormulateInstructionsAction({
+      instructions: instructionsOrQuestion,
+    });
+  }
+  return new FormulateQuestionAction({
+    question: instructionsOrQuestion,
+  });
+}
+
 export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
   const lastEvent = eventLog.last;
   if (lastEvent === null) {
@@ -42,11 +55,10 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
             instructions["@id"] === lastEvent.instructionsId,
         );
       } else {
-        const answer = lastEvent.answer;
         onboardingSequenceIndex = onboardingSequence.findIndex(
           (question) =>
             question["@type"] !== "Instructions" &&
-            question["@id"] === answer.questionId,
+            question["@id"] === lastEvent.questionId,
         );
       }
       invariant(
@@ -57,17 +69,9 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
         `answered/acknowledged onboarding sequence index (0-based): ${onboardingSequenceIndex}`,
       );
       if (onboardingSequenceIndex + 1 < onboardingSequence.length) {
-        // Questions or sequence remaining
-        const nextInstructionsOrQuestion =
-          onboardingSequence[onboardingSequenceIndex + 1];
-        if (nextInstructionsOrQuestion["@type"] === "Instructions") {
-          return new FormulateInstructionsAction({
-            instructions: nextInstructionsOrQuestion,
-          });
-        }
-        return new FormulateQuestionAction({
-          question: nextInstructionsOrQuestion,
-        });
+        return formulateInstructionsOrQuestion(
+          onboardingSequence[onboardingSequenceIndex + 1],
+        );
       }
 
       // End of onboarding sequence
@@ -78,7 +82,7 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
               eventLog.find(
                 (event) =>
                   event["@type"] === "AnsweredQuestionEvent" &&
-                  event.answer.questionId === question["@id"],
+                  event.questionId === question["@id"],
               ) as AnsweredQuestionEvent | null
             )?.answer;
             invariant(answer, `no answer for question ${question["@id"]}`);
@@ -116,6 +120,6 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
       }
 
       // Start onboarding
-      return new FormulateQuestionAction({ question: onboardingQuestions[0] });
+      return formulateInstructionsOrQuestion(onboardingSequence[0]);
   }
 };
