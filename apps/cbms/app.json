@@ -5,7 +5,7 @@
         "backgroundColor": "#ffffff",
         "foregroundImage": "./assets/images/adaptive-icon.png"
       },
-      "package": "io.github.minorg.lofwen"
+      "package": "io.github.minorg.lofwen.cbms"
     },
     "experiments": {
       "typedRoutes": true
