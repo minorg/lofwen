@@ -36,7 +36,7 @@ export default function QuestionScreen() {
     for (const event of eventLog.reverse()) {
       if (
         event["@type"] === "AnsweredQuestionEvent" &&
-        event.answer.questionId === questionId
+        event.questionId === questionId
       ) {
         logger.debug(`have answer to question ${questionId} in event log`);
         return event.answer;
@@ -72,11 +72,12 @@ export default function QuestionScreen() {
     (answer: Answer) => {
       eventLog.append({
         answer,
+        questionId,
         timestamp: Timestamp.now(),
         "@type": "AnsweredQuestionEvent",
       });
     },
-    [eventLog],
+    [eventLog, questionId],
   );
 
   useEffect(() => {

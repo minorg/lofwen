@@ -19,7 +19,6 @@ export function LikertScaleQuestionView({
     (responseCategoryLabel: string) =>
       onAnswer({
         "@type": "LikertScaleAnswer",
-        questionId: question["@id"],
         responseCategory: question.responseCategories.find(
           (responseCategory) =>
             responseCategory.label === responseCategoryLabel,

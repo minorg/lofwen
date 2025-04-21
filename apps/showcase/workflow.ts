@@ -56,7 +56,7 @@ export const workflow = ({
       return NopAction.instance;
     }
     case "AnsweredQuestionEvent":
-      switch (lastEvent.answer.questionId) {
+      switch (lastEvent.questionId) {
         case "likert-scale-question":
           return new FormulateQuestionAction({
             question: {
@@ -98,7 +98,7 @@ export const workflow = ({
             },
           });
         default:
-          throw new RangeError(lastEvent.answer.questionId);
+          throw new RangeError(lastEvent.questionId);
       }
     case "ScheduledNotificationEvent": {
       return OpenChatAction.instance;
