@@ -2,15 +2,14 @@ import "~/global.css";
 import { TinyBaseEventLog } from "@lofwen/event-log";
 import {} from "@react-navigation/native";
 import { Slot } from "expo-router";
-import { useMemo } from "react";
 import { Platform } from "react-native";
 import { rootLogger } from "~/rootLogger";
 
-const logger = rootLogger.extend("Synchronizer");
+const logger = rootLogger.extend("Persister");
 
 export default function AuthenticatedLayout() {
-  const store = useMemo(() => TinyBaseEventLog.Store.create(), []);
-  const { useCreatePersister } = TinyBaseEventLog.UiReact;
+  const { useCreatePersister, useCreateStore } = TinyBaseEventLog.UiReact;
+  const store = useCreateStore(() => TinyBaseEventLog.Store.create());
   useCreatePersister(
     store,
     (store) => {
