@@ -6,7 +6,7 @@ import {
 } from "@lofwen/event-log";
 import {} from "@react-navigation/native";
 import { Redirect, Slot } from "expo-router";
-import { type PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import { Hrefs } from "~/Hrefs";
 import { configuration } from "~/configuration";
 import { useUser } from "~/hooks/useUser";
