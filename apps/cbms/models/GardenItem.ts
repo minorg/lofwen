@@ -2,9 +2,9 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Identifier } from "@lofwen/models";
 import { z } from "zod";
 
-export type Item = z.infer<typeof Item.schema>;
+export type GardenItem = z.infer<typeof GardenItem.schema>;
 
-export namespace Item {
+export namespace GardenItem {
   export const schema = z.object({
     "@id": Identifier.schema,
     // @ts-ignore
