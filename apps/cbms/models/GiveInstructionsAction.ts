@@ -1,6 +1,9 @@
 import type { Identifier } from "@lofwen/models";
 import { Hrefs } from "~/Hrefs";
 import { Action } from "~/models/Action";
+import { rootLogger } from "~/rootLogger";
+
+const logger = rootLogger.extend("GiveInstructionsAction");
 
 export class GiveInstructionsAction extends Action {
   readonly instructionsId: Identifier;
@@ -11,9 +14,19 @@ export class GiveInstructionsAction extends Action {
   }
 
   override async execute({
+    route,
     router,
   }: Parameters<Action["execute"]>[0]): Promise<void> {
-    router.push(Hrefs.instructions({ "@id": this.instructionsId }));
+    if (route.pathname !== `/instructions/${this.instructionsId}`) {
+      logger.debug(
+        `current route isn't to the instructions ${this.instructionsId}, pushing`,
+      );
+      router.push(Hrefs.instructions({ "@id": this.instructionsId }));
+    } else {
+      logger.debug(
+        `current route is already to the instructions ${this.instructionsId}, nop`,
+      );
+    }
   }
 
   override toString(): string {

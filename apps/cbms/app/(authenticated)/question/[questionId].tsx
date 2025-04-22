@@ -9,7 +9,6 @@ import {
   useFocusEffect,
   useLocalSearchParams,
   useNavigation,
-  useRouter,
 } from "expo-router";
 import { type ReactElement, useCallback, useEffect, useMemo } from "react";
 import { View } from "react-native";
@@ -20,10 +19,9 @@ import { DichotomousQuestionView } from "~/components/DichotomousQuestionView";
 import { LikertScaleQuestionView } from "~/components/LikertScaleQuestionView";
 import { TextQuestionView } from "~/components/TextQuestionView";
 import { useEventLog } from "~/hooks/useEventLog";
+import { useNextAction } from "~/hooks/useNextAction";
 import type { Answer } from "~/models/Answer";
-import { PoseQuestionAction } from "~/models/PoseQuestionAction";
 import { rootLogger } from "~/rootLogger";
-import { workflow } from "~/workflow";
 
 const logger = rootLogger.extend("QuestionScreen");
 
@@ -49,9 +47,6 @@ export default function QuestionScreen() {
   }, [eventLog, questionId]);
 
   const navigation = useNavigation();
-
-  const nextAction = useMemo(() => workflow({ eventLog }), [eventLog]);
-  logger.debug(`next action: ${nextAction}`);
 
   const question = useMemo(() => {
     for (const event of eventLog.reverse()) {
@@ -79,8 +74,6 @@ export default function QuestionScreen() {
     [eventLog, questionId],
   );
 
-  const router = useRouter();
-
   useEffect(() => {
     if (question?.title) {
       navigation.setOptions({
@@ -100,16 +93,7 @@ export default function QuestionScreen() {
     }
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      if (
-        !(nextAction instanceof PoseQuestionAction) ||
-        nextAction.questionId !== questionId
-      ) {
-        nextAction.execute({ eventLog, router });
-      }
-    }, [eventLog, nextAction, questionId, router]),
-  );
+  useFocusEffect(useNextAction());
 
   if (question === null) {
     logger.warn(`no such question: ${questionId}`);

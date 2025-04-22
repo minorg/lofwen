@@ -4,7 +4,6 @@ import {
   useFocusEffect,
   useLocalSearchParams,
   useNavigation,
-  useRouter,
 } from "expo-router";
 import { useCallback, useEffect, useMemo } from "react";
 import { View } from "react-native";
@@ -13,9 +12,8 @@ import invariant from "ts-invariant";
 import { Hrefs } from "~/Hrefs";
 import { InstructionsView } from "~/components/InstructionsView";
 import { useEventLog } from "~/hooks/useEventLog";
-import { GiveInstructionsAction } from "~/models/GiveInstructionsAction";
+import { useNextAction } from "~/hooks/useNextAction";
 import { rootLogger } from "~/rootLogger";
-import { workflow } from "~/workflow";
 
 const logger = rootLogger.extend("InstructionsScreen");
 
@@ -27,8 +25,6 @@ export default function InstructionsScreen() {
   const eventLog = useEventLog();
 
   const navigation = useNavigation();
-
-  const nextAction = useMemo(() => workflow({ eventLog }), [eventLog]);
 
   const instructions = useMemo(() => {
     for (const event of eventLog.reverse()) {
@@ -53,8 +49,6 @@ export default function InstructionsScreen() {
     });
   }, [eventLog, instructions]);
 
-  const router = useRouter();
-
   useEffect(() => {
     if (instructions !== null) {
       navigation.setOptions({
@@ -74,16 +68,7 @@ export default function InstructionsScreen() {
     }
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      if (
-        !(nextAction instanceof GiveInstructionsAction) ||
-        nextAction.instructionsId !== instructionsId
-      ) {
-        nextAction.execute({ eventLog, router });
-      }
-    }, [eventLog, instructionsId, nextAction, router]),
-  );
+  useFocusEffect(useNextAction());
 
   if (instructions === null) {
     logger.warn(`no such instructions: ${instructionsId}`);
