@@ -14,22 +14,22 @@ import type { Garden } from "~/models/Garden";
  * 5. SelectedGardenItemEvent.
  */
 export class FormulateGardenAction extends Action {
-  readonly item: Garden;
+  readonly garden: Garden;
 
-  constructor({ item }: { item: Garden }) {
+  constructor({ garden }: { garden: Garden }) {
     super();
-    this.item = item;
+    this.garden = garden;
   }
 
   override async execute({ eventLog }: { eventLog: EventLog }): Promise<void> {
     eventLog.append({
       "@type": "FormulatedGardenEvent",
-      item: this.item,
+      garden: this.garden,
       timestamp: Timestamp.now(),
     });
   }
 
   override toString(): string {
-    return `FormulateGardenAction(item=${JSON.stringify(this.item)}))`;
+    return `FormulateGardenAction(garden=${JSON.stringify(this.garden)}))`;
   }
 }

@@ -3,6 +3,7 @@ import type { Action } from "~/models/Action";
 import type { AnsweredQuestionEvent } from "~/models/AnsweredQuestionEvent";
 import { CompleteOnboardingAction } from "~/models/CompleteOnboardingAction";
 import type { EventLog } from "~/models/EventLog";
+import { FormulateGardenAction } from "~/models/FormulateGardenAction";
 import { FormulateInstructionsAction } from "~/models/FormulateInstructionsAction";
 import { FormulateQuestionAction } from "~/models/FormulateQuestionAction";
 import { GiveInstructionsAction } from "~/models/GiveInstructionsAction";
@@ -10,6 +11,7 @@ import type { Instructions } from "~/models/Instructions";
 import { PerceivedStressScale } from "~/models/PerceivedStressScale";
 import { PoseQuestionAction } from "~/models/PoseQuestionAction";
 import type { Question } from "~/models/Question";
+import { ShowGardenAction } from "~/models/ShowGardenAction";
 import { rootLogger } from "~/rootLogger";
 
 const logger = rootLogger.extend("workflow");
@@ -127,7 +129,42 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
     }
 
     case "CompletedOnboardingEvent":
-      throw new Error("redirect to plot");
+      return new FormulateGardenAction({
+        garden: {
+          items: [
+            {
+              "@id": "shovel",
+              icon: {
+                family: "MaterialCommunityIcons",
+                name: "shovel",
+              },
+              text: "You need a shovel.",
+              title: "Shovel",
+            },
+            {
+              "@id": "trowel",
+              icon: {
+                family: "FontAwesome6",
+                name: "trowel",
+              },
+              text: "You need a trowel.",
+              title: "Trowel",
+            },
+            {
+              "@id": "seed",
+              icon: {
+                family: "MaterialCommunityIcons",
+                name: "seed",
+              },
+              text: "You need some seeds.",
+              title: "Seeds",
+            },
+          ],
+        },
+      });
+
+    case "FormulatedGardenEvent":
+      return ShowGardenAction.instance;
 
     case "FormulatedInstructionsEvent":
       return new GiveInstructionsAction({
@@ -148,5 +185,9 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
     case "PosedQuestionEvent":
       // May be resuming, redirect to the question page
       return new PoseQuestionAction({ questionId: lastEvent.questionId });
+
+    case "ShowedGardenEvent":
+      // May be resuming, redirect to the garden page
+      return ShowGardenAction.instance;
   }
 };

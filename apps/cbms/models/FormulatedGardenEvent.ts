@@ -14,6 +14,6 @@ export type FormulatedGardenEvent = z.infer<
 export namespace FormulatedGardenEvent {
   export const schema = BaseEvent.schema.extend({
     "@type": z.literal("FormulatedGardenEvent"),
-    item: Garden.schema,
+    garden: Garden.schema,
   });
 }
