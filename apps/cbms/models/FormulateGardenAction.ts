@@ -5,6 +5,13 @@ import type { Garden } from "~/models/Garden";
 
 /**
  * Action to add a FormulatedGardenEvent to the event log.
+ *
+ * The action-event sequence is as follows:
+ * 1. FormulateGardenAction: add an Garden to the event log for subsequent use by #2 and #3.
+ * 2. FormulatedGardenEvent
+ * 3. ShowGardenAction: redirect to the garden page.
+ * 4. ShowedGardenEvent.
+ * 5. SelectedGardenItemEvent.
  */
 export class FormulateGardenAction extends Action {
   readonly item: Garden;
