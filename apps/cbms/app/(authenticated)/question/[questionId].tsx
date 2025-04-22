@@ -4,7 +4,13 @@ import {
   type TextAnswer,
   Timestamp,
 } from "@lofwen/models";
-import { Redirect, useLocalSearchParams, useNavigation } from "expo-router";
+import {
+  Redirect,
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+  useRouter,
+} from "expo-router";
 import { type ReactElement, useCallback, useEffect, useMemo } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,9 +21,7 @@ import { LikertScaleQuestionView } from "~/components/LikertScaleQuestionView";
 import { TextQuestionView } from "~/components/TextQuestionView";
 import { useEventLog } from "~/hooks/useEventLog";
 import type { Answer } from "~/models/Answer";
-import { ExecutableAction } from "~/models/ExecutableAction";
 import { PoseQuestionAction } from "~/models/PoseQuestionAction";
-import { RenderableAction } from "~/models/RenderableAction";
 import { rootLogger } from "~/rootLogger";
 import { workflow } from "~/workflow";
 
@@ -76,6 +80,8 @@ export default function QuestionScreen() {
     [eventLog, questionId],
   );
 
+  const router = useRouter();
+
   useEffect(() => {
     if (question?.title) {
       navigation.setOptions({
@@ -95,21 +101,16 @@ export default function QuestionScreen() {
     }
   }, []);
 
-  useEffect(() => {
-    if (nextAction instanceof ExecutableAction) {
-      nextAction.execute({ eventLog });
-    }
-  }, [eventLog, nextAction]);
-
-  if (
-    nextAction instanceof PoseQuestionAction &&
-    nextAction.questionId === questionId
-  ) {
-  } else if (nextAction instanceof RenderableAction) {
-    return nextAction.render();
-  } else {
-    invariant(nextAction instanceof ExecutableAction);
-  }
+  useFocusEffect(
+    useCallback(() => {
+      if (
+        !(nextAction instanceof PoseQuestionAction) ||
+        nextAction.questionId !== questionId
+      ) {
+        nextAction.execute({ eventLog, router });
+      }
+    }, [eventLog, nextAction, questionId, router]),
+  );
 
   if (question === null) {
     logger.warn(`no such question: ${questionId}`);

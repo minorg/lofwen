@@ -1,8 +1,6 @@
-import { useEffect, useMemo } from "react";
-import invariant from "ts-invariant";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useMemo } from "react";
 import { useEventLog } from "~/hooks/useEventLog";
-import { ExecutableAction } from "~/models/ExecutableAction";
-import { RenderableAction } from "~/models/RenderableAction";
 import { rootLogger } from "~/rootLogger";
 import { workflow } from "~/workflow";
 
@@ -12,15 +10,12 @@ export default function RootScreen() {
   logger.debug("rendering");
   const eventLog = useEventLog();
   const nextAction = useMemo(() => workflow({ eventLog }), [eventLog]);
+  const router = useRouter();
   logger.debug(`next action: ${nextAction}`);
-  useEffect(() => {
-    if (nextAction instanceof ExecutableAction) {
-      nextAction.execute({ eventLog });
-    }
-  }, [eventLog, nextAction]);
-  if (nextAction instanceof RenderableAction) {
-    return nextAction.render();
-  }
-  invariant(nextAction instanceof ExecutableAction);
+  useFocusEffect(
+    useCallback(() => {
+      nextAction.execute({ eventLog, router });
+    }, [eventLog, nextAction, router]),
+  );
   return null;
 }

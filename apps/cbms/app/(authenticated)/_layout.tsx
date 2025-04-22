@@ -8,7 +8,7 @@ import { rootLogger } from "~/rootLogger";
 
 const logger = rootLogger.extend("Persister");
 
-const storageName = "cbms-app-1745280258";
+const storageName = "cbms-app-1745336397";
 // process.env.NODE_ENV === "development" ? randomUUID() : "cbms-app";
 
 export default function AuthenticatedLayout() {

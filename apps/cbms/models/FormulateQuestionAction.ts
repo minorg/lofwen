@@ -1,9 +1,9 @@
 import { Timestamp } from "@lofwen/models";
+import { Action } from "~/models/Action";
 import type { EventLog } from "~/models/EventLog";
-import { ExecutableAction } from "~/models/ExecutableAction";
 import type { Question } from "~/models/Question";
 
-export class FormulateQuestionAction extends ExecutableAction {
+export class FormulateQuestionAction extends Action {
   readonly question: Question;
 
   constructor({ question }: { question: Question }) {

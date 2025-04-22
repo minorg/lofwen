@@ -1,5 +1,11 @@
 import { Timestamp } from "@lofwen/models";
-import { Redirect, useLocalSearchParams, useNavigation } from "expo-router";
+import {
+  Redirect,
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+  useRouter,
+} from "expo-router";
 import { useCallback, useEffect, useMemo } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,9 +13,7 @@ import invariant from "ts-invariant";
 import { Hrefs } from "~/Hrefs";
 import { InstructionsView } from "~/components/InstructionsView";
 import { useEventLog } from "~/hooks/useEventLog";
-import { ExecutableAction } from "~/models/ExecutableAction";
 import { GiveInstructionsAction } from "~/models/GiveInstructionsAction";
-import { RenderableAction } from "~/models/RenderableAction";
 import { rootLogger } from "~/rootLogger";
 import { workflow } from "~/workflow";
 
@@ -50,6 +54,8 @@ export default function InstructionsScreen() {
     });
   }, [eventLog, instructions]);
 
+  const router = useRouter();
+
   useEffect(() => {
     if (instructions !== null) {
       navigation.setOptions({
@@ -69,21 +75,16 @@ export default function InstructionsScreen() {
     }
   }, []);
 
-  useEffect(() => {
-    if (nextAction instanceof ExecutableAction) {
-      nextAction.execute({ eventLog });
-    }
-  }, [eventLog, nextAction]);
-
-  if (
-    nextAction instanceof GiveInstructionsAction &&
-    nextAction.instructionsId === instructionsId
-  ) {
-  } else if (nextAction instanceof RenderableAction) {
-    return nextAction.render();
-  } else {
-    invariant(nextAction instanceof ExecutableAction);
-  }
+  useFocusEffect(
+    useCallback(() => {
+      if (
+        !(nextAction instanceof GiveInstructionsAction) ||
+        nextAction.instructionsId !== instructionsId
+      ) {
+        nextAction.execute({ eventLog, router });
+      }
+    }, [eventLog, instructionsId, nextAction, router]),
+  );
 
   if (instructions === null) {
     logger.warn(`no such instructions: ${instructionsId}`);

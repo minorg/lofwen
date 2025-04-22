@@ -1,9 +1,9 @@
 import { Timestamp } from "@lofwen/models";
+import { Action } from "~/models/Action";
 import type { EventLog } from "~/models/EventLog";
-import { ExecutableAction } from "~/models/ExecutableAction";
 import type { PerceivedStressScale } from "~/models/PerceivedStressScale";
 
-export class CompleteOnboardingAction extends ExecutableAction {
+export class CompleteOnboardingAction extends Action {
   private readonly perceivedStressScaleScores: PerceivedStressScale.Scores;
 
   constructor({
