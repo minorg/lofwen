@@ -24,24 +24,56 @@ const onboardingSequence: readonly (Instructions | Question)[] = [
   ...PerceivedStressScale.questions,
 ];
 
-function formulateInstructionsOrQuestion(
-  instructionsOrQuestion: Instructions | Question,
-): Action {
-  if (instructionsOrQuestion["@type"] === "Instructions") {
-    return new FormulateInstructionsAction({
-      instructions: instructionsOrQuestion,
-    });
-  }
-  return new FormulateQuestionAction({
-    question: instructionsOrQuestion,
-  });
-}
-
 export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
+  const instructionsOrQuestionAction = (
+    instructionsOrQuestion: Instructions | Question,
+  ): Action => {
+    if (instructionsOrQuestion["@type"] === "Instructions") {
+      const instructions = instructionsOrQuestion;
+
+      if (
+        eventLog.some(
+          (event) =>
+            event["@type"] === "FormulatedInstructionsEvent" &&
+            event.instructions["@id"] === instructions["@id"],
+        )
+      ) {
+        logger.debug(
+          `already formulated instructions ${instructions["@id"]}, giving instead`,
+        );
+        return new GiveInstructionsAction({
+          instructionsId: instructions["@id"],
+        });
+      }
+      logger.debug(`formulating instructions ${instructions["@id"]}`);
+      return new FormulateInstructionsAction({
+        instructions: instructionsOrQuestion,
+      });
+    }
+
+    const question: Question = instructionsOrQuestion;
+    if (
+      eventLog.some(
+        (event) =>
+          event["@type"] === "FormulatedQuestionEvent" &&
+          event.question["@id"] === question["@id"],
+      )
+    ) {
+      logger.debug(
+        `already formulated question ${question["@id"]}, posing instead`,
+      );
+      return new PoseQuestionAction({ questionId: question["@id"] });
+    }
+    logger.debug(`formulating question ${question["@id"]}`);
+    return new FormulateQuestionAction({
+      question: instructionsOrQuestion,
+    });
+  };
+
   const lastEvent = eventLog.last;
   if (lastEvent === null) {
     logger.debug("no last event, starting onboarding");
-    return formulateInstructionsOrQuestion(onboardingSequence[0]);
+    return instructionsOrQuestionAction(onboardingSequence[0]);
   }
   logger.debug(`last event type: ${lastEvent["@type"]}`);
 
@@ -70,7 +102,7 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
         `answered/acknowledged onboarding sequence index (0-based): ${onboardingSequenceIndex}`,
       );
       if (onboardingSequenceIndex + 1 < onboardingSequence.length) {
-        return formulateInstructionsOrQuestion(
+        return instructionsOrQuestionAction(
           onboardingSequence[onboardingSequenceIndex + 1],
         );
       }

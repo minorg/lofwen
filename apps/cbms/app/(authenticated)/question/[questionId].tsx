@@ -28,11 +28,10 @@ import { workflow } from "~/workflow";
 const logger = rootLogger.extend("QuestionScreen");
 
 export default function QuestionScreen() {
-  logger.debug("rendering");
-
   const { questionId } = useLocalSearchParams<{
     questionId: string;
   }>();
+  logger.debug(`rendering: questionId=${questionId}`);
   const eventLog = useEventLog();
 
   const answer = useMemo(() => {

@@ -20,11 +20,10 @@ import { workflow } from "~/workflow";
 const logger = rootLogger.extend("InstructionsScreen");
 
 export default function InstructionsScreen() {
-  logger.debug("rendering");
-
   const { instructionsId } = useLocalSearchParams<{
     instructionsId: string;
   }>();
+  logger.debug(`rendering: instructionsId=${instructionsId}`);
   const eventLog = useEventLog();
 
   const navigation = useNavigation();

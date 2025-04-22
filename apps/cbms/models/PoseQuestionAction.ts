@@ -17,6 +17,6 @@ export class PoseQuestionAction extends Action {
   }
 
   override toString(): string {
-    return `PoseQuestionAction(questionId=${this.questionId}))`;
+    return `PoseQuestionAction(questionId=${this.questionId})`;
   }
 }

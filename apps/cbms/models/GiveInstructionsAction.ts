@@ -17,6 +17,6 @@ export class GiveInstructionsAction extends Action {
   }
 
   override toString(): string {
-    return `GiveInstructionsAction(instructionsId=${this.instructionsId}))`;
+    return `GiveInstructionsAction(instructionsId=${this.instructionsId})`;
   }
 }
