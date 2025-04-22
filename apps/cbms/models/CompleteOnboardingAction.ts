@@ -3,6 +3,9 @@ import { Action } from "~/models/Action";
 import type { EventLog } from "~/models/EventLog";
 import type { PerceivedStressScale } from "~/models/PerceivedStressScale";
 
+/**
+ * Action to add a CompletedOnboardingEvent to the event log.
+ */
 export class CompleteOnboardingAction extends Action {
   private readonly perceivedStressScaleScores: PerceivedStressScale.Scores;
 

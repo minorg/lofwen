@@ -5,6 +5,13 @@ import { rootLogger } from "~/rootLogger";
 
 const logger = rootLogger.extend("GiveInstructionsAction");
 
+/**
+ * Redirect to the instructions page.
+ *
+ * Assumes the Instructions referenced by instructionsId have already been added to the event log as a FormulatedInstructionsEvent by FormulateInstructionsAction.
+ *
+ * See notes in FormulateInstructionsAction re: the action-event sequence.
+ */
 export class GiveInstructionsAction extends Action {
   readonly instructionsId: Identifier;
 

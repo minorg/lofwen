@@ -5,6 +5,13 @@ import { rootLogger } from "~/rootLogger";
 
 const logger = rootLogger.extend("PoseQuestionAction");
 
+/**
+ * Redirect to the question page.
+ *
+ * Assumes the Question referenced by questionId have already been added to the event log as a FormulatedQuestionEvent by FormulateQuestionAction.
+ *
+ * See notes in FormulateQuestionAction re: the action-event sequence.
+ */
 export class PoseQuestionAction extends Action {
   readonly questionId: Identifier;
 

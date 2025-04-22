@@ -3,6 +3,11 @@ import { z } from "zod";
 import { Answer } from "~/models/Answer";
 import { BaseEvent } from "~/models/BaseEvent";
 
+/**
+ * The user answered a question.
+ *
+ * See notes in FormulateQuestionAction re: the action-event sequence.
+ */
 export type AnsweredQuestionEvent = z.infer<
   typeof AnsweredQuestionEvent.schema
 >;
