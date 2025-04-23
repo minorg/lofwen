@@ -1,0 +1,15 @@
+{
+  "extends": ["expo/tsconfig.base", "@lofwen/tsconfig/base.json"],
+  "compilerOptions": {
+    "paths": {
+      "~/*": ["./*"]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "nativewind-env.d.ts"
+  ]
+}

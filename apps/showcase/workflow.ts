@@ -4,6 +4,7 @@ import { Identifier, Timestamp } from "@lofwen/models";
 import invariant from "ts-invariant";
 import type { Action } from "~/models/Action";
 import type { Event } from "~/models/Event";
+import { FormulateQuestionAction } from "~/models/FormulateQuestionAction";
 import { NopAction } from "~/models/NopAction";
 import { OpenChatAction } from "~/models/OpenChatAction";
 import { PoseQuestionAction } from "~/models/PoseQuestionAction";
@@ -28,7 +29,7 @@ export const workflow = ({
   switch (lastEvent["@type"]) {
     // Cases are in order of the workflow
     case "StartedAppEvent": {
-      return new PoseQuestionAction({
+      return new FormulateQuestionAction({
         question: {
           "@id": "likert-scale-question",
           "@type": "LikertScaleQuestion",
@@ -47,14 +48,17 @@ export const workflow = ({
         },
       });
     }
+    case "FormulatedQuestionEvent": {
+      return new PoseQuestionAction({ questionId: lastEvent.question["@id"] });
+    }
     case "PosedQuestionEvent": {
-      // Return the PoseQuestionAction again so the workflow is deterministic
-      return new PoseQuestionAction({ question: lastEvent.question });
+      // Wait for the answer
+      return NopAction.instance;
     }
     case "AnsweredQuestionEvent":
-      switch (lastEvent.answer.questionId) {
+      switch (lastEvent.questionId) {
         case "likert-scale-question":
-          return new PoseQuestionAction({
+          return new FormulateQuestionAction({
             question: {
               "@id": "dichotomous-question",
               "@type": "DichotomousQuestion",
@@ -72,7 +76,7 @@ export const workflow = ({
             },
           });
         case "dichotomous-question":
-          return new PoseQuestionAction({
+          return new FormulateQuestionAction({
             question: {
               "@id": "text-question",
               "@type": "TextQuestion",
@@ -94,7 +98,7 @@ export const workflow = ({
             },
           });
         default:
-          throw new RangeError(lastEvent.answer.questionId);
+          throw new RangeError(lastEvent.questionId);
       }
     case "ScheduledNotificationEvent": {
       return OpenChatAction.instance;

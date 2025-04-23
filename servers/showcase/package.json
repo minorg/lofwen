@@ -9,7 +9,7 @@
   },
   "license": "Apache-2.0",
   "main": "index.js",
-  "name": "@lofwen/server",
+  "name": "@lofwen/showcase-server",
   "scripts": {
     "start": "node server.js"
   },

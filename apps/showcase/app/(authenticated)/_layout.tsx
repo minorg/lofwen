@@ -6,7 +6,7 @@ import {
 } from "@lofwen/event-log";
 import {} from "@react-navigation/native";
 import { Redirect, Slot } from "expo-router";
-import { type PropsWithChildren, useMemo } from "react";
+import type { PropsWithChildren } from "react";
 import { Hrefs } from "~/Hrefs";
 import { configuration } from "~/configuration";
 import { useUser } from "~/hooks/useUser";
@@ -40,7 +40,8 @@ function Synchronization({
 }
 
 export default function AuthenticatedLayout() {
-  const store = useMemo(() => TinyBaseEventLog.Store.create(), []);
+  const { useCreateStore } = TinyBaseEventLog.UiReact;
+  const store = useCreateStore(() => TinyBaseEventLog.Store.create());
   const user = useUser();
 
   if (user["@type"] === "UnauthenticatedUser") {

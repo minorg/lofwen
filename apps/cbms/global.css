@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theme from https://ui.jln.dev */
+
+@layer base {
+  :root {
+    --background: 131 59% 99%;
+    --foreground: 131 76% 4%;
+    --muted: 311 22% 92%;
+    --muted-foreground: 311 6% 38%;
+    --popover: 131 59% 99%;
+    --popover-foreground: 131 76% 4%;
+    --card: 131 59% 98%;
+    --card-foreground: 131 76% 3%;
+    --border: 131 15% 93%;
+    --input: 131 15% 93%;
+    --primary: 131 44% 26%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 311 44% 26%;
+    --secondary-foreground: 311 44% 86%;
+    --accent: 311 44% 26%;
+    --accent-foreground: 311 44% 86%;
+    --destructive: 3 93% 35%;
+    --destructive-foreground: 3 93% 95%;
+    --ring: 131 44% 26%;
+    --chart-1: 131 44% 26%;
+    --chart-2: 311 44% 26%;
+    --chart-3: 311 44% 26%;
+    --chart-4: 311 44% 29%;
+    --chart-5: 131 47% 26%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 131 40% 4%;
+    --foreground: 131 28% 99%;
+    --muted: 311 22% 8%;
+    --muted-foreground: 311 6% 62%;
+    --popover: 131 40% 4%;
+    --popover-foreground: 131 28% 99%;
+    --card: 131 40% 5%;
+    --card-foreground: 0 0% 100%;
+    --border: 131 15% 15%;
+    --input: 131 15% 15%;
+    --primary: 131 44% 26%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 311 44% 26%;
+    --secondary-foreground: 311 44% 86%;
+    --accent: 311 44% 26%;
+    --accent-foreground: 311 44% 86%;
+    --destructive: 3 93% 54%;
+    --destructive-foreground: 0 0% 100%;
+    --ring: 131 44% 26%;
+    --chart-1: 131 44% 26%;
+    --chart-2: 311 44% 26%;
+    --chart-3: 311 44% 26%;
+    --chart-4: 311 44% 29%;
+    --chart-5: 131 47% 26%;
+  }
+}

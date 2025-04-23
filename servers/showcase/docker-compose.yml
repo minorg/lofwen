@@ -1,0 +1,10 @@
+services:
+  showcase-server:
+    build: .
+    container_name: showcase-server
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - showcase-server-data:/data
+volumes:
+  showcase-server-data:
