@@ -138,7 +138,7 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
                 family: "MaterialCommunityIcons",
                 name: "shovel",
               },
-              text: "You need a shovel.",
+              text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
               title: "Shovel",
             },
             {
@@ -147,7 +147,7 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
                 family: "FontAwesome6",
                 name: "trowel",
               },
-              text: "You need a trowel.",
+              text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
               title: "Trowel",
             },
             {
@@ -156,8 +156,17 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
                 family: "MaterialCommunityIcons",
                 name: "seed",
               },
-              text: "You need some seeds.",
+              text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
               title: "Seeds",
+            },
+            {
+              "@id": "water",
+              icon: {
+                family: "FontAwesome6",
+                name: "water",
+              },
+              text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+              title: "Water",
             },
           ],
         },

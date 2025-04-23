@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { ImageBackground, View } from "react-native";
 import Markdown from "react-native-markdown-display";
 import { IconView } from "~/components/IconView";
 import { Text } from "~/components/ui/text";
@@ -7,8 +7,8 @@ import type { GardenItem } from "~/models/GardenItem";
 
 function GardenItemView({ gardenItem }: { gardenItem: GardenItem }) {
   return (
-    <View className="border-4 border-primary flex flex-row p-2 native:justify-center">
-      <View className="items-center justify-start">
+    <View className="border-2 border-primary flex flex-row gap-4 p-4 rounded-sm">
+      <View className="flex flex-col justify-center">
         <IconView icon={gardenItem.icon} size={64} />
       </View>
       <View className="flex flex-col flex-1 items-end">
@@ -23,10 +23,18 @@ function GardenItemView({ gardenItem }: { gardenItem: GardenItem }) {
 
 export function GardenView({ garden }: { garden: Garden }) {
   return (
-    <View className="flex flex-col flex-1 gap-2 native:px-4 native:py-2">
-      {garden.items.map((item) => (
-        <GardenItemView gardenItem={item} key={item["@id"]} />
-      ))}
+    <View className="flex flex-col flex-1">
+      <ImageBackground
+        className="flex-1"
+        imageClassName="opacity-10"
+        source={require("../assets/images/morris-african-marigold.jpg")}
+      >
+        <View className="flex flex-col flex-1 gap-2 opacity-100 native:px-4 native:py-2">
+          {garden.items.map((item) => (
+            <GardenItemView gardenItem={item} key={item["@id"]} />
+          ))}
+        </View>
+      </ImageBackground>
     </View>
   );
 }
