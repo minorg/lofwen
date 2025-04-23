@@ -10,9 +10,7 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from "expo-router";
-import { type ReactElement, useCallback, useEffect, useMemo } from "react";
-import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useCallback, useEffect, useMemo } from "react";
 import invariant from "ts-invariant";
 import { Hrefs } from "~/Hrefs";
 import { DichotomousQuestionView } from "~/components/DichotomousQuestionView";
@@ -100,33 +98,30 @@ export default function QuestionScreen() {
     return <Redirect href={Hrefs.root} />;
   }
 
-  let questionView: ReactElement;
   switch (question["@type"]) {
     case "DichotomousQuestion": {
       invariant(answer === null || answer["@type"] === "DichotomousAnswer");
-      questionView = (
+      return (
         <DichotomousQuestionView
           answer={answer as DichotomousAnswer | null}
           onAnswer={onAnswer}
           question={question}
         />
       );
-      break;
     }
     case "LikertScaleQuestion": {
       invariant(answer === null || answer["@type"] === "LikertScaleAnswer");
-      questionView = (
+      return (
         <LikertScaleQuestionView
           answer={answer as LikertScaleAnswer | null}
           onAnswer={onAnswer}
           question={question}
         />
       );
-      break;
     }
     case "TextQuestion": {
       invariant(answer === null || answer["@type"] === "TextAnswer");
-      questionView = (
+      return (
         <TextQuestionView
           answer={answer as TextAnswer | null}
           onAnswer={onAnswer}
@@ -135,10 +130,4 @@ export default function QuestionScreen() {
       );
     }
   }
-
-  return (
-    <SafeAreaView className="flex-1" id="safe-area-view">
-      <View className="web:px-4">{questionView}</View>
-    </SafeAreaView>
-  );
 }

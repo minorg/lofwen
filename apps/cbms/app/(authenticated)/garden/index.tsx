@@ -1,8 +1,6 @@
 import { Timestamp } from "@lofwen/models";
 import { Redirect, useFocusEffect } from "expo-router";
 import { useEffect, useMemo } from "react";
-import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Hrefs } from "~/Hrefs";
 import { GardenView } from "~/components/GardenView";
 import { useEventLog } from "~/hooks/useEventLog";
@@ -55,11 +53,5 @@ export default function GardenScreen() {
     return <Redirect href={Hrefs.root} />;
   }
 
-  return (
-    <SafeAreaView className="flex-1" id="safe-area-view">
-      <View className="web:px-4">
-        <GardenView garden={garden} />
-      </View>
-    </SafeAreaView>
-  );
+  return <GardenView garden={garden} />;
 }

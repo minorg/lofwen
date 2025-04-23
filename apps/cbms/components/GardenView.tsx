@@ -7,14 +7,12 @@ import type { GardenItem } from "~/models/GardenItem";
 
 function GardenItemView({ gardenItem }: { gardenItem: GardenItem }) {
   return (
-    <View className="flex flex-row gap-2">
-      <View className="items-center justify-center">
+    <View className="border-4 border-primary flex flex-row p-2 native:justify-center">
+      <View className="items-center justify-start">
         <IconView icon={gardenItem.icon} size={64} />
       </View>
-      <View className="flex flex-col">
-        <Text className="text-xl font-bold">
-          <Markdown>{gardenItem.title}</Markdown>
-        </Text>
+      <View className="flex flex-col flex-1 items-end">
+        <Text className="text-xl font-bold">{gardenItem.title}</Text>
         <Text className="text-lg">
           <Markdown>{gardenItem.text}</Markdown>
         </Text>
@@ -25,7 +23,7 @@ function GardenItemView({ gardenItem }: { gardenItem: GardenItem }) {
 
 export function GardenView({ garden }: { garden: Garden }) {
   return (
-    <View className="flex flex-col flex-1 gap-2 native:justify-center native:px-4">
+    <View className="flex flex-col flex-1 gap-2 native:px-4 native:py-2">
       {garden.items.map((item) => (
         <GardenItemView gardenItem={item} key={item["@id"]} />
       ))}

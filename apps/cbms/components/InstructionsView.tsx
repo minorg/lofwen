@@ -12,9 +12,10 @@ export function InstructionsView({
   instructions: Instructions;
   onAcknowledge: () => void;
 }) {
+  console.info("Instructions text", instructions.text);
   return (
-    <View className="flex flex-col flex-1 gap-2 native:justify-center native:px-4">
-      <Text className="text-2xl">
+    <View className="flex flex-col flex-1 gap-2 native:px-4">
+      <Text>
         <Markdown>{instructions.text}</Markdown>
       </Text>
       <Button onPress={onAcknowledge} variant="outline">

@@ -6,8 +6,6 @@ import {
   useNavigation,
 } from "expo-router";
 import { useCallback, useEffect, useMemo } from "react";
-import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import invariant from "ts-invariant";
 import { Hrefs } from "~/Hrefs";
 import { InstructionsView } from "~/components/InstructionsView";
@@ -76,13 +74,9 @@ export default function InstructionsScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1" id="safe-area-view">
-      <View className="web:px-4">
-        <InstructionsView
-          instructions={instructions}
-          onAcknowledge={onAcknowledge}
-        />
-      </View>
-    </SafeAreaView>
+    <InstructionsView
+      instructions={instructions}
+      onAcknowledge={onAcknowledge}
+    />
   );
 }
