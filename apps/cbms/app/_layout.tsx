@@ -1,10 +1,25 @@
 import "~/global.css";
 
 import {} from "@clerk/clerk-expo";
+import { OpenSans_300Light } from "@expo-google-fonts/open-sans/300Light";
+import { OpenSans_300Light_Italic } from "@expo-google-fonts/open-sans/300Light_Italic";
+import { OpenSans_400Regular } from "@expo-google-fonts/open-sans/400Regular";
+import { OpenSans_400Regular_Italic } from "@expo-google-fonts/open-sans/400Regular_Italic";
+import { OpenSans_500Medium } from "@expo-google-fonts/open-sans/500Medium";
+import { OpenSans_500Medium_Italic } from "@expo-google-fonts/open-sans/500Medium_Italic";
+import { OpenSans_600SemiBold } from "@expo-google-fonts/open-sans/600SemiBold";
+import { OpenSans_600SemiBold_Italic } from "@expo-google-fonts/open-sans/600SemiBold_Italic";
+import { OpenSans_700Bold } from "@expo-google-fonts/open-sans/700Bold";
+import { OpenSans_700Bold_Italic } from "@expo-google-fonts/open-sans/700Bold_Italic";
+import { OpenSans_800ExtraBold } from "@expo-google-fonts/open-sans/800ExtraBold";
+import { OpenSans_800ExtraBold_Italic } from "@expo-google-fonts/open-sans/800ExtraBold_Italic";
+import { useFonts } from "@expo-google-fonts/open-sans/useFonts";
 import { ThemeProvider } from "@react-navigation/native";
 import { Slot } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
+import { useEffect } from "react";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useColorScheme } from "~/hooks/useColorScheme";
@@ -19,10 +34,26 @@ export {
 
 const logger = rootLogger.extend("RootLayout");
 
+SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
   const hasMounted = React.useRef(false);
   const { colorScheme, isDarkColorScheme } = useColorScheme();
-  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
+  const [colorSchemeLoaded, setColorSchemeLoaded] = React.useState(false);
+  const [fontsLoaded] = useFonts({
+    OpenSans_300Light,
+    OpenSans_400Regular,
+    OpenSans_500Medium,
+    OpenSans_600SemiBold,
+    OpenSans_700Bold,
+    OpenSans_800ExtraBold,
+    OpenSans_300Light_Italic,
+    OpenSans_400Regular_Italic,
+    OpenSans_500Medium_Italic,
+    OpenSans_600SemiBold_Italic,
+    OpenSans_700Bold_Italic,
+    OpenSans_800ExtraBold_Italic,
+  });
 
   useIsomorphicLayoutEffect(() => {
     if (hasMounted.current) {
@@ -35,14 +66,26 @@ export default function RootLayout() {
     }
 
     setAndroidNavigationBar({ colorScheme });
-    setIsColorSchemeLoaded(true);
+    setColorSchemeLoaded(true);
     hasMounted.current = true;
   }, []);
 
-  if (!isColorSchemeLoaded) {
-    logger.debug("color scheme isn't loaded, returning null on first render");
-    return null;
-  }
+  useEffect(() => {
+    if (!colorSchemeLoaded) {
+      logger.debug("color scheme isn't loaded");
+      return;
+    }
+    logger.debug("loaded color scheme");
+
+    if (!fontsLoaded) {
+      logger.debug("fonts aren't loaded");
+      return;
+    }
+    logger.debug("loaded fonts");
+
+    SplashScreen.hideAsync();
+    logger.debug("hid splash screen");
+  }, [colorSchemeLoaded, fontsLoaded]);
 
   return (
     <ThemeProvider value={isDarkColorScheme ? navTheme.dark : navTheme.light}>
