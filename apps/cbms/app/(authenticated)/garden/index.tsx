@@ -1,10 +1,11 @@
 import { Timestamp } from "@lofwen/models";
 import { Redirect, useFocusEffect } from "expo-router";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { Hrefs } from "~/Hrefs";
 import { GardenView } from "~/components/GardenView";
 import { useEventLog } from "~/hooks/useEventLog";
 import { useNextAction } from "~/hooks/useNextAction";
+import type { GardenItem } from "~/models/GardenItem";
 import { rootLogger } from "~/rootLogger";
 
 const logger = rootLogger.extend("GardenScreen");
@@ -25,18 +26,6 @@ export default function GardenScreen() {
     return null;
   }, [eventLog]);
 
-  // const onAnswer = useCallback(
-  //   (answer: Answer) => {
-  //     eventLog.append({
-  //       answer,
-  //       questionId,
-  //       timestamp: Timestamp.now(),
-  //       "@type": "AnsweredGardenEvent",
-  //     });
-  //   },
-  //   [eventLog, questionId],
-  // );
-
   // biome-ignore lint/correctness/useExhaustiveDependencies: Run useEffect once
   useEffect(() => {
     if (garden !== null) {
@@ -49,9 +38,20 @@ export default function GardenScreen() {
 
   useFocusEffect(useNextAction());
 
+  const onSelectItem = useCallback(
+    (item: GardenItem) => {
+      eventLog.append({
+        "@type": "SelectedGardenItemEvent",
+        gardenItem: item,
+        timestamp: Timestamp.now(),
+      });
+    },
+    [eventLog],
+  );
+
   if (garden === null) {
     return <Redirect href={Hrefs.root} />;
   }
 
-  return <GardenView garden={garden} />;
+  return <GardenView garden={garden} onSelectItem={onSelectItem} />;
 }

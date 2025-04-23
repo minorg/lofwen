@@ -7,6 +7,7 @@ import { FormulateGardenAction } from "~/models/FormulateGardenAction";
 import { FormulateInstructionsAction } from "~/models/FormulateInstructionsAction";
 import { FormulateQuestionAction } from "~/models/FormulateQuestionAction";
 import { GiveInstructionsAction } from "~/models/GiveInstructionsAction";
+import { NopAction } from "~/models/NopAction";
 import { PerceivedStressScale } from "~/models/PerceivedStressScale";
 import { PoseQuestionAction } from "~/models/PoseQuestionAction";
 import type { Question } from "~/models/Question";
@@ -23,7 +24,7 @@ const questionnaires: Record<string, Questionnaire> = {
       {
         "@id": "onboarding-instructions",
         "@type": "Instructions",
-        title: "Initial instructions",
+        title: "Onboarding instructions",
         text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       },
       ...PerceivedStressScale.questions.map((question) => {
@@ -33,6 +34,16 @@ const questionnaires: Record<string, Questionnaire> = {
           ...otherQuestionProperties,
         };
       }),
+    ],
+  },
+  shovel: {
+    items: [
+      {
+        "@id": "shovel-instructions",
+        "@type": "Instructions",
+        title: "Shovel instructions",
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      },
     ],
   },
 };
@@ -218,6 +229,15 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
     case "PosedQuestionEvent":
       // May be resuming, redirect to the question page
       return new PoseQuestionAction({ questionId: lastEvent.questionId });
+
+    case "SelectedGardenItemEvent": {
+      const questionnaire = questionnaires[lastEvent.gardenItem["@id"]];
+      if (!questionnaire) {
+        logger.warn(`no such questionnaire: ${lastEvent.gardenItem["@id"]}`);
+        return NopAction.instance;
+      }
+      return questionnaireItemAction(questionnaire.items[0]);
+    }
 
     case "ShowedGardenEvent":
       // May be resuming, redirect to the garden page
