@@ -1,6 +1,6 @@
 import type { TextAnswer, TextQuestion } from "@lofwen/models";
 import { useCallback, useEffect, useState } from "react";
-import { View } from "react-native";
+import { BaseQuestionView } from "~/components/BaseQuestionView";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
@@ -32,8 +32,7 @@ export function TextQuestionView({
   }, [answer]);
 
   return (
-    <View className="flex flex-col flex-1 gap-2 native:justify-center native:px-4">
-      <Text className="text-2xl">{question.prompt}</Text>
+    <BaseQuestionView question={question}>
       <Input
         className="h-[8rem]"
         multiline
@@ -47,6 +46,6 @@ export function TextQuestionView({
       >
         <Text>Submit</Text>
       </Button>
-    </View>
+    </BaseQuestionView>
   );
 }

@@ -1,6 +1,7 @@
 import type { DichotomousAnswer, DichotomousQuestion } from "@lofwen/models";
 import { useCallback } from "react";
 import { View } from "react-native";
+import { BaseQuestionView } from "~/components/BaseQuestionView";
 import { Label } from "~/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Text } from "~/components/ui/text";
@@ -27,8 +28,7 @@ export function DichotomousQuestionView({
   );
 
   return (
-    <View className="flex flex-col gap-2 native:justify-center native:px-4">
-      <Text className="text-2xl">{question.prompt}</Text>
+    <BaseQuestionView question={question}>
       <RadioGroup
         onValueChange={onSelectResponseCategoryLabel}
         value={answer?.responseCategory.label ?? ""}
@@ -48,11 +48,11 @@ export function DichotomousQuestionView({
                 onSelectResponseCategoryLabel(responseCategory.label)
               }
             >
-              <Text className="text-xl">{responseCategory.label}</Text>
+              <Text className="text-secondary">{responseCategory.label}</Text>
             </Label>
           </View>
         ))}
       </RadioGroup>
-    </View>
+    </BaseQuestionView>
   );
 }

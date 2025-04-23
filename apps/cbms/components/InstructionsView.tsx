@@ -12,7 +12,7 @@ export function InstructionsView({
   onAcknowledge: () => void;
 }) {
   return (
-    <View className="flex flex-col flex-1 gap-2 native:px-4">
+    <View className="flex flex-col flex-1 gap-2 native:p-4">
       <Text>{instructions.text}</Text>
       <Button onPress={onAcknowledge} variant="outline">
         <Text>OK</Text>
