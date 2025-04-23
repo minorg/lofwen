@@ -1,5 +1,4 @@
 import { ImageBackground, View } from "react-native";
-import Markdown from "react-native-markdown-display";
 import { IconView } from "~/components/IconView";
 import { Text } from "~/components/ui/text";
 import type { Garden } from "~/models/Garden";
@@ -12,10 +11,10 @@ function GardenItemView({ gardenItem }: { gardenItem: GardenItem }) {
         <IconView icon={gardenItem.icon} size={64} />
       </View>
       <View className="flex flex-col flex-1 items-end">
-        <Text className="text-xl font-bold">{gardenItem.title}</Text>
-        <Text className="text-lg">
-          <Markdown>{gardenItem.text}</Markdown>
+        <Text className="text-2xl font-bold text-primary">
+          {gardenItem.title}
         </Text>
+        <Text className="text-lg text-secondary">{gardenItem.text}</Text>
       </View>
     </View>
   );

@@ -1,7 +1,6 @@
 import type { TextAnswer, TextQuestion } from "@lofwen/models";
 import { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
-import Markdown from "react-native-markdown-display";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
@@ -34,9 +33,7 @@ export function TextQuestionView({
 
   return (
     <View className="flex flex-col flex-1 gap-2 native:justify-center native:px-4">
-      <Text className="text-2xl">
-        <Markdown>{question.prompt}</Markdown>
-      </Text>
+      <Text className="text-2xl">{question.prompt}</Text>
       <Input
         className="h-[8rem]"
         multiline
