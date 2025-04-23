@@ -8,9 +8,11 @@ import { z } from "zod";
 export type Question = z.infer<typeof Question.schema>;
 
 export namespace Question {
-  export const schema = z.discriminatedUnion("@type", [
+  export const typeSchemas = [
     DichotomousQuestion.schema,
     LikertScaleQuestion.schema,
     TextQuestion.schema,
-  ]);
+  ] as const;
+
+  export const schema = z.discriminatedUnion("@type", typeSchemas);
 }

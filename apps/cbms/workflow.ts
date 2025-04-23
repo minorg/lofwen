@@ -7,31 +7,42 @@ import { FormulateGardenAction } from "~/models/FormulateGardenAction";
 import { FormulateInstructionsAction } from "~/models/FormulateInstructionsAction";
 import { FormulateQuestionAction } from "~/models/FormulateQuestionAction";
 import { GiveInstructionsAction } from "~/models/GiveInstructionsAction";
-import type { Instructions } from "~/models/Instructions";
 import { PerceivedStressScale } from "~/models/PerceivedStressScale";
 import { PoseQuestionAction } from "~/models/PoseQuestionAction";
 import type { Question } from "~/models/Question";
+import type { Questionnaire } from "~/models/Questionnaire";
+import type { QuestionnaireItem } from "~/models/QuestionnaireItem";
 import { ShowGardenAction } from "~/models/ShowGardenAction";
 import { rootLogger } from "~/rootLogger";
 
 const logger = rootLogger.extend("workflow");
 
-const onboardingSequence: readonly (Instructions | Question)[] = [
-  {
-    "@id": "initial-instructions",
-    "@type": "Instructions",
-    title: "Initial instructions",
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+const questionnaires: Record<string, Questionnaire> = {
+  onboarding: {
+    items: [
+      {
+        "@id": "onboarding-instructions",
+        "@type": "Instructions",
+        title: "Initial instructions",
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      },
+      ...PerceivedStressScale.questions.map((question) => {
+        const { "@id": questionId, ...otherQuestionProperties } = question;
+        return {
+          "@id": `onboarding-${questionId}`,
+          ...otherQuestionProperties,
+        };
+      }),
+    ],
   },
-  ...PerceivedStressScale.questions,
-];
+};
 
 export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
-  const instructionsOrQuestionAction = (
-    instructionsOrQuestion: Instructions | Question,
+  const questionnaireItemAction = (
+    questionnaireItem: QuestionnaireItem,
   ): Action => {
-    if (instructionsOrQuestion["@type"] === "Instructions") {
-      const instructions = instructionsOrQuestion;
+    if (questionnaireItem["@type"] === "Instructions") {
+      const instructions = questionnaireItem;
 
       if (
         eventLog.some(
@@ -49,11 +60,11 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
       }
       logger.debug(`formulating instructions ${instructions["@id"]}`);
       return new FormulateInstructionsAction({
-        instructions: instructionsOrQuestion,
+        instructions: questionnaireItem,
       });
     }
 
-    const question: Question = instructionsOrQuestion;
+    const question: Question = questionnaireItem;
     if (
       eventLog.some(
         (event) =>
@@ -68,44 +79,56 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
     }
     logger.debug(`formulating question ${question["@id"]}`);
     return new FormulateQuestionAction({
-      question: instructionsOrQuestion,
+      question: questionnaireItem,
     });
   };
 
   const lastEvent = eventLog.last;
   if (lastEvent === null) {
     logger.debug("no last event, starting onboarding");
-    return instructionsOrQuestionAction(onboardingSequence[0]);
+    return questionnaireItemAction(questionnaires["onboarding"].items[0]);
   }
   logger.debug(`last event type: ${lastEvent["@type"]}`);
 
   switch (lastEvent["@type"]) {
     case "AcknowledgedInstructionsEvent":
     case "AnsweredQuestionEvent": {
-      let onboardingSequenceIndex: number;
+      let questionnaire: Questionnaire;
+      let questionnaireItemIndex: number;
       if (lastEvent["@type"] === "AcknowledgedInstructionsEvent") {
-        onboardingSequenceIndex = onboardingSequence.findIndex(
+        questionnaire =
+          questionnaires[lastEvent.instructionsId.split("-", 2)[0]];
+        invariant(
+          questionnaire,
+          `no such questionnaire: ${lastEvent.instructionsId}`,
+        );
+        questionnaireItemIndex = questionnaire.items.findIndex(
           (instructions) =>
             instructions["@type"] === "Instructions" &&
             instructions["@id"] === lastEvent.instructionsId,
         );
       } else {
-        onboardingSequenceIndex = onboardingSequence.findIndex(
+        questionnaire = questionnaires[lastEvent.questionId.split("-", 2)[0]];
+        invariant(
+          questionnaire,
+          `no such questionnaire: ${lastEvent.questionId}`,
+        );
+        questionnaireItemIndex = questionnaire.items.findIndex(
           (question) =>
             question["@type"] !== "Instructions" &&
             question["@id"] === lastEvent.questionId,
         );
       }
       invariant(
-        onboardingSequenceIndex >= 0 &&
-          onboardingSequenceIndex < onboardingSequence.length,
+        questionnaireItemIndex >= 0 &&
+          questionnaireItemIndex < questionnaire.items.length,
       );
       logger.debug(
-        `answered/acknowledged onboarding sequence index (0-based): ${onboardingSequenceIndex}`,
+        `answered/acknowledged onboarding sequence index (0-based): ${questionnaireItemIndex}`,
       );
-      if (onboardingSequenceIndex + 1 < onboardingSequence.length) {
-        return instructionsOrQuestionAction(
-          onboardingSequence[onboardingSequenceIndex + 1],
+      if (questionnaireItemIndex + 1 < questionnaire.items.length) {
+        return questionnaireItemAction(
+          questionnaire.items[questionnaireItemIndex + 1],
         );
       }
 
@@ -113,14 +136,15 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
       return new CompleteOnboardingAction({
         perceivedStressScaleScores: PerceivedStressScale.score(
           PerceivedStressScale.questions.map((question) => {
+            const questionId = `onboarding-${question["@id"]}`;
             const answer = (
               eventLog.find(
                 (event) =>
                   event["@type"] === "AnsweredQuestionEvent" &&
-                  event.questionId === question["@id"],
+                  event.questionId === questionId,
               ) as AnsweredQuestionEvent | null
             )?.answer;
-            invariant(answer, `no answer for question ${question["@id"]}`);
+            invariant(answer, `no answer for question ${questionId}`);
             invariant(answer["@type"] === "LikertScaleAnswer");
             return answer;
           }),
