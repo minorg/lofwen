@@ -1,6 +1,11 @@
 import { Stack } from "expo-router";
+import { DefaultReactNavigationThemeProvider } from "~/components/ReactNavigationThemeProvider";
 import { screenOptions } from "~/components/screenOptions";
 
 export default function InstructionsLayout() {
-  return <Stack screenOptions={{ ...screenOptions }} />;
+  return (
+    <DefaultReactNavigationThemeProvider>
+      <Stack screenOptions={{ ...screenOptions }} />
+    </DefaultReactNavigationThemeProvider>
+  );
 }
