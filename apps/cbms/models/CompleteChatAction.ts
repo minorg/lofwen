@@ -60,6 +60,6 @@ export class CompleteChatAction extends Action {
   }
 
   override toString(): string {
-    return `CompleteChatAction()`;
+    return "CompleteChatAction()";
   }
 }
