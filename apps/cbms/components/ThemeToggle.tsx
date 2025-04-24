@@ -4,6 +4,9 @@ import { Pressable, View } from "react-native";
 import { useColorScheme } from "~/hooks/useColorScheme";
 import { setAndroidNavigationBar } from "~/lib/setAndroidNavigationBar";
 import { cn } from "~/lib/utils";
+import { rootLogger } from "~/rootLogger";
+
+const logger = rootLogger.extend("ThemeToggle");
 
 export function ThemeToggle() {
   const { isDarkColorScheme, setColorScheme } = useColorScheme();
@@ -12,6 +15,7 @@ export function ThemeToggle() {
     const newColorScheme = isDarkColorScheme ? "light" : "dark";
     setAndroidNavigationBar({ colorScheme: newColorScheme });
     setColorScheme(newColorScheme);
+    logger.debug(`new color scheme: ${newColorScheme}`);
   }, [isDarkColorScheme, setColorScheme]);
 
   return (
