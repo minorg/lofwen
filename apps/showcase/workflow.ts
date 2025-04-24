@@ -108,6 +108,7 @@ export const workflow = ({
         chatMessage: {
           _id: Identifier.random(),
           createdAt: Timestamp.now(),
+          role: "system",
           text: "How are you feeling today?",
           user: {
             _id: "system",
@@ -125,6 +126,7 @@ export const workflow = ({
           chatMessage: {
             _id: Identifier.random(),
             createdAt: Timestamp.now(),
+            role: "assistant",
             text: "How does that make you feel?",
             user: {
               _id: "system",

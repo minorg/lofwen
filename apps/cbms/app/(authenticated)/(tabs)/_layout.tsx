@@ -35,7 +35,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="chat"
           options={{
-            headerTitle: "Garden",
+            headerTitle: "Chat",
             title: "Chat",
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons
@@ -49,7 +49,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="forum"
           options={{
-            headerTitle: "Garden",
+            headerTitle: "Forum",
             title: "Forum",
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons

@@ -40,6 +40,7 @@ export default function ChatScreen() {
               typeof message.createdAt === "number"
                 ? message.createdAt
                 : message.createdAt.getTime(),
+            role: "user",
             text: message.text,
             user: message.user,
           },

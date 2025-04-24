@@ -2,6 +2,7 @@ import { Identifier, Timestamp } from "@lofwen/models";
 import invariant from "ts-invariant";
 import type { Action } from "~/models/Action";
 import type { AnsweredQuestionEvent } from "~/models/AnsweredQuestionEvent";
+import { CompleteChatAction } from "~/models/CompleteChatAction";
 import { CompleteOnboardingAction } from "~/models/CompleteOnboardingAction";
 import type { EventLog } from "~/models/EventLog";
 import { FormulateGardenAction } from "~/models/FormulateGardenAction";
@@ -242,6 +243,7 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
           chatMessage: {
             _id: Identifier.random(),
             createdAt: Timestamp.now(),
+            role: "assistant",
             text: "How are you feeling today?",
             user: {
               _id: "system",
@@ -249,6 +251,7 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
           },
         });
       }
+
       return NopAction.instance;
     }
 
@@ -266,26 +269,10 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
     }
 
     case "SentChatMessageEvent": {
-      return NopAction.instance;
-      // if (
-      //   user["@type"] === "AuthenticatedUser" &&
-      //   lastEvent.chatMessage.user._id === user["@id"]
-      // ) {
-      //   return new SendChatMessageAction({
-      //     chatMessage: {
-      //       _id: Identifier.random(),
-      //       createdAt: Timestamp.now(),
-      //       text: "How does that make you feel?",
-      //       user: {
-      //         _id: "system",
-      //         name: "System",
-      //       },
-      //     },
-      //   });
-      // }
-
-      // invariant(lastEvent.chatMessage.user._id === "system");
-      // return NopAction.instance;
+      if (lastEvent.chatMessage.role !== "user") {
+        return NopAction.instance;
+      }
+      return CompleteChatAction.instance;
     }
 
     case "ShowedGardenEvent":

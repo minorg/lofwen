@@ -8,6 +8,7 @@ export namespace ChatMessage {
   export const schema = z.object({
     _id: z.union([z.string(), z.number()]),
     createdAt: Timestamp.schema,
+    role: z.enum(["assistant", "system", "user"]),
     text: z.string(),
     user: z.object({
       _id: z.union([z.string(), z.number()]),
