@@ -3,9 +3,15 @@ import type { Href } from "expo-router";
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class Hrefs {
+  static get chat() {
+    return {
+      pathname: "/(authenticated)/(tabs)/chat",
+    } satisfies Href;
+  }
+
   static get garden() {
     return {
-      pathname: "/(authenticated)/garden",
+      pathname: "/(authenticated)/(tabs)/garden",
     } satisfies Href;
   }
 
