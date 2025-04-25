@@ -33,7 +33,7 @@
     --radius: 0.5rem;
   }
 
-  .dark:root {
+  .dark {
     --background: 131 40% 4%;
     --foreground: 131 28% 99%;
     --muted: 311 22% 8%;

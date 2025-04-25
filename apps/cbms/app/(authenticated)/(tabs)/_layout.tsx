@@ -1,19 +1,19 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { useTheme } from "@react-navigation/native";
 import { Tabs } from "expo-router";
 import { screenOptions } from "~/components/screenOptions";
-import { useColorScheme } from "~/hooks/useColorScheme";
 
 export default function TabLayout() {
-  const { isDarkColorScheme } = useColorScheme();
+  const { colors } = useTheme();
+
   return (
     <Tabs
       screenOptions={{
         ...screenOptions,
-        // Hack to avoid white overlay
-        tabBarActiveBackgroundColor: isDarkColorScheme ? "black" : "white",
-        tabBarActiveTintColor: isDarkColorScheme ? "white" : "black",
-        tabBarInactiveBackgroundColor: isDarkColorScheme ? "black" : "white",
-        tabBarInactiveTintColor: isDarkColorScheme ? "white" : "black",
+        tabBarActiveBackgroundColor: colors.background,
+        tabBarActiveTintColor: colors.text,
+        tabBarInactiveBackgroundColor: colors.background,
+        tabBarInactiveTintColor: colors.text,
       }}
     >
       <Tabs.Screen
