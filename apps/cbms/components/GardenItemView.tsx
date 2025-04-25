@@ -1,8 +1,8 @@
-import { useTheme } from "@react-navigation/native";
 import { Pressable, View } from "react-native";
 import { IconView } from "~/components/IconView";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
+import { useTheme } from "~/hooks/useTheme";
 import type { GardenItem } from "~/models/GardenItem";
 
 export function GardenItemView({

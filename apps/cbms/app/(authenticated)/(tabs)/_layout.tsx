@@ -1,7 +1,7 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useTheme } from "@react-navigation/native";
 import { Tabs } from "expo-router";
 import { screenOptions } from "~/components/screenOptions";
+import { useTheme } from "~/hooks/useTheme";
 
 export default function TabLayout() {
   const { colors } = useTheme();
@@ -11,9 +11,9 @@ export default function TabLayout() {
       screenOptions={{
         ...screenOptions,
         tabBarActiveBackgroundColor: colors.background,
-        tabBarActiveTintColor: colors.text,
+        tabBarActiveTintColor: colors.primary,
         tabBarInactiveBackgroundColor: colors.background,
-        tabBarInactiveTintColor: colors.text,
+        tabBarInactiveTintColor: colors.secondary,
       }}
     >
       <Tabs.Screen

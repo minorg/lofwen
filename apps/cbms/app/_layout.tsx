@@ -14,12 +14,7 @@ import { OpenSans_700Bold_Italic } from "@expo-google-fonts/open-sans/700Bold_It
 import { OpenSans_800ExtraBold } from "@expo-google-fonts/open-sans/800ExtraBold";
 import { OpenSans_800ExtraBold_Italic } from "@expo-google-fonts/open-sans/800ExtraBold_Italic";
 import { useFonts } from "@expo-google-fonts/open-sans/useFonts";
-import {
-  DarkTheme,
-  DefaultTheme,
-  type Theme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { ThemeProvider } from "@react-navigation/native";
 import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
@@ -27,12 +22,10 @@ import * as React from "react";
 import { useEffect } from "react";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import invariant from "ts-invariant";
-// Version of global.css from css2json
-import globalCssJson from "~/global.css.json";
 import { useColorScheme } from "~/hooks/useColorScheme";
 import { setAndroidNavigationBar } from "~/lib/setAndroidNavigationBar";
 import { rootLogger } from "~/rootLogger";
+import { themes } from "~/themes/themes";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -42,40 +35,6 @@ export {
 const logger = rootLogger.extend("RootLayout");
 
 SplashScreen.preventAutoHideAsync();
-
-function cssColors(scheme: "dark" | "light"): Theme["colors"] {
-  function cssColor(property: string): string {
-    const declarations =
-      scheme === "dark"
-        ? globalCssJson.stylesheet.rules[1].declarations
-        : globalCssJson.stylesheet.rules[0].declarations;
-    const declaration = declarations.find(
-      (declaration) => declaration.property === property,
-    );
-    invariant(declaration);
-    return `hsl(${declaration.value})`;
-  }
-
-  return {
-    background: cssColor("--background"),
-    border: cssColor("--border"),
-    card: cssColor("--card"),
-    notification: cssColor("--destructive"),
-    primary: cssColor("--primary"),
-    text: cssColor("--foreground"),
-  };
-}
-
-const reactNavigationThemes: Record<"dark" | "light", Theme> = {
-  dark: {
-    ...DarkTheme,
-    colors: cssColors("dark"),
-  },
-  light: {
-    ...DefaultTheme,
-    colors: cssColors("light"),
-  },
-};
 
 export default function RootLayout() {
   const hasMounted = React.useRef(false);
@@ -129,13 +88,7 @@ export default function RootLayout() {
   }, [colorSchemeLoaded, fontsLoaded]);
 
   return (
-    <ThemeProvider
-      value={
-        isDarkColorScheme
-          ? reactNavigationThemes.dark
-          : reactNavigationThemes.light
-      }
-    >
+    <ThemeProvider value={isDarkColorScheme ? themes.dark : themes.light}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Slot />
