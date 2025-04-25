@@ -24,8 +24,8 @@ import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useColorScheme } from "~/hooks/useColorScheme";
 import { setAndroidNavigationBar } from "~/lib/setAndroidNavigationBar";
-import { navTheme } from "~/navTheme";
 import { rootLogger } from "~/rootLogger";
+import { themes } from "~/themes/themes";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -88,7 +88,7 @@ export default function RootLayout() {
   }, [colorSchemeLoaded, fontsLoaded]);
 
   return (
-    <ThemeProvider value={isDarkColorScheme ? navTheme.dark : navTheme.light}>
+    <ThemeProvider value={isDarkColorScheme ? themes.dark : themes.light}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Slot />

@@ -1,0 +1,18 @@
+services:
+  litellm:
+    container_name: litellm
+    image: litellm/litellm:v1.67.0-stable
+    env_file: .env.docker
+    ports:
+      - "127.0.0.1:4000:4000"
+    volumes:
+      - "$PWD/servers/litellm/config.yaml:/app/config.yaml:ro"
+  showcase-server:
+    build: servers/showcase
+    container_name: showcase-server
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - showcase-server-data:/data
+volumes:
+  showcase-server-data:

@@ -1,6 +1,8 @@
+import { Identifier, Timestamp } from "@lofwen/models";
 import invariant from "ts-invariant";
 import type { Action } from "~/models/Action";
 import type { AnsweredQuestionEvent } from "~/models/AnsweredQuestionEvent";
+import { CompleteChatAction } from "~/models/CompleteChatAction";
 import { CompleteOnboardingAction } from "~/models/CompleteOnboardingAction";
 import type { EventLog } from "~/models/EventLog";
 import { FormulateGardenAction } from "~/models/FormulateGardenAction";
@@ -13,6 +15,7 @@ import { PoseQuestionAction } from "~/models/PoseQuestionAction";
 import type { Question } from "~/models/Question";
 import type { Questionnaire } from "~/models/Questionnaire";
 import type { QuestionnaireItem } from "~/models/QuestionnaireItem";
+import { SendChatMessageAction } from "~/models/SendChatMessageAction";
 import { ShowGardenAction } from "~/models/ShowGardenAction";
 import { rootLogger } from "~/rootLogger";
 
@@ -232,6 +235,26 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
         instructionsId: lastEvent.instructionsId,
       });
 
+    case "OpenedChatEvent": {
+      if (
+        !eventLog.some((event) => event["@type"] === "SentChatMessageEvent")
+      ) {
+        return new SendChatMessageAction({
+          chatMessage: {
+            _id: Identifier.random(),
+            createdAt: Timestamp.now(),
+            role: "assistant",
+            text: "How are you feeling today?",
+            user: {
+              _id: "system",
+            },
+          },
+        });
+      }
+
+      return NopAction.instance;
+    }
+
     case "PosedQuestionEvent":
       // May be resuming, redirect to the question page
       return new PoseQuestionAction({ questionId: lastEvent.questionId });
@@ -243,6 +266,13 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
         return NopAction.instance;
       }
       return questionnaireItemAction(questionnaire.items[0]);
+    }
+
+    case "SentChatMessageEvent": {
+      if (lastEvent.chatMessage.role !== "user") {
+        return NopAction.instance;
+      }
+      return CompleteChatAction.instance;
     }
 
     case "ShowedGardenEvent":

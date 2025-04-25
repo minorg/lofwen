@@ -1,0 +1,12 @@
+{
+  "bin": {
+    "css2json": "css2json.js"
+  },
+  "dependencies": {
+    "@adobe/css-tools": "~4.4.2"
+  },
+  "license": "Apache-2.0",
+  "name": "css2json",
+  "type": "module",
+  "version": "1.0.0"
+}
