@@ -4,9 +4,7 @@
     "rules": [
       {
         "type": "rule",
-        "selectors": [
-          ":root"
-        ],
+        "selectors": [":root"],
         "declarations": [
           {
             "type": "declaration",
@@ -423,9 +421,7 @@
       },
       {
         "type": "rule",
-        "selectors": [
-          ".dark:root"
-        ],
+        "selectors": [".dark:root"],
         "declarations": [
           {
             "type": "declaration",
