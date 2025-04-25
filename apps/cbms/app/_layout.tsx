@@ -14,6 +14,7 @@ import { OpenSans_700Bold_Italic } from "@expo-google-fonts/open-sans/700Bold_It
 import { OpenSans_800ExtraBold } from "@expo-google-fonts/open-sans/800ExtraBold";
 import { OpenSans_800ExtraBold_Italic } from "@expo-google-fonts/open-sans/800ExtraBold_Italic";
 import { useFonts } from "@expo-google-fonts/open-sans/useFonts";
+import { ThemeProvider } from "@react-navigation/native";
 import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
@@ -21,9 +22,9 @@ import * as React from "react";
 import { useEffect } from "react";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { DefaultReactNavigationThemeProvider } from "~/components/ReactNavigationThemeProvider";
 import { useColorScheme } from "~/hooks/useColorScheme";
 import { setAndroidNavigationBar } from "~/lib/setAndroidNavigationBar";
+import { navTheme } from "~/navTheme";
 import { rootLogger } from "~/rootLogger";
 
 export {
@@ -87,12 +88,12 @@ export default function RootLayout() {
   }, [colorSchemeLoaded, fontsLoaded]);
 
   return (
-    <DefaultReactNavigationThemeProvider>
+    <ThemeProvider value={isDarkColorScheme ? navTheme.dark : navTheme.light}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Slot />
       </GestureHandlerRootView>
-    </DefaultReactNavigationThemeProvider>
+    </ThemeProvider>
   );
 }
 
