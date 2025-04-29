@@ -1,5 +1,6 @@
 import { Pressable, View } from "react-native";
 import { IconView } from "~/components/IconView";
+import { Markdown } from "~/components/Markdown";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { useTheme } from "~/hooks/useTheme";
@@ -22,7 +23,7 @@ export function GardenItemView({
         <Button onPress={onSelect} variant="outline">
           <Text className="text-lg font-bold">{gardenItem.title}</Text>
         </Button>
-        <Text>{gardenItem.text}</Text>
+        <Markdown>{gardenItem.text}</Markdown>
       </View>
     </View>
   );
