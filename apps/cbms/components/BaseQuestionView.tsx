@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react";
 import { View } from "react-native";
-import { Text } from "~/components/ui/text";
+import { Markdown } from "~/components/Markdown";
 import type { Question } from "~/models/Question";
 
 export function BaseQuestionView({
@@ -9,7 +9,7 @@ export function BaseQuestionView({
 }: PropsWithChildren<{ question: Question }>) {
   return (
     <View className="flex flex-col gap-2 native:justify-center native:p-4">
-      <Text className="text-primary">{question.prompt}</Text>
+      <Markdown>{question.prompt}</Markdown>
       {children}
     </View>
   );

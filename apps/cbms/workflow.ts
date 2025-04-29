@@ -27,8 +27,8 @@ const questionnaires: Record<string, Questionnaire> = {
       {
         "@id": "onboarding-pre-instructions",
         "@type": "Instructions",
-        title: "Onboarding pre-instructions",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        title: "Welcome!",
+        text: "We'd like to get to know you and tailor a better experience for you. You're going to be asked a series of questions about yourself, your emotions, and your life. Answer the questions to the best of your ability. There are no right or wrong answers.",
       },
       ...PerceivedStressScale.questions.map((question) => {
         const { "@id": questionId, ...otherQuestionProperties } = question;
@@ -40,8 +40,8 @@ const questionnaires: Record<string, Questionnaire> = {
       {
         "@id": "onboarding-post-instructions",
         "@type": "Instructions",
-        title: "Onboarding post-instructions",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        title: "Thank you.",
+        text: "Thank you for filling out these questions! We have set up the app in the way we think will work best for you based on your responses. Please feel free to explore and set up your garden!",
       },
     ],
   },
@@ -50,8 +50,12 @@ const questionnaires: Record<string, Questionnaire> = {
       {
         "@id": "shovel-instructions",
         "@type": "Instructions",
-        title: "Shovel instructions",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        title: "Shovel",
+        text: `\
+Throughout our day, we can experience highs and lows, positive and negative emotions. An emotional experience can be caused by an external event (e.g. enjoyed a walk in the park, had a fight with someone dear) or by internal thoughts (e.g. imagined a pleasant future, remembered a painful memory). It can be positive or negative, and range from being intense (e.g. ecstatic because of a promotion, furious at a friend’s negative comment) to mild/barely noticeable (e.g. having a nice cup of tea, slightly irritated at slow internet).
+
+These experiences might cause specific emotions, and it can be helpful to put a label to what you are feeling.
+`,
       },
     ],
   },
@@ -182,17 +186,17 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
                 family: "MaterialCommunityIcons",
                 name: "shovel",
               },
-              text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+              text: "The shovel is a prerequisite to plant your garden, just like completing the initial assessments are a prerequisite for us to craft the just right solution for each individual. Acquire the shovel once you’ve completed these tasks. The shovel can be used to dig holes to place your seeds. You can dig one hole per assessment completed.",
               title: "Shovel",
             },
             {
-              "@id": "trowel",
+              "@id": "water",
               icon: {
-                family: "FontAwesome6",
-                name: "trowel",
+                family: "MaterialCommunityIcons",
+                name: "sprinkler",
               },
-              text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-              title: "Trowel",
+              text: "The ultimate nourishment for your garden. Water is acquired in certain amounts each time you complete a task of any kind. Water is required for your plants to grow and flourish and flower (or fruit or vegetable!). Water your plants everyday!",
+              title: "Water",
             },
             {
               "@id": "seed",
@@ -200,17 +204,17 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
                 family: "MaterialCommunityIcons",
                 name: "seed",
               },
-              text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+              text: "The start of life pellet required to launch the greenery in your garden. Select among our catalog of seeds to be placed in the holes you dig with your shovel. Seeds are acquired after completing training modules or providing social support to others in the forum. Some seeds are available only after certain tasks are completed.",
               title: "Seeds",
             },
             {
-              "@id": "water",
+              "@id": "fertilizer",
               icon: {
-                family: "FontAwesome6",
-                name: "water",
+                family: "MaterialCommunityIcons",
+                name: "sack",
               },
-              text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-              title: "Water",
+              text: "Food for your plants. Fertilizer is acquired when you put your training to use or make a daily diary entry. You put your training to use when you apply an interventional strategy and answer questions about it. Each time these tasks are completed you acquire enough fertilizer to feed one plant.",
+              title: "Fertilizer",
             },
           ],
         },
