@@ -33,7 +33,7 @@ const renderRules: RenderRules = {
   heading5: missingRenderFunction("heading5"),
   heading6: missingRenderFunction("heading6"),
   hr: missingRenderFunction("hr"),
-  image: missingRenderFunction("image"),
+  // image: don't override
   inline: missingRenderFunction("inline"),
   link: missingRenderFunction("link"),
   list_item: missingRenderFunction("list_item"),
