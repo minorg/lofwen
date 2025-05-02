@@ -8,22 +8,20 @@ export function GardenView({
   onSelectItem,
 }: { garden: Garden; onSelectItem: (item: GardenItem) => void }) {
   return (
-    <View className="flex flex-col flex-1">
-      <ImageBackground
-        className="flex-1"
-        imageClassName="opacity-10"
-        source={require("../assets/images/morris-african-marigold.jpg")}
-      >
-        <View className="flex flex-col flex-1 gap-2 opacity-100 native:p-4">
-          {garden.items.map((item) => (
-            <GardenItemView
-              gardenItem={item}
-              key={item["@id"]}
-              onSelect={() => onSelectItem(item)}
-            />
-          ))}
-        </View>
-      </ImageBackground>
-    </View>
+    <ImageBackground
+      className="flex-1"
+      imageClassName="opacity-10"
+      source={require("../assets/images/morris-african-marigold.jpg")}
+    >
+      <View className="flex flex-col flex-1 gap-4 opacity-100 native:p-4">
+        {garden.items.map((item) => (
+          <GardenItemView
+            gardenItem={item}
+            key={item["@id"]}
+            onSelect={() => onSelectItem(item)}
+          />
+        ))}
+      </View>
+    </ImageBackground>
   );
 }

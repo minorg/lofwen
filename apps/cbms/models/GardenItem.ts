@@ -9,8 +9,9 @@ export namespace GardenItem {
   export const schema = z.object({
     "@id": Identifier.schema,
     icon: Icon.schema,
-    text: z.string(),
-    title: z.string(),
+    description: z.string(),
+    name: z.string(),
+    shortDescription: z.string(),
   });
 
   export type Icon = keyof typeof MaterialIcons.glyphMap;

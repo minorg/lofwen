@@ -9,7 +9,7 @@
           {
             "type": "declaration",
             "property": "--background",
-            "value": "131 59% 99%",
+            "value": "0 0% 98.82%",
             "position": {
               "start": {
                 "line": 2,
@@ -25,7 +25,7 @@
           {
             "type": "declaration",
             "property": "--foreground",
-            "value": "131 76% 4%",
+            "value": "120 37.7% 11.96%",
             "position": {
               "start": {
                 "line": 3,
@@ -33,38 +33,6 @@
               },
               "end": {
                 "line": 3,
-                "column": 27
-              },
-              "source": ""
-            }
-          },
-          {
-            "type": "declaration",
-            "property": "--muted",
-            "value": "311 22% 92%",
-            "position": {
-              "start": {
-                "line": 4,
-                "column": 3
-              },
-              "end": {
-                "line": 4,
-                "column": 23
-              },
-              "source": ""
-            }
-          },
-          {
-            "type": "declaration",
-            "property": "--muted-foreground",
-            "value": "311 6% 38%",
-            "position": {
-              "start": {
-                "line": 5,
-                "column": 3
-              },
-              "end": {
-                "line": 5,
                 "column": 33
               },
               "source": ""
@@ -72,8 +40,40 @@
           },
           {
             "type": "declaration",
+            "property": "--muted",
+            "value": "96.92 12.62% 79.8%",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 3
+              },
+              "end": {
+                "line": 4,
+                "column": 30
+              },
+              "source": ""
+            }
+          },
+          {
+            "type": "declaration",
+            "property": "--muted-foreground",
+            "value": "200.87 19.66% 22.94%",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 3
+              },
+              "end": {
+                "line": 5,
+                "column": 43
+              },
+              "source": ""
+            }
+          },
+          {
+            "type": "declaration",
             "property": "--popover",
-            "value": "131 59% 99%",
+            "value": "210 16.67% 97.65%",
             "position": {
               "start": {
                 "line": 6,
@@ -81,7 +81,7 @@
               },
               "end": {
                 "line": 6,
-                "column": 25
+                "column": 31
               },
               "source": ""
             }
@@ -89,7 +89,7 @@
           {
             "type": "declaration",
             "property": "--popover-foreground",
-            "value": "131 76% 4%",
+            "value": "210 10.34% 22.75%",
             "position": {
               "start": {
                 "line": 7,
@@ -97,7 +97,7 @@
               },
               "end": {
                 "line": 7,
-                "column": 35
+                "column": 42
               },
               "source": ""
             }
@@ -105,7 +105,7 @@
           {
             "type": "declaration",
             "property": "--card",
-            "value": "131 59% 98%",
+            "value": "210 16.67% 97.65%",
             "position": {
               "start": {
                 "line": 8,
@@ -113,7 +113,7 @@
               },
               "end": {
                 "line": 8,
-                "column": 22
+                "column": 28
               },
               "source": ""
             }
@@ -121,7 +121,7 @@
           {
             "type": "declaration",
             "property": "--card-foreground",
-            "value": "131 76% 3%",
+            "value": "210 10.34% 22.75%",
             "position": {
               "start": {
                 "line": 9,
@@ -129,7 +129,7 @@
               },
               "end": {
                 "line": 9,
-                "column": 32
+                "column": 39
               },
               "source": ""
             }
@@ -137,7 +137,7 @@
           {
             "type": "declaration",
             "property": "--border",
-            "value": "131 15% 93%",
+            "value": "96.92 12.62% 79.8%",
             "position": {
               "start": {
                 "line": 10,
@@ -145,7 +145,7 @@
               },
               "end": {
                 "line": 10,
-                "column": 24
+                "column": 31
               },
               "source": ""
             }
@@ -153,7 +153,7 @@
           {
             "type": "declaration",
             "property": "--input",
-            "value": "131 15% 93%",
+            "value": "96.92 12.62% 79.8%",
             "position": {
               "start": {
                 "line": 11,
@@ -161,7 +161,7 @@
               },
               "end": {
                 "line": 11,
-                "column": 23
+                "column": 30
               },
               "source": ""
             }
@@ -169,7 +169,7 @@
           {
             "type": "declaration",
             "property": "--primary",
-            "value": "131 44% 26%",
+            "value": "164.62 19.21% 39.8%",
             "position": {
               "start": {
                 "line": 12,
@@ -177,7 +177,7 @@
               },
               "end": {
                 "line": 12,
-                "column": 25
+                "column": 33
               },
               "source": ""
             }
@@ -201,7 +201,7 @@
           {
             "type": "declaration",
             "property": "--secondary",
-            "value": "311 44% 26%",
+            "value": "132.97 17.7% 59.02%",
             "position": {
               "start": {
                 "line": 14,
@@ -209,54 +209,6 @@
               },
               "end": {
                 "line": 14,
-                "column": 27
-              },
-              "source": ""
-            }
-          },
-          {
-            "type": "declaration",
-            "property": "--secondary-foreground",
-            "value": "311 44% 86%",
-            "position": {
-              "start": {
-                "line": 15,
-                "column": 3
-              },
-              "end": {
-                "line": 15,
-                "column": 38
-              },
-              "source": ""
-            }
-          },
-          {
-            "type": "declaration",
-            "property": "--accent",
-            "value": "311 44% 26%",
-            "position": {
-              "start": {
-                "line": 16,
-                "column": 3
-              },
-              "end": {
-                "line": 16,
-                "column": 24
-              },
-              "source": ""
-            }
-          },
-          {
-            "type": "declaration",
-            "property": "--accent-foreground",
-            "value": "311 44% 86%",
-            "position": {
-              "start": {
-                "line": 17,
-                "column": 3
-              },
-              "end": {
-                "line": 17,
                 "column": 35
               },
               "source": ""
@@ -264,8 +216,56 @@
           },
           {
             "type": "declaration",
+            "property": "--secondary-foreground",
+            "value": "210 16.67% 97.65%",
+            "position": {
+              "start": {
+                "line": 15,
+                "column": 3
+              },
+              "end": {
+                "line": 15,
+                "column": 44
+              },
+              "source": ""
+            }
+          },
+          {
+            "type": "declaration",
+            "property": "--accent",
+            "value": "96.92 12.62% 79.8%",
+            "position": {
+              "start": {
+                "line": 16,
+                "column": 3
+              },
+              "end": {
+                "line": 16,
+                "column": 31
+              },
+              "source": ""
+            }
+          },
+          {
+            "type": "declaration",
+            "property": "--accent-foreground",
+            "value": "200.87 19.66% 22.94%",
+            "position": {
+              "start": {
+                "line": 17,
+                "column": 3
+              },
+              "end": {
+                "line": 17,
+                "column": 44
+              },
+              "source": ""
+            }
+          },
+          {
+            "type": "declaration",
             "property": "--destructive",
-            "value": "3 93% 35%",
+            "value": "0 100% 40.78%",
             "position": {
               "start": {
                 "line": 18,
@@ -273,7 +273,7 @@
               },
               "end": {
                 "line": 18,
-                "column": 27
+                "column": 31
               },
               "source": ""
             }
@@ -281,7 +281,7 @@
           {
             "type": "declaration",
             "property": "--destructive-foreground",
-            "value": "3 93% 95%",
+            "value": "0 0% 100%",
             "position": {
               "start": {
                 "line": 19,
@@ -297,7 +297,7 @@
           {
             "type": "declaration",
             "property": "--ring",
-            "value": "131 44% 26%",
+            "value": "200.87 19.66% 22.94%",
             "position": {
               "start": {
                 "line": 20,
@@ -305,7 +305,7 @@
               },
               "end": {
                 "line": 20,
-                "column": 22
+                "column": 31
               },
               "source": ""
             }
@@ -313,7 +313,7 @@
           {
             "type": "declaration",
             "property": "--chart-1",
-            "value": "131 44% 26%",
+            "value": "164.62 19.21% 39.8%",
             "position": {
               "start": {
                 "line": 21,
@@ -321,7 +321,7 @@
               },
               "end": {
                 "line": 21,
-                "column": 25
+                "column": 33
               },
               "source": ""
             }
@@ -329,7 +329,7 @@
           {
             "type": "declaration",
             "property": "--chart-2",
-            "value": "311 44% 26%",
+            "value": "132.97 17.7% 59.02%",
             "position": {
               "start": {
                 "line": 22,
@@ -337,7 +337,7 @@
               },
               "end": {
                 "line": 22,
-                "column": 25
+                "column": 33
               },
               "source": ""
             }
@@ -345,7 +345,7 @@
           {
             "type": "declaration",
             "property": "--chart-3",
-            "value": "311 44% 26%",
+            "value": "96.92 12.62% 79.8%",
             "position": {
               "start": {
                 "line": 23,
@@ -353,7 +353,7 @@
               },
               "end": {
                 "line": 23,
-                "column": 25
+                "column": 32
               },
               "source": ""
             }
@@ -361,7 +361,7 @@
           {
             "type": "declaration",
             "property": "--chart-4",
-            "value": "311 44% 29%",
+            "value": "132.97 17.7% 62.02%",
             "position": {
               "start": {
                 "line": 24,
@@ -369,7 +369,7 @@
               },
               "end": {
                 "line": 24,
-                "column": 25
+                "column": 33
               },
               "source": ""
             }
@@ -377,7 +377,7 @@
           {
             "type": "declaration",
             "property": "--chart-5",
-            "value": "131 47% 26%",
+            "value": "164.62 22.21% 39.8%",
             "position": {
               "start": {
                 "line": 25,
@@ -385,7 +385,7 @@
               },
               "end": {
                 "line": 25,
-                "column": 25
+                "column": 33
               },
               "source": ""
             }
@@ -426,7 +426,7 @@
           {
             "type": "declaration",
             "property": "--background",
-            "value": "131 40% 4%",
+            "value": "135.85 66.42% 4.16%",
             "position": {
               "start": {
                 "line": 30,
@@ -434,7 +434,7 @@
               },
               "end": {
                 "line": 30,
-                "column": 27
+                "column": 36
               },
               "source": ""
             }
@@ -442,7 +442,7 @@
           {
             "type": "declaration",
             "property": "--foreground",
-            "value": "131 28% 99%",
+            "value": "210 16.67% 97.65%",
             "position": {
               "start": {
                 "line": 31,
@@ -450,7 +450,7 @@
               },
               "end": {
                 "line": 31,
-                "column": 28
+                "column": 34
               },
               "source": ""
             }
@@ -458,7 +458,7 @@
           {
             "type": "declaration",
             "property": "--muted",
-            "value": "311 22% 8%",
+            "value": "154 6% 5%",
             "position": {
               "start": {
                 "line": 32,
@@ -466,7 +466,7 @@
               },
               "end": {
                 "line": 32,
-                "column": 22
+                "column": 21
               },
               "source": ""
             }
@@ -474,7 +474,7 @@
           {
             "type": "declaration",
             "property": "--muted-foreground",
-            "value": "311 6% 62%",
+            "value": "154 12% 62%",
             "position": {
               "start": {
                 "line": 33,
@@ -482,7 +482,7 @@
               },
               "end": {
                 "line": 33,
-                "column": 33
+                "column": 34
               },
               "source": ""
             }
@@ -490,7 +490,7 @@
           {
             "type": "declaration",
             "property": "--popover",
-            "value": "131 40% 4%",
+            "value": "154 58% 0%",
             "position": {
               "start": {
                 "line": 34,
@@ -506,7 +506,7 @@
           {
             "type": "declaration",
             "property": "--popover-foreground",
-            "value": "131 28% 99%",
+            "value": "154 32% 99%",
             "position": {
               "start": {
                 "line": 35,
@@ -522,7 +522,7 @@
           {
             "type": "declaration",
             "property": "--card",
-            "value": "131 40% 5%",
+            "value": "150 40.31% 8.22%",
             "position": {
               "start": {
                 "line": 36,
@@ -530,7 +530,7 @@
               },
               "end": {
                 "line": 36,
-                "column": 21
+                "column": 27
               },
               "source": ""
             }
@@ -538,7 +538,7 @@
           {
             "type": "declaration",
             "property": "--card-foreground",
-            "value": "0 0% 100%",
+            "value": "154 32% 99%",
             "position": {
               "start": {
                 "line": 37,
@@ -546,7 +546,7 @@
               },
               "end": {
                 "line": 37,
-                "column": 31
+                "column": 33
               },
               "source": ""
             }
@@ -554,7 +554,7 @@
           {
             "type": "declaration",
             "property": "--border",
-            "value": "131 15% 15%",
+            "value": "154 0% 33.85%",
             "position": {
               "start": {
                 "line": 38,
@@ -562,7 +562,7 @@
               },
               "end": {
                 "line": 38,
-                "column": 24
+                "column": 26
               },
               "source": ""
             }
@@ -570,7 +570,7 @@
           {
             "type": "declaration",
             "property": "--input",
-            "value": "131 15% 15%",
+            "value": "154 4% 13%",
             "position": {
               "start": {
                 "line": 39,
@@ -578,7 +578,7 @@
               },
               "end": {
                 "line": 39,
-                "column": 23
+                "column": 22
               },
               "source": ""
             }
@@ -586,7 +586,7 @@
           {
             "type": "declaration",
             "property": "--primary",
-            "value": "131 44% 26%",
+            "value": "150 20% 25.49%",
             "position": {
               "start": {
                 "line": 40,
@@ -594,7 +594,7 @@
               },
               "end": {
                 "line": 40,
-                "column": 25
+                "column": 28
               },
               "source": ""
             }
@@ -618,7 +618,7 @@
           {
             "type": "declaration",
             "property": "--secondary",
-            "value": "311 44% 26%",
+            "value": "157.5 10.53% 14.9%",
             "position": {
               "start": {
                 "line": 42,
@@ -626,7 +626,7 @@
               },
               "end": {
                 "line": 42,
-                "column": 27
+                "column": 34
               },
               "source": ""
             }
@@ -634,7 +634,7 @@
           {
             "type": "declaration",
             "property": "--secondary-foreground",
-            "value": "311 44% 86%",
+            "value": "154 10% 75%",
             "position": {
               "start": {
                 "line": 43,
@@ -650,7 +650,7 @@
           {
             "type": "declaration",
             "property": "--accent",
-            "value": "311 44% 26%",
+            "value": "154 19% 20%",
             "position": {
               "start": {
                 "line": 44,
@@ -666,7 +666,7 @@
           {
             "type": "declaration",
             "property": "--accent-foreground",
-            "value": "311 44% 86%",
+            "value": "154 19% 80%",
             "position": {
               "start": {
                 "line": 45,
@@ -682,7 +682,7 @@
           {
             "type": "declaration",
             "property": "--destructive",
-            "value": "3 93% 54%",
+            "value": "355.49 77.58% 56.27%",
             "position": {
               "start": {
                 "line": 46,
@@ -690,22 +690,6 @@
               },
               "end": {
                 "line": 46,
-                "column": 27
-              },
-              "source": ""
-            }
-          },
-          {
-            "type": "declaration",
-            "property": "--destructive-foreground",
-            "value": "0 0% 100%",
-            "position": {
-              "start": {
-                "line": 47,
-                "column": 3
-              },
-              "end": {
-                "line": 47,
                 "column": 38
               },
               "source": ""
@@ -713,8 +697,24 @@
           },
           {
             "type": "declaration",
+            "property": "--destructive-foreground",
+            "value": "0 0% 0%",
+            "position": {
+              "start": {
+                "line": 47,
+                "column": 3
+              },
+              "end": {
+                "line": 47,
+                "column": 36
+              },
+              "source": ""
+            }
+          },
+          {
+            "type": "declaration",
             "property": "--ring",
-            "value": "131 44% 26%",
+            "value": "132.97 17.7% 59.02%",
             "position": {
               "start": {
                 "line": 48,
@@ -722,7 +722,7 @@
               },
               "end": {
                 "line": 48,
-                "column": 22
+                "column": 30
               },
               "source": ""
             }
@@ -730,7 +730,7 @@
           {
             "type": "declaration",
             "property": "--chart-1",
-            "value": "131 44% 26%",
+            "value": "150 20% 25.49%",
             "position": {
               "start": {
                 "line": 49,
@@ -738,7 +738,7 @@
               },
               "end": {
                 "line": 49,
-                "column": 25
+                "column": 28
               },
               "source": ""
             }
@@ -746,7 +746,7 @@
           {
             "type": "declaration",
             "property": "--chart-2",
-            "value": "311 44% 26%",
+            "value": "157.5 10.53% 14.9%",
             "position": {
               "start": {
                 "line": 50,
@@ -754,7 +754,7 @@
               },
               "end": {
                 "line": 50,
-                "column": 25
+                "column": 32
               },
               "source": ""
             }
@@ -762,7 +762,7 @@
           {
             "type": "declaration",
             "property": "--chart-3",
-            "value": "311 44% 26%",
+            "value": "154 19% 20%",
             "position": {
               "start": {
                 "line": 51,
@@ -778,7 +778,7 @@
           {
             "type": "declaration",
             "property": "--chart-4",
-            "value": "311 44% 29%",
+            "value": "157.5 10.53% 17.9%",
             "position": {
               "start": {
                 "line": 52,
@@ -786,7 +786,7 @@
               },
               "end": {
                 "line": 52,
-                "column": 25
+                "column": 32
               },
               "source": ""
             }
@@ -794,7 +794,7 @@
           {
             "type": "declaration",
             "property": "--chart-5",
-            "value": "131 47% 26%",
+            "value": "150 23% 25.49%",
             "position": {
               "start": {
                 "line": 53,
@@ -802,7 +802,7 @@
               },
               "end": {
                 "line": 53,
-                "column": 25
+                "column": 28
               },
               "source": ""
             }
