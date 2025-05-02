@@ -1,6 +1,5 @@
-import { ImageBackground } from "react-native";
+import { ImageBackground, View } from "react-native";
 import { GardenItemView } from "~/components/GardenItemView";
-import { Table } from "~/components/ui/table";
 import type { Garden } from "~/models/Garden";
 import type { GardenItem } from "~/models/GardenItem";
 
@@ -14,7 +13,7 @@ export function GardenView({
       imageClassName="opacity-10"
       source={require("../assets/images/morris-african-marigold.jpg")}
     >
-      <Table className="opacity-100">
+      <View className="flex flex-col flex-1 gap-4 opacity-100 native:p-4">
         {garden.items.map((item) => (
           <GardenItemView
             gardenItem={item}
@@ -22,7 +21,7 @@ export function GardenView({
             onSelect={() => onSelectItem(item)}
           />
         ))}
-      </Table>
+      </View>
     </ImageBackground>
   );
 }

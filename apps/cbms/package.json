@@ -5,7 +5,6 @@
     "@lofwen/event-log": "1.0.0",
     "@lofwen/models": "1.0.0",
     "@react-navigation/native": "~7.0.14",
-    "@rn-primitives/collapsible": "^1.1.0",
     "@rn-primitives/label": "~1.1.0",
     "@rn-primitives/radio-group": "~1.1.0",
     "@rn-primitives/slot": "~1.1.0",
