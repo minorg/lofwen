@@ -45,13 +45,15 @@ const questionnaires: Record<string, Questionnaire> = {
       },
     ],
   },
-  shovel: {
+  water: {
     items: [
       {
-        "@id": "shovel-instructions",
+        "@id": "water-instructions",
         "@type": "Instructions",
-        title: "Shovel",
+        title: "Water",
         text: `\
+![Water image](https://minorgordon.net/img/projects/cbms-app-shovel-cropped.png)
+
 Throughout our day, we can experience highs and lows, positive and negative emotions. An emotional experience can be caused by an external event (e.g. enjoyed a walk in the park, had a fight with someone dear) or by internal thoughts (e.g. imagined a pleasant future, remembered a painful memory). It can be positive or negative, and range from being intense (e.g. ecstatic because of a promotion, furious at a friend’s negative comment) to mild/barely noticeable (e.g. having a nice cup of tea, slightly irritated at slow internet).
 
 These experiences might cause specific emotions, and it can be helpful to put a label to what you are feeling.
@@ -182,39 +184,49 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
           items: [
             {
               "@id": "shovel",
+              description:
+                "The shovel can be used to dig holes to place your seeds. You can dig one hole per assessment completed.",
               icon: {
                 family: "MaterialCommunityIcons",
                 name: "shovel",
               },
-              text: "The shovel is a prerequisite to plant your garden, just like completing the initial assessments are a prerequisite for us to craft the just right solution for each individual. Acquire the shovel once you’ve completed these tasks. The shovel can be used to dig holes to place your seeds. You can dig one hole per assessment completed.",
-              title: "Shovel",
+              name: "Shovel",
+              shortDescription:
+                "The shovel is a prerequisite to plant your garden.",
             },
             {
               "@id": "water",
+              description:
+                "Water is acquired in certain amounts each time you complete a task of any kind. Water is required for your plants to grow and flourish and flower (or fruit or vegetable!). Water your plants everyday!",
               icon: {
                 family: "MaterialCommunityIcons",
                 name: "sprinkler",
               },
-              text: "The ultimate nourishment for your garden. Water is acquired in certain amounts each time you complete a task of any kind. Water is required for your plants to grow and flourish and flower (or fruit or vegetable!). Water your plants everyday!",
-              title: "Water",
+              name: "Water",
+              shortDescription: "The ultimate nourishment for your garden.",
             },
             {
               "@id": "seed",
+              description:
+                "Select among our catalog of seeds to be placed in the holes you dig with your shovel. Seeds are acquired after completing training modules or providing social support to others in the forum. Some seeds are available only after certain tasks are completed.",
               icon: {
                 family: "MaterialCommunityIcons",
                 name: "seed",
               },
-              text: "The start of life pellet required to launch the greenery in your garden. Select among our catalog of seeds to be placed in the holes you dig with your shovel. Seeds are acquired after completing training modules or providing social support to others in the forum. Some seeds are available only after certain tasks are completed.",
-              title: "Seeds",
+              name: "Seeds",
+              shortDescription:
+                "The start of life pellet required to launch the greenery in your garden.",
             },
             {
               "@id": "fertilizer",
+              description:
+                "Food for your plants. Fertilizer is acquired when you put your training to use or make a daily diary entry. You put your training to use when you apply an interventional strategy and answer questions about it. Each time these tasks are completed you acquire enough fertilizer to feed one plant.",
               icon: {
                 family: "MaterialCommunityIcons",
                 name: "sack",
               },
-              text: "Food for your plants. Fertilizer is acquired when you put your training to use or make a daily diary entry. You put your training to use when you apply an interventional strategy and answer questions about it. Each time these tasks are completed you acquire enough fertilizer to feed one plant.",
-              title: "Fertilizer",
+              name: "Fertilizer",
+              shortDescription: "Food for your plants.",
             },
           ],
         },
