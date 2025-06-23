@@ -27,7 +27,7 @@ export class CompleteChatAction extends Action {
     let responseJson: any;
     try {
       const response = await fetch(
-        `http://${Platform.select({ web: "localhost", android: "10.0.2.2" })}:4000/openai/chat/completions`,
+        `http://${Platform.select({ android: "10.0.2.2", ios: "localhost", web: "localhost" })}:4000/openai/chat/completions`,
         {
           body: JSON.stringify({
             model: "gpt-4",
