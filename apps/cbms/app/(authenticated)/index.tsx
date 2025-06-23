@@ -1,5 +1,4 @@
 import { useFocusEffect } from "expo-router";
-import {} from "react";
 import { useNextAction } from "~/hooks/useNextAction";
 import { rootLogger } from "~/rootLogger";
 

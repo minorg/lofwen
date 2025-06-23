@@ -1,16 +1,16 @@
 import "~/global.css";
 import { TinyBaseEventLog } from "@lofwen/event-log";
-import {} from "@react-navigation/native";
 import { Slot } from "expo-router";
-import {} from "react";
 import { rootLogger } from "~/rootLogger";
 
-const logger = rootLogger.extend("Persister");
+const logger = rootLogger.extend("AuthenticatedLayout");
 
 // const storageName = "cbms-app-1745336397";
 // process.env.NODE_ENV === "development" ? randomUUID() : "cbms-app";
 
 export default function AuthenticatedLayout() {
+  logger.debug("rendering");
+
   const { useCreateStore } = TinyBaseEventLog.UiReact;
   const store = useCreateStore(() => {
     const store = TinyBaseEventLog.Store.create();

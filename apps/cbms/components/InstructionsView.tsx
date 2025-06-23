@@ -1,4 +1,3 @@
-import {} from "react";
 import { View } from "react-native";
 import { Markdown } from "~/components/Markdown";
 import { Button } from "~/components/ui/button";

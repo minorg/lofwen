@@ -4,7 +4,6 @@ import {
   TinyBaseEventLog,
   useTinyBaseEventLogSynchronizer,
 } from "@lofwen/event-log";
-import {} from "@react-navigation/native";
 import { Redirect, Slot } from "expo-router";
 import type { PropsWithChildren } from "react";
 import { Hrefs } from "~/Hrefs";
@@ -12,7 +11,7 @@ import { configuration } from "~/configuration";
 import { useUser } from "~/hooks/useUser";
 import { rootLogger } from "~/rootLogger";
 
-const logger = rootLogger.extend("Synchronizer");
+const logger = rootLogger.extend("AuthenticatedLayout");
 
 function Synchronization({
   children,
@@ -45,8 +44,10 @@ export default function AuthenticatedLayout() {
   const user = useUser();
 
   if (user["@type"] === "UnauthenticatedUser") {
+    logger.debug("user is unauthenticated, redirecting to sign-in");
     return <Redirect href={Hrefs.signIn} />;
   }
+  logger.debug(`user is authenticated: ${JSON.stringify(user)}`);
 
   const stack = <Slot screenOptions={{ headerShown: false }} />;
 

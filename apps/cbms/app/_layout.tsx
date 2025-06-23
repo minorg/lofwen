@@ -1,6 +1,5 @@
 import "~/global.css";
 
-import {} from "@clerk/clerk-expo";
 import { OpenSans_300Light } from "@expo-google-fonts/open-sans/300Light";
 import { OpenSans_300Light_Italic } from "@expo-google-fonts/open-sans/300Light_Italic";
 import { OpenSans_400Regular } from "@expo-google-fonts/open-sans/400Regular";
@@ -37,6 +36,8 @@ const logger = rootLogger.extend("RootLayout");
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  logger.debug("rendering");
+
   const hasMounted = React.useRef(false);
   const { colorScheme, isDarkColorScheme } = useColorScheme();
   const [colorSchemeLoaded, setColorSchemeLoaded] = React.useState(false);
