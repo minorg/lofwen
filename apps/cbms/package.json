@@ -75,6 +75,7 @@
   "scripts": {
     "android": "expo start --android",
     "eas:build:android:development": "eas build --platform android --profile development --local",
+    "eas:build:ios:development": "eas build --platform ios --profile development --local",
     "expo-doctor": "expo-doctor",
     "ios": "expo start --ios",
     "start": "expo start",

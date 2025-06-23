@@ -13,7 +13,10 @@
     "icon": "./assets/images/icon.png",
     "ios": {
       "bundleIdentifier": "io.github.minorg.lofwen.cbms",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "name": "CBMS",
     "newArchEnabled": true,
