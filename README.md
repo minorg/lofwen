@@ -25,3 +25,23 @@ In the output, you'll find options to open the app in
 1. [a web browser](http://localhost:8081). This option is useful for live-debugging the app.
 1. [an Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
 1. [an iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+
+## Run up the LiteLLM proxy to the OpenAI API (for chat functionality)
+
+### Prerequisites
+
+* [Docker](https://docs.docker.com/engine/) with [Docker Compose](https://docs.docker.com/compose/)
+
+### Credentials
+
+Put your OpenAI API key in `.env.docker` in the root of the repository:
+
+   ```
+   OPENAI_API_KEY=...
+   ``` 
+
+### Run the liteLLM Docker container
+
+   ```bash
+   docker compose up litellm
+   ```
