@@ -30,7 +30,7 @@ export class CompleteChatAction extends Action {
         `http://${Platform.select({ android: "10.0.2.2", ios: "localhost", web: "localhost" })}:4000/openai/chat/completions`,
         {
           body: JSON.stringify({
-            model: "gpt-4",
+            model: "gpt-4o",
             messages,
           }),
           headers: {
