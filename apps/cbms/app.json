@@ -12,6 +12,7 @@
     },
     "icon": "./assets/images/icon.png",
     "ios": {
+      "bundleIdentifier": "io.github.minorg.lofwen.cbms",
       "supportsTablet": true
     },
     "name": "CBMS",
