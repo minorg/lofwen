@@ -1,5 +1,7 @@
 import "~/global.css";
 
+import { ComicRelief_400Regular } from "@expo-google-fonts/comic-relief/400Regular";
+import { ComicRelief_700Bold } from "@expo-google-fonts/comic-relief/700Bold";
 import { OpenSans_300Light } from "@expo-google-fonts/open-sans/300Light";
 import { OpenSans_300Light_Italic } from "@expo-google-fonts/open-sans/300Light_Italic";
 import { OpenSans_400Regular } from "@expo-google-fonts/open-sans/400Regular";
@@ -42,6 +44,8 @@ export default function RootLayout() {
   const { colorScheme, isDarkColorScheme } = useColorScheme();
   const [colorSchemeLoaded, setColorSchemeLoaded] = React.useState(false);
   const [fontsLoaded] = useFonts({
+    ComicRelief_400Regular,
+    ComicRelief_700Bold,
     OpenSans_300Light,
     OpenSans_400Regular,
     OpenSans_500Medium,
