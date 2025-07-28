@@ -15,6 +15,7 @@ import { OpenSans_700Bold_Italic } from "@expo-google-fonts/open-sans/700Bold_It
 import { OpenSans_800ExtraBold } from "@expo-google-fonts/open-sans/800ExtraBold";
 import { OpenSans_800ExtraBold_Italic } from "@expo-google-fonts/open-sans/800ExtraBold_Italic";
 import { useFonts } from "@expo-google-fonts/open-sans/useFonts";
+import { PermanentMarker_400Regular } from "@expo-google-fonts/permanent-marker/400Regular";
 import { ThemeProvider } from "@react-navigation/native";
 import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -58,6 +59,7 @@ export default function RootLayout() {
     OpenSans_600SemiBold_Italic,
     OpenSans_700Bold_Italic,
     OpenSans_800ExtraBold_Italic,
+    PermanentMarker_400Regular,
   });
 
   useIsomorphicLayoutEffect(() => {
