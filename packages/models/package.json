@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "expo-crypto": "~14.0.2",
+    "expo-crypto": "~14.1.5",
     "zod": "~3.24.2"
   },
   "devDependencies": {},
@@ -17,5 +17,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0"
+  "version": "0.2.0"
 }

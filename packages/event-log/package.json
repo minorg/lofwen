@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "tinybase": "~5.4.8",
+    "tinybase": "~6.5.0",
     "zod": "~3.24.2"
   },
   "devDependencies": {},
@@ -9,7 +9,7 @@
   "main": "./dist/index.js",
   "name": "@lofwen/event-log",
   "peerDependencies": {
-    "react": "18.3.1"
+    "react": "19.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -19,5 +19,5 @@
     "type-check:watch": "tsc --noEmit -w"
   },
   "types": "./dist/index.d.ts",
-  "version": "1.0.0"
+  "version": "0.2.0"
 }
