@@ -40,7 +40,9 @@ function Synchronization({
 
 export default function AuthenticatedLayout() {
   const { useCreateStore } = TinyBaseEventLog.UiReact;
-  const store = useCreateStore(() => TinyBaseEventLog.Store.create());
+  const store = useCreateStore(() =>
+    TinyBaseEventLog.Store.create(),
+  ) as TinyBaseEventLog.Store;
   const user = useUser();
 
   if (user["@type"] === "UnauthenticatedUser") {

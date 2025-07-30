@@ -50,14 +50,13 @@ const questionnaires: Record<string, Questionnaire> = {
       {
         "@id": "water-instructions",
         "@type": "Instructions",
+        image: "stress",
         title: "Water",
-        text: `\
-![Water image](https://minorgordon.net/img/projects/cbms-app-shovel-cropped.png)
+        //         text: `\
+        // Throughout our day, we can experience highs and lows, positive and negative emotions. An emotional experience can be caused by an external event (e.g. enjoyed a walk in the park, had a fight with someone dear) or by internal thoughts (e.g. imagined a pleasant future, remembered a painful memory). It can be positive or negative, and range from being intense (e.g. ecstatic because of a promotion, furious at a friend’s negative comment) to mild/barely noticeable (e.g. having a nice cup of tea, slightly irritated at slow internet).
 
-Throughout our day, we can experience highs and lows, positive and negative emotions. An emotional experience can be caused by an external event (e.g. enjoyed a walk in the park, had a fight with someone dear) or by internal thoughts (e.g. imagined a pleasant future, remembered a painful memory). It can be positive or negative, and range from being intense (e.g. ecstatic because of a promotion, furious at a friend’s negative comment) to mild/barely noticeable (e.g. having a nice cup of tea, slightly irritated at slow internet).
-
-These experiences might cause specific emotions, and it can be helpful to put a label to what you are feeling.
-`,
+        // These experiences might cause specific emotions, and it can be helpful to put a label to what you are feeling.
+        // `,
       },
     ],
   },
