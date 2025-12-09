@@ -4,7 +4,6 @@ import {
   useSSO,
 } from "@clerk/clerk-expo";
 import type { ClerkAPIError, OAuthStrategy } from "@clerk/types";
-import { localUserStore, useWarmUpBrowser } from "@lofwen/auth";
 import * as AuthSession from "expo-auth-session";
 import { randomUUID } from "expo-crypto";
 import { Redirect, useRouter } from "expo-router";
@@ -18,7 +17,9 @@ import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { configuration } from "~/configuration";
 import { useUser } from "~/hooks/useUser";
+import { useWarmUpBrowser } from "~/lib/useWarmUpBrowser";
 import { rootLogger } from "~/rootLogger";
+import { localUserStore } from "~/stores/localUserStore";
 
 const logger = rootLogger.extend("SignInScreen");
 

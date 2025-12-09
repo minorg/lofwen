@@ -1,9 +1,9 @@
 import "~/global.css";
-import type { AuthenticatedUser } from "@lofwen/auth";
 import {
   TinyBaseEventLog,
   useTinyBaseEventLogSynchronizer,
 } from "@lofwen/event-log";
+import type { AuthenticatedUser } from "@lofwen/models";
 import { Redirect, Slot } from "expo-router";
 import type { PropsWithChildren } from "react";
 import { Hrefs } from "~/Hrefs";

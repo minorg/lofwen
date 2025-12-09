@@ -1,5 +1,5 @@
-import type { User } from "@lofwen/auth";
 import type { EventLog } from "@lofwen/event-log";
+import type { User } from "@lofwen/models";
 import { Identifier, Timestamp } from "@lofwen/models";
 import invariant from "ts-invariant";
 import type { Action } from "~/models/Action";
