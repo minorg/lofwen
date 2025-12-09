@@ -1,8 +1,8 @@
 {
   "dependencies": {
     "@expo/vector-icons": "~14.1.0",
-    "@lofwen/event-log": "0.2.0",
-    "@lofwen/models": "0.2.0",
+    "@lofwen/event-log": "*",
+    "@lofwen/models": "*",
     "@react-navigation/native": "^7.0.14",
     "@rn-primitives/label": "~1.1.0",
     "@rn-primitives/radio-group": "~1.1.0",
@@ -69,16 +69,16 @@
   "name": "@lofwen/showcase-app",
   "private": true,
   "scripts": {
-    "android": "expo start --android",
-    "eas:build:android:development": "eas build --platform android --profile development --local",
+    "clean": "rimraf .expo node_modules",
+    "css2json": "../../tools/css2json/css2json.js < global.css >global.css.json",
+    "depcheck": "depcheck .",
     "expo-doctor": "expo-doctor",
-    "ios": "expo start --ios",
+    "dev": "tsc --noEmit -w",
+    "postinstall": "cd ../.. && npm run build",
     "start": "expo start",
-    "test": "jest",
-    "test:watch": "jest --watchAll",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "tsc --noEmit -w",
-    "web": "expo start --web"
+    "start:android": "expo start -c --android",
+    "start:ios": "expo start -c --ios",
+    "start:web": "expo start -c --web"
   },
-  "version": "0.2.0"
+  "version": "0.0.0"
 }

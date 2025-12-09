@@ -1,6 +1,7 @@
 import type { EventLog } from "@lofwen/event-log";
 import type { User } from "@lofwen/models";
-import { Identifier, Timestamp } from "@lofwen/models";
+import { Timestamp } from "@lofwen/models";
+import { randomUUID } from "expo-crypto";
 import invariant from "ts-invariant";
 import type { Action } from "~/models/Action";
 import type { Event } from "~/models/Event";
@@ -106,7 +107,7 @@ export const workflow = ({
     case "OpenedChatEvent": {
       return new SendChatMessageAction({
         chatMessage: {
-          _id: Identifier.random(),
+          _id: randomUUID(),
           createdAt: Timestamp.now(),
           role: "system",
           text: "How are you feeling today?",
@@ -124,7 +125,7 @@ export const workflow = ({
       ) {
         return new SendChatMessageAction({
           chatMessage: {
-            _id: Identifier.random(),
+            _id: randomUUID(),
             createdAt: Timestamp.now(),
             role: "assistant",
             text: "How does that make you feel?",

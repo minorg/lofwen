@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "depcheck": "^1.4.7",
     "rimraf": "6.0.1",
     "syncpack": "~13.0.2",
     "turbo": "~2.4.4",
@@ -17,15 +18,12 @@
   "packageManager": "npm@10.9.2",
   "private": true,
   "scripts": {
-    "biome:check:write": "biome check --write",
-    "biome:check:write:unsafe": "biome check --write --unsafe",
     "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "biome check",
-    "syncpack:fix-mismatches": "syncpack fix-mismatches",
-    "test": "turbo run test",
-    "test:packages": "turbo run --filter \"./packages/*\" test",
-    "type-check": "turbo run type-check"
+    "check": "biome check",
+    "check:write": "biome check --write",
+    "check:write:unsafe": "biome check --write --unsafe",
+    "dev": "turbo run dev dev:tests",
+    "syncpack:fix-mismatches": "syncpack fix-mismatches"
   },
   "workspaces": {
     "packages": ["apps/*", "packages/*", "servers/*", "tools/*"]
