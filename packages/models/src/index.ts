@@ -1,3 +1,4 @@
+export * from "./AuthenticatedUser";
 export * from "./DichotomousAnswer";
 export * from "./DichotomousQuestion";
 export * from "./ChatMessage";
@@ -8,3 +9,5 @@ export * from "./Notification";
 export * from "./TextAnswer";
 export * from "./TextQuestion";
 export * from "./Timestamp";
+export * from "./UnauthenticatedUser";
+export * from "./User";

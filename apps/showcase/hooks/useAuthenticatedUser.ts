@@ -1,12 +1,10 @@
-import {
-  type AuthenticatedUser,
-  useAuthenticatedUser as _useAuthenticatedUser,
-} from "@lofwen/auth";
-import { configuration } from "~/configuration";
-import { rootLogger } from "~/rootLogger";
-
-const logger = rootLogger.extend("useAuthenticatedUser");
+import type { AuthenticatedUser } from "@lofwen/models";
+import { useUser } from "~/hooks/useUser";
 
 export function useAuthenticatedUser(): AuthenticatedUser {
-  return _useAuthenticatedUser({ configuration, logger });
+  const user = useUser();
+  if (user["@type"] !== "AuthenticatedUser") {
+    throw new Error("user is not authenticated");
+  }
+  return user;
 }

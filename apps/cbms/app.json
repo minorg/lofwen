@@ -10,13 +10,21 @@
     "experiments": {
       "typedRoutes": true
     },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "40e5cecc-34aa-4e45-a897-763418c346c1"
+      }
+    },
     "icon": "./assets/images/icon.png",
     "ios": {
       "bundleIdentifier": "io.github.minorg.lofwen.cbms",
-      "supportsTablet": true,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
-      }
+      },
+      "supportsTablet": true
     },
     "name": "CBMS",
     "newArchEnabled": true,
@@ -43,14 +51,6 @@
       "bundler": "metro",
       "favicon": "./assets/images/favicon.png",
       "output": "single"
-    },
-    "extra": {
-      "router": {
-        "origin": false
-      },
-      "eas": {
-        "projectId": "40e5cecc-34aa-4e45-a897-763418c346c1"
-      }
     }
   }
 }

@@ -1,4 +1,5 @@
-import { type ChatMessage, Identifier, Timestamp } from "@lofwen/models";
+import { type ChatMessage, Timestamp } from "@lofwen/models";
+import { randomUUID } from "expo-crypto";
 import { Platform } from "react-native";
 import { Action } from "~/models/Action";
 import type { EventLog } from "~/models/EventLog";
@@ -49,7 +50,7 @@ export class CompleteChatAction extends Action {
     eventLog.append({
       "@type": "SentChatMessageEvent",
       chatMessage: {
-        _id: Identifier.random(),
+        _id: randomUUID(),
         createdAt: Timestamp.now(),
         role: "assistant",
         text: completionMessage["content"],

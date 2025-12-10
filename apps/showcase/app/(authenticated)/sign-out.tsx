@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { Hrefs } from "~/Hrefs";
 import { configuration } from "~/configuration";
 
-import { localUserStore } from "@lofwen/auth";
 import { rootLogger } from "~/rootLogger";
+import { localUserStore } from "~/stores/localUserStore";
 
 const logger = rootLogger.extend("SignOutScreen");
 

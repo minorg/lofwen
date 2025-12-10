@@ -2,9 +2,10 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "build": {
+      "cache": false,
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "dev": {
       "cache": false,
@@ -15,7 +16,7 @@
       "dependsOn": ["^test"]
     },
     "type-check": {
-      "dependsOn": ["^type-check"]
+      "cache": false
     }
   },
   "ui": "tui"

@@ -1,4 +1,5 @@
-import { Identifier, Timestamp } from "@lofwen/models";
+import { Timestamp } from "@lofwen/models";
+import { randomUUID } from "expo-crypto";
 import invariant from "ts-invariant";
 import type { Action } from "~/models/Action";
 import type { AnsweredQuestionEvent } from "~/models/AnsweredQuestionEvent";
@@ -256,7 +257,7 @@ export const workflow = ({ eventLog }: { eventLog: EventLog }): Action => {
       ) {
         return new SendChatMessageAction({
           chatMessage: {
-            _id: Identifier.random(),
+            _id: randomUUID(),
             createdAt: Timestamp.now(),
             role: "assistant",
             text: "How are you feeling today?",
