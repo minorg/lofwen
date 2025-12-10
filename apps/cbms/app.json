@@ -40,7 +40,6 @@
           "resizeMode": "contain"
         }
       ],
-      "expo-secure-store",
       "expo-sqlite"
     ],
     "scheme": "cbms",
