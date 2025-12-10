@@ -48,9 +48,14 @@
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "~7.25.2",
+    "@testing-library/react-native": "~13.2.0",
+    "@types/jest": "~29.5.12",
     "@types/node": "^22.13.9",
     "@types/react": "19.0.12",
-    "expo-doctor": "~1.12.8"
+    "expo-doctor": "~1.12.8",
+    "jest": "~29.7.0",
+    "jest-expo": "~53.0.9",
+    "react-test-renderer": "19.0.0"
   },
   "jest": {
     "preset": "jest-expo",
@@ -82,7 +87,9 @@
     "start": "expo start",
     "start:android": "expo start -c --android",
     "start:ios": "expo start -c --ios",
-    "start:web": "expo start -c --web"
+    "start:web": "expo start -c --web",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watchAll"
   },
   "version": "0.0.0"
 }

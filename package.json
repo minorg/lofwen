@@ -23,7 +23,8 @@
     "check:write": "biome check --write",
     "check:write:unsafe": "biome check --write --unsafe",
     "dev": "turbo run dev",
-    "syncpack:fix-mismatches": "syncpack fix-mismatches"
+    "syncpack:fix-mismatches": "syncpack fix-mismatches",
+    "test": "turbo run test"
   },
   "workspaces": {
     "packages": ["apps/*", "packages/*", "servers/*", "tools/*"]
