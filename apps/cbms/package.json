@@ -67,7 +67,14 @@
   "license": "Apache-2.0",
   "main": "expo-router/entry",
   "name": "@lofwen/cbms-app",
+  "optionalDependencies": {
+    "lightningcss-darwin-arm64": "1.27.0",
+    "lightningcss-linux-x64-gnu": "1.27.0"
+  },
   "private": true,
+  "resolutions": {
+    "lightningcss": "1.27.0"
+  },
   "scripts": {
     "build:android:development:local": "eas build --local --output android-development-build.apk --platform android --profile development",
     "build:android:preview": "eas build --platform android --profile preview",
