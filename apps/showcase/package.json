@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@clerk/clerk-expo": "~2.14.12",
     "@expo/vector-icons": "~14.1.0",
     "@lofwen/event-log": "*",
     "@lofwen/models": "*",

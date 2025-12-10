@@ -22,7 +22,7 @@
     "check": "biome check",
     "check:write": "biome check --write",
     "check:write:unsafe": "biome check --write --unsafe",
-    "dev": "turbo run dev dev:tests",
+    "dev": "turbo run dev",
     "syncpack:fix-mismatches": "syncpack fix-mismatches"
   },
   "workspaces": {
