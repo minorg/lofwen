@@ -1,3 +1,5 @@
+apps/*/android/
+apps/*/ios/
 .env
 .env.docker
 .turbo/

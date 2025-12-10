@@ -67,6 +67,12 @@
   "name": "@lofwen/showcase-app",
   "private": true,
   "scripts": {
+    "build:android:development:local": "eas build --local --output android-development-build.apk --platform android --profile development",
+    "build:android:preview": "eas build --platform android --profile preview",
+    "build:android:preview:local": "eas build --local --output android-preview-build.apk --platform android --profile preview",
+    "build:ios:development:local": "eas build --local --output ios-development-build.tar.gz --platform ios --profile development",
+    "build:ios:preview": "eas build --platform ios --profile preview",
+    "build:ios:preview:local": "eas build --local --output ios-preview-build.tar.gz --platform ios --profile preview",
     "clean": "rimraf .expo node_modules",
     "css2json": "../../tools/css2json/css2json.js < global.css >global.css.json",
     "depcheck": "depcheck .",
@@ -76,7 +82,7 @@
     "start": "expo start",
     "start:android": "expo start -c --android",
     "start:ios": "expo start -c --ios",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watchAll",
     "type-check": "tsc --noEmit"
   },

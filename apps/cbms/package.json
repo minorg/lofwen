@@ -86,12 +86,15 @@
     "expo-doctor": "expo-doctor",
     "dev": "tsc --noEmit -w",
     "postinstall": "cd ../.. && npm run build",
+    "prebuild": "expo prebuild --clean",
     "start": "expo start",
     "start:android": "expo start -c --android",
     "start:ios": "expo start -c --ios",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watchAll",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "version": "0.0.0"
 }
