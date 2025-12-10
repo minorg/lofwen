@@ -18,8 +18,7 @@
     "clean": "rimraf dist",
     "depcheck": "depcheck .",
     "dev": "tsc --watch",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "tsc --noEmit -w"
+    "type-check": "tsc --noEmit"
   },
   "types": "./dist/index.d.ts",
   "version": "0.0.0"

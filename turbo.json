@@ -7,9 +7,6 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
-    "depcheck": {
-      "cache": false
-    },
     "dev": {
       "cache": false,
       "persistent": true
@@ -17,6 +14,9 @@
     "test": {
       "cache": false,
       "dependsOn": ["^test"]
+    },
+    "type-check": {
+      "cache": false
     }
   },
   "ui": "tui"

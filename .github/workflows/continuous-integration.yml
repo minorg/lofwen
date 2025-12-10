@@ -21,8 +21,8 @@ jobs:
       - name: Install dependencies
         run: npm install --ci
       - name: Lint
-        run: npm run lint
-      - name: Build
-        run: npm run build
-      - name: Type check
+        run: npm run check
+      - name: Type-check
         run: npm run type-check
+      - name: Build packages
+        run: npm run build:packages

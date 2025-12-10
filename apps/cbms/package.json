@@ -86,7 +86,8 @@
     "start:ios": "expo start -c --ios",
     "start:web": "expo start -c --web",
     "test": "jest --passWithNoTests",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "type-check": "tsc --noEmit"
   },
   "version": "0.0.0"
 }
