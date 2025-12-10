@@ -17,6 +17,7 @@
     "name": "lofwen-showcase",
     "newArchEnabled": true,
     "orientation": "portrait",
+    "platforms": ["android", "ios"],
     "plugins": [
       "expo-router",
       [
