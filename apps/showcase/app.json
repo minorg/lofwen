@@ -10,6 +10,14 @@
     "experiments": {
       "typedRoutes": true
     },
+    "extra": {
+      "eas": {
+        "projectId": "ea27b25f-6c98-4f59-bbe8-a572f4dd725a"
+      },
+      "router": {
+        "origin": false
+      }
+    },
     "icon": "./assets/images/icon.png",
     "ios": {
       "supportsTablet": true
@@ -34,19 +42,6 @@
     "scheme": "lofwen-showcase",
     "slug": "lofwen-showcase",
     "userInterfaceStyle": "automatic",
-    "version": "1.0.0",
-    "web": {
-      "bundler": "metro",
-      "favicon": "./assets/images/favicon.png",
-      "output": "single"
-    },
-    "extra": {
-      "router": {
-        "origin": false
-      },
-      "eas": {
-        "projectId": "ea27b25f-6c98-4f59-bbe8-a572f4dd725a"
-      }
-    }
+    "version": "1.0.0"
   }
 }

@@ -6,7 +6,6 @@ import { ThemeProvider } from "@react-navigation/native";
 import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { configuration } from "~/configuration";
 import { useColorScheme } from "~/hooks/useColorScheme";
@@ -26,20 +25,15 @@ export default function RootLayout() {
   const { colorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
-  useIsomorphicLayoutEffect(() => {
+  React.useLayoutEffect(() => {
     if (hasMounted.current) {
       return;
-    }
-
-    if (Platform.OS === "web") {
-      // Adds the background color to the html element to prevent white background on overscroll.
-      document.documentElement.classList.add("bg-background");
     }
 
     setAndroidNavigationBar({ colorScheme });
     setIsColorSchemeLoaded(true);
     hasMounted.current = true;
-  }, []);
+  }, [colorScheme]);
 
   if (!isColorSchemeLoaded) {
     logger.debug("color scheme isn't loaded, returning null on first render");
@@ -68,8 +62,3 @@ export default function RootLayout() {
 
   return element;
 }
-
-const useIsomorphicLayoutEffect =
-  Platform.OS === "web" && typeof window === "undefined"
-    ? React.useEffect
-    : React.useLayoutEffect;

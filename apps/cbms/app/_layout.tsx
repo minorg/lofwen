@@ -22,7 +22,6 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { useEffect } from "react";
-import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useColorScheme } from "~/hooks/useColorScheme";
 import { setAndroidNavigationBar } from "~/lib/setAndroidNavigationBar";
@@ -62,20 +61,15 @@ export default function RootLayout() {
     PermanentMarker_400Regular,
   });
 
-  useIsomorphicLayoutEffect(() => {
+  React.useLayoutEffect(() => {
     if (hasMounted.current) {
       return;
-    }
-
-    if (Platform.OS === "web") {
-      // Adds the background color to the html element to prevent white background on overscroll.
-      document.documentElement.classList.add("bg-background");
     }
 
     setAndroidNavigationBar({ colorScheme });
     setColorSchemeLoaded(true);
     hasMounted.current = true;
-  }, []);
+  }, [colorScheme]);
 
   useEffect(() => {
     if (!colorSchemeLoaded) {
@@ -103,8 +97,3 @@ export default function RootLayout() {
     </ThemeProvider>
   );
 }
-
-const useIsomorphicLayoutEffect =
-  Platform.OS === "web" && typeof window === "undefined"
-    ? React.useEffect
-    : React.useLayoutEffect;

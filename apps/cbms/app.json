@@ -46,11 +46,6 @@
     "scheme": "cbms",
     "slug": "cbms",
     "userInterfaceStyle": "automatic",
-    "version": "1.0.0",
-    "web": {
-      "bundler": "metro",
-      "favicon": "./assets/images/favicon.png",
-      "output": "single"
-    }
+    "version": "1.0.0"
   }
 }
